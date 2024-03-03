@@ -1,8 +1,9 @@
 import 'package:bacon_bringer/bases/model.dart';
 import 'package:bacon_bringer/bases/property.dart';
+import 'package:bacon_bringer/bases/repository.dart';
 import 'package:bacon_bringer/data/overview_data.dart';
 
-class HomePageModel extends Model {
+class HomePageModel<T extends Repository> extends Model<T> {
   final String _title;
   late Property<bool> _isLoading;
   late Property<OverviewData> _overviewData;
@@ -12,7 +13,7 @@ class HomePageModel extends Model {
   bool get isLoading => _isLoading.value;
   OverviewData get overviewData => _overviewData.value;
 
-  HomePageModel(super.notifier, this._title) {
+  HomePageModel(super.notifier, super._repository, this._title) {
     _overviewData = propertyOf(OverviewData(
         sumOfMoney: 100000,
         balanceAgainstBudget: 12000,

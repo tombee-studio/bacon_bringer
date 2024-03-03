@@ -1,6 +1,7 @@
 import 'package:bacon_bringer/bases/notifier.dart';
 import 'package:bacon_bringer/bases/view_model.dart';
 import 'package:bacon_bringer/models/home/home_page_model.dart';
+import 'package:bacon_bringer/ui/home/repository/home_page_app_repository.dart';
 import 'package:flutter/material.dart';
 
 class HomePageViewModel extends ViewModel<HomePageModel> {
@@ -10,7 +11,7 @@ class HomePageViewModel extends ViewModel<HomePageModel> {
 
   @override
   HomePageModel createModel(Notifier notifier) =>
-      HomePageModel(notifier, _title);
+      HomePageModel(notifier, HomePageAppRepository(), _title);
 
   Widget get title => Text(model.title);
   Widget get overview {
