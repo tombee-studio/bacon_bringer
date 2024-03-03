@@ -20,9 +20,9 @@ class OverviewComponent extends StatelessWidget {
               ),
               Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
                 createRowItem(
-                    Icons.abc, "月間支出", overviewData.totalExpencesOnMonth),
+                    Icons.abc, "月間収入", overviewData.totalIncomesOnMonth),
                 createRowItem(
-                    Icons.abc, "月間収入", overviewData.totalIncomesOnMonth)
+                    Icons.abc, "月間支出", overviewData.totalExpencesOnMonth)
               ]),
               Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
                 createRowItem(Icons.abc, "予算", overviewData.budget),
