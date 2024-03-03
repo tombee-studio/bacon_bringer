@@ -28,8 +28,17 @@ class HomePageViewModel extends ViewModel<HomePageModel> {
   }
 
   Widget body(BuildContext context) {
-    if (model.isLoading) {
-      return const CircularProgressIndicator();
+    final loadingData = model.isLoading;
+    if (loadingData.isLoading) {
+      return SizedBox(
+          width: 200,
+          height: 200,
+          child: Column(children: [
+            const CircularProgressIndicator(),
+            Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                child: Text(loadingData.message))
+          ]));
     } else {
       final size = MediaQuery.of(context).size;
       if (size.width > 600) {
