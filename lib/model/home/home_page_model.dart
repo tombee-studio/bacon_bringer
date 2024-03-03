@@ -6,6 +6,8 @@ import 'package:bacon_bringer/model/home/repository/home_page_app_repository.dar
 
 class HomePageModel<T extends HomePageAppRepository> extends Model<T> {
   final String _title;
+
+  late Property<int> _currentIndex;
   late Property<LoadingData> _isLoading;
   late Property<OverviewData> _overviewData;
 
@@ -14,6 +16,9 @@ class HomePageModel<T extends HomePageAppRepository> extends Model<T> {
   LoadingData get isLoading => _isLoading.value;
   OverviewData get overviewData => _overviewData.value;
 
+  int get currentIndex => _currentIndex.value;
+  set currentIndex(int value) => _currentIndex.value = value;
+
   HomePageModel(super.notifier, super._repository, this._title) {
     _overviewData = propertyOf(OverviewData(
         sumOfMoney: 100000,
@@ -21,6 +26,7 @@ class HomePageModel<T extends HomePageAppRepository> extends Model<T> {
         budget: 20000,
         totalExpencesOnMonth: 8000,
         totalIncomesOnMonth: 0));
+    _currentIndex = propertyOf(0);
     _isLoading =
         propertyOf(LoadingData(isLoading: true, message: "ローカルデータを取得中..."));
   }

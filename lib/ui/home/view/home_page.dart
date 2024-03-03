@@ -28,6 +28,18 @@ class _HomePageState extends ViewModelState<HomePage, HomePageViewModel> {
         appBar: AppBar(
             backgroundColor: Theme.of(context).colorScheme.inversePrimary,
             title: viewModel.title),
-        body: Center(child: viewModel.body(context)));
+        body: Center(child: viewModel.body(context)),
+        bottomNavigationBar: BottomNavigationBar(
+            currentIndex: viewModel.currentIndex,
+            onTap: onTap,
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(icon: Icon(Icons.home), label: 'ホーム'),
+              BottomNavigationBarItem(icon: Icon(Icons.list), label: '収支管理'),
+              BottomNavigationBarItem(icon: Icon(Icons.settings), label: '設定')
+            ]));
+  }
+
+  void onTap(int index) {
+    viewModel.currentIndex = index;
   }
 }

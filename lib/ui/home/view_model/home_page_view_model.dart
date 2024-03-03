@@ -44,4 +44,7 @@ class HomePageViewModel extends ViewModel<HomePageModel> {
       }
     }
   }
+
+  int get currentIndex => model.currentIndex;
+  set currentIndex(int value) => model.currentIndex = value;
 }
