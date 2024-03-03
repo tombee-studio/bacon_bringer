@@ -21,20 +21,6 @@ class _HomePageState extends ViewModelState<HomePage, HomePageViewModel> {
         appBar: AppBar(
             backgroundColor: Theme.of(context).colorScheme.inversePrimary,
             title: viewModel.title),
-        body: Center(
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-              const Text('You have pushed the button this many times:'),
-              Text(
-                viewModel.counter,
-                style: Theme.of(context).textTheme.headlineMedium,
-              )
-            ])),
-        floatingActionButton: FloatingActionButton(
-          onPressed: viewModel.incrementCounter,
-          tooltip: 'Increment',
-          child: const Icon(Icons.add),
-        ));
+        body: Center(child: viewModel.body(context)));
   }
 }

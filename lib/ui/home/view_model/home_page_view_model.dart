@@ -13,7 +13,25 @@ class HomePageViewModel extends ViewModel<HomePageModel> {
       HomePageModel(notifier, _title);
 
   Widget get title => Text(model.title);
-  String get counter => model.counter;
+  Widget get overview {
+    final overviewData = model.overviewData;
+    return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: Column(children: [
+          Row(children: [const Text("合計"), Text('${overviewData.sumOfMoney}')])
+        ]));
+  }
 
-  void incrementCounter() => model.incrementCounter();
+  Widget body(BuildContext context) {
+    if (model.isLoading) {
+      return const CircularProgressIndicator();
+    } else {
+      final size = MediaQuery.of(context).size;
+      if (size.width > 600) {
+        return SizedBox(width: 600, child: overview);
+      } else {
+        return overview;
+      }
+    }
+  }
 }

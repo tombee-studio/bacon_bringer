@@ -1,18 +1,24 @@
 import 'package:bacon_bringer/bases/model.dart';
 import 'package:bacon_bringer/bases/property.dart';
+import 'package:bacon_bringer/data/overview_data.dart';
 
 class HomePageModel extends Model {
   final String _title;
-  late Property<int> _counter;
+  late Property<bool> _isLoading;
+  late Property<OverviewData> _overviewData;
 
   String get title => _title;
-  String get counter => '${_counter.value}';
+
+  bool get isLoading => _isLoading.value;
+  OverviewData get overviewData => _overviewData.value;
 
   HomePageModel(super.notifier, this._title) {
-    _counter = propertyOf(0);
-  }
-
-  void incrementCounter() {
-    _counter.value++;
+    _overviewData = propertyOf(OverviewData(
+        sumOfMoney: 100000,
+        balanceAgainstBudget: 12000,
+        budget: 20000,
+        totalExpencesOnMonth: 8000,
+        totalIncomesOnMonth: 0));
+    _isLoading = propertyOf(false);
   }
 }
