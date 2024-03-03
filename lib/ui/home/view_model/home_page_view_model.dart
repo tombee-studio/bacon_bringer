@@ -1,6 +1,6 @@
 import 'package:bacon_bringer/bases/notifier.dart';
 import 'package:bacon_bringer/bases/view_model.dart';
-import 'package:bacon_bringer/models/home_page_model.dart';
+import 'package:bacon_bringer/models/home/home_page_model.dart';
 import 'package:flutter/material.dart';
 
 class HomePageViewModel extends ViewModel<HomePageModel> {

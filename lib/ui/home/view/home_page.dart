@@ -1,5 +1,5 @@
 import 'package:bacon_bringer/bases/view_model_state.dart';
-import 'package:bacon_bringer/view_models/home_page_view_model.dart';
+import 'package:bacon_bringer/ui/home/view_model/home_page_view_model.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
