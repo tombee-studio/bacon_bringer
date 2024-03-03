@@ -20,14 +20,18 @@ class HomePageModel<T extends HomePageAppRepository> extends Model<T> {
         budget: 20000,
         totalExpencesOnMonth: 8000,
         totalIncomesOnMonth: 0));
-    _isLoading = propertyOf(false);
-
-    init();
+    _isLoading = propertyOf(true);
   }
 
-  void init() async {
+  Future launch() async {
     await repository.loadLocalData();
     await repository.authenticate();
     await repository.connectDatabase();
+
+    onLoaded();
+  }
+
+  void onLoaded() {
+    _isLoading.value = false;
   }
 }

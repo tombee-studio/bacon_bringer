@@ -3,16 +3,16 @@ import 'package:bacon_bringer/repository/home_page_repository.dart';
 class HomePageAppRepository extends HomePageRepository {
   @override
   Future loadLocalData() async {
-    // TODO: implement loadLocalData
+    await Future.delayed(const Duration(milliseconds: 1000));
   }
 
   @override
   Future authenticate() async {
-    // TODO: implement authenticate
+    await Future.delayed(const Duration(milliseconds: 1000));
   }
 
   @override
   Future connectDatabase() async {
-    // TODO: implement connectDatabase
+    await Future.delayed(const Duration(milliseconds: 1000));
   }
 }

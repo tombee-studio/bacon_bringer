@@ -16,6 +16,13 @@ class _HomePageState extends ViewModelState<HomePage, HomePageViewModel> {
   HomePageViewModel createViewModel() => HomePageViewModel(this, widget.title);
 
   @override
+  void initState() {
+    super.initState();
+
+    viewModel.launch();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(

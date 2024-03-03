@@ -13,6 +13,10 @@ class HomePageViewModel extends ViewModel<HomePageModel> {
   HomePageModel createModel(Notifier notifier) =>
       HomePageModel(notifier, HomePageAppRepository(), _title);
 
+  Future launch() async {
+    await model.launch();
+  }
+
   Widget get title => Text(model.title);
   Widget get overview {
     final overviewData = model.overviewData;
