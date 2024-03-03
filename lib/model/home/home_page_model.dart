@@ -1,9 +1,9 @@
 import 'package:bacon_bringer/bases/model.dart';
 import 'package:bacon_bringer/bases/property.dart';
-import 'package:bacon_bringer/bases/repository.dart';
 import 'package:bacon_bringer/data/overview_data.dart';
+import 'package:bacon_bringer/model/home/repository/home_page_app_repository.dart';
 
-class HomePageModel<T extends Repository> extends Model<T> {
+class HomePageModel<T extends HomePageAppRepository> extends Model<T> {
   final String _title;
   late Property<bool> _isLoading;
   late Property<OverviewData> _overviewData;
