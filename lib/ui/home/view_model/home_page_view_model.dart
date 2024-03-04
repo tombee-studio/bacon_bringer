@@ -1,10 +1,15 @@
 import 'package:bacon_bringer/bases/notifier.dart';
+import 'package:bacon_bringer/bases/repository_provider.dart';
 import 'package:bacon_bringer/bases/view_model.dart';
 import 'package:bacon_bringer/model/home/home_page_model.dart';
 import 'package:bacon_bringer/model/home/repository/home_page_app_repository.dart';
+import 'package:bacon_bringer/repository/home_page_repository.dart';
 import 'package:bacon_bringer/ui/common/loading_component.dart';
 import 'package:bacon_bringer/ui/home/view/overview_component.dart';
 import 'package:flutter/material.dart';
+
+final homePageRepositoryProvider =
+    RepositoryProvider<HomePageRepository>(HomePageAppRepository());
 
 class HomePageViewModel extends ViewModel<HomePageModel> {
   final String _title;
@@ -13,7 +18,7 @@ class HomePageViewModel extends ViewModel<HomePageModel> {
 
   @override
   HomePageModel createModel(Notifier notifier) =>
-      HomePageModel(notifier, HomePageAppRepository(), _title);
+      HomePageModel(notifier, homePageRepositoryProvider, _title);
 
   Future launch() async {
     await model.launch();

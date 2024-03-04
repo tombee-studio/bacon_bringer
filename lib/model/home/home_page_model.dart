@@ -2,9 +2,9 @@ import 'package:bacon_bringer/bases/model.dart';
 import 'package:bacon_bringer/bases/property.dart';
 import 'package:bacon_bringer/data/loading_data.dart';
 import 'package:bacon_bringer/data/overview_data.dart';
-import 'package:bacon_bringer/model/home/repository/home_page_app_repository.dart';
+import 'package:bacon_bringer/repository/home_page_repository.dart';
 
-class HomePageModel<T extends HomePageAppRepository> extends Model<T> {
+class HomePageModel<T extends HomePageRepository> extends Model<T> {
   final String _title;
 
   late Property<int> _currentIndex;
@@ -37,6 +37,8 @@ class HomePageModel<T extends HomePageAppRepository> extends Model<T> {
     await repository.authenticate();
     _isLoading.value = LoadingData(isLoading: true, message: "データベースと接続中...");
     await repository.connectDatabase();
+    _isLoading.value = LoadingData(isLoading: true, message: "収支概要取得中");
+    _overviewData.value = await repository.fetchMonthlyOverview();
 
     onLoaded();
   }
