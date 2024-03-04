@@ -21,10 +21,10 @@ class HomePageModel<T extends HomePageAppRepository> extends Model<T> {
 
   HomePageModel(super.notifier, super._repository, this._title) {
     _overviewData = propertyOf(OverviewData(
-        sumOfMoney: 100000,
-        balanceAgainstBudget: 12000,
-        budget: 20000,
-        totalExpencesOnMonth: 8000,
+        sumOfMoney: 0,
+        balanceAgainstBudget: 0,
+        budget: 0,
+        totalExpencesOnMonth: 0,
         totalIncomesOnMonth: 0));
     _currentIndex = propertyOf(0);
     _isLoading =
