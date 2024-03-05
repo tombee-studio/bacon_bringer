@@ -4,6 +4,8 @@ class Property<T> {
   T _value;
   final Notifier _onNotified;
 
+  Notifier get onNotified => _onNotified;
+
   set value(T _value) {
     this._value = _value;
     _onNotified.notify();
@@ -11,5 +13,5 @@ class Property<T> {
 
   T get value => _value;
 
-  Property(T initial, this._onNotified) : this._value = initial;
+  Property(T initial, this._onNotified) : _value = initial;
 }
