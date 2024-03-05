@@ -37,6 +37,16 @@ class HomePageTestRepository extends HomePageRepository {
   }
 }
 
+class TestSkeletonWidget extends StatelessWidget {
+  final Function builder;
+  const TestSkeletonWidget({super.key, required this.builder});
+
+  @override
+  Widget build(BuildContext context) {
+    return builder(context);
+  }
+}
+
 void main() {
   test("収支概要が初期化されていること", () async {
     const title = "TestTitle";
@@ -50,6 +60,43 @@ void main() {
     expect(model.overviewData.budget, 30000);
     expect(model.overviewData.totalExpencesOnMonth, 40000);
     expect(model.overviewData.totalIncomesOnMonth, 50000);
+  });
+
+  testWidgets("HomePageViewModelがタイトルを返していること", (tester) async {
+    const testTitle = "TestTitle";
+    homePageRepositoryProvider.overrideRepository(HomePageTestRepository());
+
+    final viewModel = HomePageViewModel(TestNotifier(), testTitle);
+    await tester.pumpWidget(MaterialApp(home: viewModel.title));
+    expect(0, viewModel.currentIndex);
+    expect(find.text(testTitle), findsOneWidget);
+  });
+
+  test("HomePageViewModelのタブが反映されること", () {
+    const testTitle = "TestTitle";
+    homePageRepositoryProvider.overrideRepository(HomePageTestRepository());
+
+    final viewModel = HomePageViewModel(TestNotifier(), testTitle);
+    expect(0, viewModel.currentIndex);
+    viewModel.currentIndex = 1;
+    expect(1, viewModel.currentIndex);
+    viewModel.currentIndex = 2;
+    expect(2, viewModel.currentIndex);
+  });
+
+  testWidgets("HomePageViewModelが収支概要情報をWidgetで返却すること", (tester) async {
+    const testTitle = "TestTitle";
+    homePageRepositoryProvider.overrideRepository(HomePageTestRepository());
+
+    final viewModel = HomePageViewModel(TestNotifier(), testTitle);
+    await viewModel.launch();
+    await tester.pumpWidget(
+        MaterialApp(home: TestSkeletonWidget(builder: viewModel.body)));
+    expect(find.text("¥10000"), findsOneWidget);
+    expect(find.text("¥20000"), findsOneWidget);
+    expect(find.text("¥30000"), findsOneWidget);
+    expect(find.text("¥40000"), findsOneWidget);
+    expect(find.text("¥50000"), findsOneWidget);
   });
 
   testWidgets('ホーム画面でタイトルが表示されていること', (WidgetTester tester) async {
