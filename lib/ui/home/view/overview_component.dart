@@ -33,12 +33,14 @@ class OverviewComponent extends StatelessWidget {
   }
 
   Widget createRowItem(IconData icon, String label, int value) {
-    return Row(children: [
+    return Expanded(
+        child:
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
       Icon(icon),
-      Column(children: [
+      Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
         Text("¥$value", textAlign: TextAlign.right),
         Text(label, textAlign: TextAlign.right)
       ])
-    ]);
+    ]));
   }
 }
