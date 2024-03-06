@@ -5,12 +5,12 @@ import 'package:bacon_bringer/enum/minor_state.dart';
 class CategoryData {
   final AccountData account;
   final MajorState major;
-  final MinorState minorState;
+  final MinorState minor;
   final String name;
 
   CategoryData(
       {required this.account,
       required this.major,
-      required this.minorState,
+      required this.minor,
       required this.name});
 }
