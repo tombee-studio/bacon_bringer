@@ -11,25 +11,34 @@ class OverviewComponent extends StatelessWidget {
     return Card(
         child: Padding(
             padding: const EdgeInsets.all(12.0),
-            child: Column(mainAxisSize: MainAxisSize.min, children: [
-              ListTile(
-                leading: const Icon(Icons.money),
-                title: Text("¥${overviewData.sumOfMoney}",
-                    textAlign: TextAlign.right),
-                subtitle: const Text('貯金', textAlign: TextAlign.right),
-              ),
-              Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-                createRowItem(
-                    Icons.abc, "月間収入", overviewData.totalIncomesOnMonth),
-                createRowItem(
-                    Icons.abc, "月間支出", overviewData.totalExpencesOnMonth)
-              ]),
-              Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-                createRowItem(Icons.abc, "予算", overviewData.budget),
-                createRowItem(
-                    Icons.abc, "対予算残高", overviewData.balanceAgainstBudget)
-              ])
-            ])));
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text("収支概要", style: TextStyle(fontSize: 18.0)),
+                  const Divider(),
+                  ListTile(
+                    leading: const Icon(Icons.money),
+                    title: Text("¥${overviewData.sumOfMoney}",
+                        textAlign: TextAlign.right),
+                    subtitle: const Text('貯金', textAlign: TextAlign.right),
+                  ),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        createRowItem(Icons.abc, "月間収入",
+                            overviewData.totalIncomesOnMonth),
+                        createRowItem(Icons.abc, "月間支出",
+                            overviewData.totalExpencesOnMonth)
+                      ]),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        createRowItem(Icons.abc, "予算", overviewData.budget),
+                        createRowItem(Icons.abc, "対予算残高",
+                            overviewData.balanceAgainstBudget)
+                      ])
+                ])));
   }
 
   Widget createRowItem(IconData icon, String label, int value) {
