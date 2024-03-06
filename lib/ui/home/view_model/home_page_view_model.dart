@@ -5,6 +5,7 @@ import 'package:bacon_bringer/model/home/home_page_model.dart';
 import 'package:bacon_bringer/model/home/repository/home_page_app_repository.dart';
 import 'package:bacon_bringer/repository/home_page_repository.dart';
 import 'package:bacon_bringer/ui/common/loading_component.dart';
+import 'package:bacon_bringer/ui/home/view/category_budget_list_component.dart';
 import 'package:bacon_bringer/ui/home/view/overview_component.dart';
 import 'package:flutter/material.dart';
 
@@ -30,6 +31,11 @@ class HomePageViewModel extends ViewModel<HomePageModel> {
     return OverviewComponent(overviewData: overviewData);
   }
 
+  Widget get categoryBudgetList {
+    final data = model.categoryBudgetList;
+    return CategoryBudgetListComponent(data: data);
+  }
+
   Widget body(BuildContext context) {
     final loadingData = model.isLoading;
     if (loadingData.isLoading) {
@@ -41,11 +47,14 @@ class HomePageViewModel extends ViewModel<HomePageModel> {
             width: 600,
             child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Column(children: [overview, const Spacer()])));
+                child: Column(children: [overview, categoryBudgetList])));
       } else {
         return Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Column(children: [overview, const Spacer()]));
+            child: SingleChildScrollView(
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [overview, categoryBudgetList])));
       }
     }
   }
