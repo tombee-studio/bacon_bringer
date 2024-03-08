@@ -12,6 +12,7 @@ class HomePageModel<T extends HomePageRepository> extends Model<T> {
   final String _title;
 
   late Property<int> _currentIndex;
+  late Property<int> _currentAccountIndex;
   late Property<LoadingData> _isLoading;
   late Property<OverviewData> _overviewData;
   late Property<UserData> _user;
@@ -31,6 +32,9 @@ class HomePageModel<T extends HomePageRepository> extends Model<T> {
   int get currentIndex => _currentIndex.value;
   set currentIndex(int value) => _currentIndex.value = value;
 
+  int get currentAccountIndex => _currentAccountIndex.value;
+  AccountData get currentAccount => accounts[currentAccountIndex];
+
   HomePageModel(super.notifier, super._repository, this._title) {
     _overviewData = propertyOf(OverviewData(
         sumOfMoney: 0,
@@ -38,7 +42,10 @@ class HomePageModel<T extends HomePageRepository> extends Model<T> {
         budget: 0,
         totalExpencesOnMonth: 0,
         totalIncomesOnMonth: 0));
+
     _currentIndex = propertyOf(0);
+    _currentAccountIndex = propertyOf(0);
+
     _user = propertyOf(UserData(id: "", userName: "", password: ""));
     _categoryBudgets = listPropertyOf(<CategoryBudget>[]);
     _isLoading =
@@ -58,11 +65,9 @@ class HomePageModel<T extends HomePageRepository> extends Model<T> {
     _isLoading.value = LoadingData(isLoading: true, message: "各種データ取得中...");
 
     _accounts.value = await repository.fetchAccounts(user);
-    _overviewData.value = await repository.fetchMonthlyOverview();
-    for (final account in _accounts.value) {
-      _categoryBudgets.value =
-          await repository.fetchCategoryBudgetList(account);
-    }
+    _overviewData.value = await repository.fetchMonthlyOverview(currentAccount);
+    _categoryBudgets.value =
+        await repository.fetchCategoryBudgetList(currentAccount);
 
     onLoaded();
   }

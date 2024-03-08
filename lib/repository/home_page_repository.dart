@@ -18,7 +18,7 @@ abstract class HomePageRepository implements Repository {
   Future<List<AccountData>> fetchAccounts(UserData user);
 
   /// 月間収支概要を取得
-  Future<OverviewData> fetchMonthlyOverview();
+  Future<OverviewData> fetchMonthlyOverview(AccountData account);
 
   /// 月間カテゴリ予算概要を表示
   Future<List<CategoryBudget>> fetchCategoryBudgetList(AccountData account);

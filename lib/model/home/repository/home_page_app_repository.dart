@@ -28,7 +28,7 @@ class HomePageAppRepository extends HomePageRepository {
   }
 
   @override
-  Future<OverviewData> fetchMonthlyOverview() async {
+  Future<OverviewData> fetchMonthlyOverview(AccountData account) async {
     await Future.delayed(const Duration(milliseconds: 500));
     return OverviewData(
         sumOfMoney: 10000,

@@ -36,7 +36,7 @@ class HomePageTestRepository extends HomePageRepository {
   Future loadLocalData() async {}
 
   @override
-  Future<OverviewData> fetchMonthlyOverview() async {
+  Future<OverviewData> fetchMonthlyOverview(AccountData account) async {
     return OverviewData(
         sumOfMoney: 100000,
         balanceAgainstBudget: 200000,
@@ -48,53 +48,103 @@ class HomePageTestRepository extends HomePageRepository {
   @override
   Future<List<CategoryBudget>> fetchCategoryBudgetList(
       AccountData account) async {
-    final categoryBudgets = <CategoryBudget>[];
-    categoryBudgets.add(CategoryBudget(
-        account: account,
-        category: CategoryData(
-            account: account,
-            major: MajorState.expense,
-            minor: MinorState.fixedCosts,
-            name: "cost1"),
-        leftBudgetPerMonth: 10000,
-        budgetPerDay: 11000));
-    categoryBudgets.add(CategoryBudget(
-        account: account,
-        category: CategoryData(
-            account: account,
-            major: MajorState.expense,
-            minor: MinorState.variableCosts,
-            name: "cost2"),
-        leftBudgetPerMonth: 20000,
-        budgetPerDay: 21000));
-    categoryBudgets.add(CategoryBudget(
-        account: account,
-        category: CategoryData(
-            account: account,
-            major: MajorState.income,
-            minor: MinorState.fixedIncome,
-            name: "income1"),
-        leftBudgetPerMonth: 30000,
-        budgetPerDay: 31000));
-    categoryBudgets.add(CategoryBudget(
-        account: account,
-        category: CategoryData(
-            account: account,
-            major: MajorState.income,
-            minor: MinorState.variableIncome,
-            name: "income2"),
-        leftBudgetPerMonth: 40000,
-        budgetPerDay: 41000));
-    categoryBudgets.add(CategoryBudget(
-        account: account,
-        category: CategoryData(
-            account: account,
-            major: MajorState.income,
-            minor: MinorState.extraIncome,
-            name: "income3"),
-        leftBudgetPerMonth: 50000,
-        budgetPerDay: 51000));
-    return categoryBudgets;
+    if (account.name == "account1") {
+      final categoryBudgets = <CategoryBudget>[];
+      categoryBudgets.add(CategoryBudget(
+          account: account,
+          category: CategoryData(
+              account: account,
+              major: MajorState.expense,
+              minor: MinorState.fixedCosts,
+              name: "account1_cost1"),
+          leftBudgetPerMonth: 10000,
+          budgetPerDay: 11000));
+      categoryBudgets.add(CategoryBudget(
+          account: account,
+          category: CategoryData(
+              account: account,
+              major: MajorState.expense,
+              minor: MinorState.variableCosts,
+              name: "account1_cost2"),
+          leftBudgetPerMonth: 20000,
+          budgetPerDay: 21000));
+      categoryBudgets.add(CategoryBudget(
+          account: account,
+          category: CategoryData(
+              account: account,
+              major: MajorState.income,
+              minor: MinorState.fixedIncome,
+              name: "account1_income1"),
+          leftBudgetPerMonth: 30000,
+          budgetPerDay: 31000));
+      categoryBudgets.add(CategoryBudget(
+          account: account,
+          category: CategoryData(
+              account: account,
+              major: MajorState.income,
+              minor: MinorState.variableIncome,
+              name: "account1_income2"),
+          leftBudgetPerMonth: 40000,
+          budgetPerDay: 41000));
+      categoryBudgets.add(CategoryBudget(
+          account: account,
+          category: CategoryData(
+              account: account,
+              major: MajorState.income,
+              minor: MinorState.extraIncome,
+              name: "account1_income3"),
+          leftBudgetPerMonth: 50000,
+          budgetPerDay: 51000));
+      return categoryBudgets;
+    } else {
+      final categoryBudgets = <CategoryBudget>[];
+      categoryBudgets.add(CategoryBudget(
+          account: account,
+          category: CategoryData(
+              account: account,
+              major: MajorState.expense,
+              minor: MinorState.fixedCosts,
+              name: "account2_cost1"),
+          leftBudgetPerMonth: 10000,
+          budgetPerDay: 11000));
+      categoryBudgets.add(CategoryBudget(
+          account: account,
+          category: CategoryData(
+              account: account,
+              major: MajorState.expense,
+              minor: MinorState.variableCosts,
+              name: "account2_cost2"),
+          leftBudgetPerMonth: 20000,
+          budgetPerDay: 21000));
+      categoryBudgets.add(CategoryBudget(
+          account: account,
+          category: CategoryData(
+              account: account,
+              major: MajorState.income,
+              minor: MinorState.fixedIncome,
+              name: "account2_income1"),
+          leftBudgetPerMonth: 30000,
+          budgetPerDay: 31000));
+      categoryBudgets.add(CategoryBudget(
+          account: account,
+          category: CategoryData(
+              account: account,
+              major: MajorState.income,
+              minor: MinorState.variableIncome,
+              name: "account2_income2"),
+          leftBudgetPerMonth: 40000,
+          budgetPerDay: 41000));
+      categoryBudgets.add(CategoryBudget(
+          account: account,
+          category: CategoryData(
+              account: account,
+              major: MajorState.income,
+              minor: MinorState.extraIncome,
+              name: "account2_income3"),
+          leftBudgetPerMonth: 50000,
+          budgetPerDay: 51000));
+      return categoryBudgets;
+    }
   }
 
   @override
@@ -148,33 +198,33 @@ void main() {
     expect(model.accounts[1].name, "account2");
     expect(model.accounts[1].purpose, "purpose2");
 
-    expect(model.categoryBudgetList[0].category.name, "cost1");
+    expect(model.categoryBudgetList[0].category.name, "account1_cost1");
     expect(model.categoryBudgetList[0].category.major, MajorState.expense);
     expect(model.categoryBudgetList[0].category.minor, MinorState.fixedCosts);
     expect(model.categoryBudgetList[0].leftBudgetPerMonth, 10000);
     expect(model.categoryBudgetList[0].budgetPerDay, 11000);
 
-    expect(model.categoryBudgetList[1].category.name, "cost2");
+    expect(model.categoryBudgetList[1].category.name, "account1_cost2");
     expect(model.categoryBudgetList[1].category.major, MajorState.expense);
     expect(
         model.categoryBudgetList[1].category.minor, MinorState.variableCosts);
     expect(model.categoryBudgetList[1].leftBudgetPerMonth, 20000);
     expect(model.categoryBudgetList[1].budgetPerDay, 21000);
 
-    expect(model.categoryBudgetList[2].category.name, "income1");
+    expect(model.categoryBudgetList[2].category.name, "account1_income1");
     expect(model.categoryBudgetList[2].category.major, MajorState.income);
     expect(model.categoryBudgetList[2].category.minor, MinorState.fixedIncome);
     expect(model.categoryBudgetList[2].leftBudgetPerMonth, 30000);
     expect(model.categoryBudgetList[2].budgetPerDay, 31000);
 
-    expect(model.categoryBudgetList[3].category.name, "income2");
+    expect(model.categoryBudgetList[3].category.name, "account1_income2");
     expect(model.categoryBudgetList[3].category.major, MajorState.income);
     expect(
         model.categoryBudgetList[3].category.minor, MinorState.variableIncome);
     expect(model.categoryBudgetList[3].leftBudgetPerMonth, 40000);
     expect(model.categoryBudgetList[3].budgetPerDay, 41000);
 
-    expect(model.categoryBudgetList[4].category.name, "income3");
+    expect(model.categoryBudgetList[4].category.name, "account1_income3");
     expect(model.categoryBudgetList[4].category.major, MajorState.income);
     expect(model.categoryBudgetList[4].category.minor, MinorState.extraIncome);
     expect(model.categoryBudgetList[4].leftBudgetPerMonth, 50000);
