@@ -5,6 +5,7 @@ import 'package:bacon_bringer/model/home/home_page_model.dart';
 import 'package:bacon_bringer/model/home/repository/home_page_app_repository.dart';
 import 'package:bacon_bringer/repository/home_page_repository.dart';
 import 'package:bacon_bringer/ui/common/loading_component.dart';
+import 'package:bacon_bringer/ui/home/view/account_list_drawer.dart';
 import 'package:bacon_bringer/ui/home/view/category_budget_list_component.dart';
 import 'package:bacon_bringer/ui/home/view/overview_component.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +35,14 @@ class HomePageViewModel extends ViewModel<HomePageModel> {
   Widget get categoryBudgetList {
     final data = model.categoryBudgetList;
     return CategoryBudgetListComponent(data: data);
+  }
+
+  Widget? drawer(BuildContext context) {
+    final accounts = model.accounts;
+    if (accounts.isEmpty) {
+      return null;
+    }
+    return AccountListDrawer(accounts: accounts);
   }
 
   Widget body(BuildContext context) {

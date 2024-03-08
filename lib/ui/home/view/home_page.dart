@@ -26,10 +26,13 @@ class _HomePageState extends ViewModelState<HomePage, HomePageViewModel> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+            backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+            foregroundColor: Theme.of(context).colorScheme.primary,
             title: viewModel.title),
+        drawer: viewModel.drawer(context),
         body: Center(child: viewModel.body(context)),
         bottomNavigationBar: BottomNavigationBar(
+            backgroundColor: Theme.of(context).colorScheme.primaryContainer,
             currentIndex: viewModel.currentIndex,
             onTap: onTap,
             items: const <BottomNavigationBarItem>[
