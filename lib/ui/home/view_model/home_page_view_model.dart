@@ -51,19 +51,26 @@ class HomePageViewModel extends ViewModel<HomePageModel> {
       return LoadingComponent(loadingData: loadingData);
     } else {
       final size = MediaQuery.of(context).size;
-      if (size.width > 600) {
+      if (size.width > 640) {
         return SizedBox(
-            width: 600,
+            width: 640,
             child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Column(children: [overview, categoryBudgetList])));
+                child: ListView.builder(
+                    itemCount: 2,
+                    itemBuilder: (context, index) {
+                      final views = [overview, categoryBudgetList];
+                      return views[index];
+                    })));
       } else {
         return Padding(
             padding: const EdgeInsets.all(8.0),
-            child: SingleChildScrollView(
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [overview, categoryBudgetList])));
+            child: ListView.builder(
+                itemCount: 2,
+                itemBuilder: (context, index) {
+                  final views = [overview, categoryBudgetList];
+                  return views[index];
+                }));
       }
     }
   }
