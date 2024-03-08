@@ -1,9 +1,11 @@
 import 'package:bacon_bringer/bases/list_property.dart';
 import 'package:bacon_bringer/bases/model.dart';
 import 'package:bacon_bringer/bases/property.dart';
+import 'package:bacon_bringer/data/account_data.dart';
 import 'package:bacon_bringer/data/category_budget.dart';
 import 'package:bacon_bringer/data/loading_data.dart';
 import 'package:bacon_bringer/data/overview_data.dart';
+import 'package:bacon_bringer/data/user_data.dart';
 import 'package:bacon_bringer/repository/home_page_repository.dart';
 
 class HomePageModel<T extends HomePageRepository> extends Model<T> {
@@ -13,12 +15,14 @@ class HomePageModel<T extends HomePageRepository> extends Model<T> {
   late Property<LoadingData> _isLoading;
   late Property<OverviewData> _overviewData;
   late ListProperty<CategoryBudget> _categoryBudgets;
+  late ListProperty<AccountData> _accounts;
 
   String get title => _title;
 
   LoadingData get isLoading => _isLoading.value;
   OverviewData get overviewData => _overviewData.value;
   List<CategoryBudget> get categoryBudgetList => _categoryBudgets.value;
+  List<AccountData> get accounts => _accounts.value;
 
   int get currentIndex => _currentIndex.value;
   set currentIndex(int value) => _currentIndex.value = value;
@@ -34,6 +38,7 @@ class HomePageModel<T extends HomePageRepository> extends Model<T> {
     _categoryBudgets = listPropertyOf(<CategoryBudget>[]);
     _isLoading =
         propertyOf(LoadingData(isLoading: true, message: "ローカルデータを取得中..."));
+    _accounts = listPropertyOf(<AccountData>[]);
   }
 
   Future launch() async {
@@ -46,6 +51,10 @@ class HomePageModel<T extends HomePageRepository> extends Model<T> {
     await repository.connectDatabase();
 
     _isLoading.value = LoadingData(isLoading: true, message: "各種データ取得中...");
+
+    final user =
+        UserData(id: "testuser", userName: "testuser", password: "password");
+    _accounts.value = await repository.fetchAccounts(user);
     _overviewData.value = await repository.fetchMonthlyOverview();
     _categoryBudgets.value = await repository.fetchCategoryBudgetList();
 
