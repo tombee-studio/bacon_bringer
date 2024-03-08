@@ -7,8 +7,11 @@
 
 import 'package:bacon_bringer/data/account_data.dart';
 import 'package:bacon_bringer/data/category_budget.dart';
+import 'package:bacon_bringer/data/category_data.dart';
 import 'package:bacon_bringer/data/overview_data.dart';
 import 'package:bacon_bringer/data/user_data.dart';
+import 'package:bacon_bringer/enum/major_state.dart';
+import 'package:bacon_bringer/enum/minor_state.dart';
 import 'package:bacon_bringer/model/home/home_page_model.dart';
 import 'package:bacon_bringer/repository/home_page_repository.dart';
 import 'package:bacon_bringer/ui/home/view_model/home_page_view_model.dart';
@@ -21,7 +24,10 @@ import 'util.dart';
 
 class HomePageTestRepository extends HomePageRepository {
   @override
-  Future authenticate() async {}
+  Future<UserData> authenticate() async {
+    return UserData(
+        id: "testuser", userName: "testname", password: "testpassword");
+  }
 
   @override
   Future connectDatabase() async {}
@@ -32,23 +38,73 @@ class HomePageTestRepository extends HomePageRepository {
   @override
   Future<OverviewData> fetchMonthlyOverview() async {
     return OverviewData(
-        sumOfMoney: 10000,
-        balanceAgainstBudget: 20000,
-        budget: 30000,
-        totalExpencesOnMonth: 40000,
-        totalIncomesOnMonth: 50000);
+        sumOfMoney: 100000,
+        balanceAgainstBudget: 200000,
+        budget: 300000,
+        totalExpencesOnMonth: 400000,
+        totalIncomesOnMonth: 500000);
   }
 
   @override
-  Future<List<CategoryBudget>> fetchCategoryBudgetList() {
-    // TODO: implement fetchCategoryBudgetList
-    throw UnimplementedError();
+  Future<List<CategoryBudget>> fetchCategoryBudgetList(
+      AccountData account) async {
+    final categoryBudgets = <CategoryBudget>[];
+    categoryBudgets.add(CategoryBudget(
+        account: account,
+        category: CategoryData(
+            account: account,
+            major: MajorState.expense,
+            minor: MinorState.fixedCosts,
+            name: "cost1"),
+        leftBudgetPerMonth: 10000,
+        budgetPerDay: 11000));
+    categoryBudgets.add(CategoryBudget(
+        account: account,
+        category: CategoryData(
+            account: account,
+            major: MajorState.expense,
+            minor: MinorState.variableCosts,
+            name: "cost2"),
+        leftBudgetPerMonth: 20000,
+        budgetPerDay: 21000));
+    categoryBudgets.add(CategoryBudget(
+        account: account,
+        category: CategoryData(
+            account: account,
+            major: MajorState.income,
+            minor: MinorState.fixedIncome,
+            name: "income1"),
+        leftBudgetPerMonth: 30000,
+        budgetPerDay: 31000));
+    categoryBudgets.add(CategoryBudget(
+        account: account,
+        category: CategoryData(
+            account: account,
+            major: MajorState.income,
+            minor: MinorState.variableIncome,
+            name: "income2"),
+        leftBudgetPerMonth: 40000,
+        budgetPerDay: 41000));
+    categoryBudgets.add(CategoryBudget(
+        account: account,
+        category: CategoryData(
+            account: account,
+            major: MajorState.income,
+            minor: MinorState.extraIncome,
+            name: "income3"),
+        leftBudgetPerMonth: 50000,
+        budgetPerDay: 51000));
+    return categoryBudgets;
   }
 
   @override
-  Future<List<AccountData>> fetchAccounts(UserData user) {
-    // TODO: implement fetchAccounts
-    throw UnimplementedError();
+  Future<List<AccountData>> fetchAccounts(UserData user) async {
+    final accounts = <AccountData>[];
+    accounts
+        .add(AccountData(user: user, name: "account1", purpose: "purpose1"));
+    accounts
+        .add(AccountData(user: user, name: "account2", purpose: "purpose2"));
+    return accounts;
   }
 }
 
@@ -58,7 +114,7 @@ class TestSkeletonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return builder(context);
+    return Scaffold(body: builder(context));
   }
 }
 
@@ -69,12 +125,60 @@ void main() {
 
     final model =
         HomePageModel(TestNotifier(), homePageRepositoryProvider, title);
+    expect(model.isLoading.isLoading, true);
+
     await model.launch();
-    expect(model.overviewData.sumOfMoney, 10000);
-    expect(model.overviewData.balanceAgainstBudget, 20000);
-    expect(model.overviewData.budget, 30000);
-    expect(model.overviewData.totalExpencesOnMonth, 40000);
-    expect(model.overviewData.totalIncomesOnMonth, 50000);
+
+    expect(model.isLoading.isLoading, false);
+
+    expect(model.title, title);
+
+    expect(model.user.id, "testuser");
+    expect(model.user.userName, "testname");
+    expect(model.user.password, "testpassword");
+
+    expect(model.overviewData.sumOfMoney, 100000);
+    expect(model.overviewData.balanceAgainstBudget, 200000);
+    expect(model.overviewData.budget, 300000);
+    expect(model.overviewData.totalExpencesOnMonth, 400000);
+    expect(model.overviewData.totalIncomesOnMonth, 500000);
+
+    expect(model.accounts[0].name, "account1");
+    expect(model.accounts[0].purpose, "purpose1");
+    expect(model.accounts[1].name, "account2");
+    expect(model.accounts[1].purpose, "purpose2");
+
+    expect(model.categoryBudgetList[0].category.name, "cost1");
+    expect(model.categoryBudgetList[0].category.major, MajorState.expense);
+    expect(model.categoryBudgetList[0].category.minor, MinorState.fixedCosts);
+    expect(model.categoryBudgetList[0].leftBudgetPerMonth, 10000);
+    expect(model.categoryBudgetList[0].budgetPerDay, 11000);
+
+    expect(model.categoryBudgetList[1].category.name, "cost2");
+    expect(model.categoryBudgetList[1].category.major, MajorState.expense);
+    expect(
+        model.categoryBudgetList[1].category.minor, MinorState.variableCosts);
+    expect(model.categoryBudgetList[1].leftBudgetPerMonth, 20000);
+    expect(model.categoryBudgetList[1].budgetPerDay, 21000);
+
+    expect(model.categoryBudgetList[2].category.name, "income1");
+    expect(model.categoryBudgetList[2].category.major, MajorState.income);
+    expect(model.categoryBudgetList[2].category.minor, MinorState.fixedIncome);
+    expect(model.categoryBudgetList[2].leftBudgetPerMonth, 30000);
+    expect(model.categoryBudgetList[2].budgetPerDay, 31000);
+
+    expect(model.categoryBudgetList[3].category.name, "income2");
+    expect(model.categoryBudgetList[3].category.major, MajorState.income);
+    expect(
+        model.categoryBudgetList[3].category.minor, MinorState.variableIncome);
+    expect(model.categoryBudgetList[3].leftBudgetPerMonth, 40000);
+    expect(model.categoryBudgetList[3].budgetPerDay, 41000);
+
+    expect(model.categoryBudgetList[4].category.name, "income3");
+    expect(model.categoryBudgetList[4].category.major, MajorState.income);
+    expect(model.categoryBudgetList[4].category.minor, MinorState.extraIncome);
+    expect(model.categoryBudgetList[4].leftBudgetPerMonth, 50000);
+    expect(model.categoryBudgetList[4].budgetPerDay, 51000);
   });
 
   testWidgets("HomePageViewModelがタイトルを返していること", (tester) async {
@@ -107,11 +211,11 @@ void main() {
     await viewModel.launch();
     await tester.pumpWidget(
         MaterialApp(home: TestSkeletonWidget(builder: viewModel.body)));
-    expect(find.text("¥10000"), findsOneWidget);
-    expect(find.text("¥20000"), findsOneWidget);
-    expect(find.text("¥30000"), findsOneWidget);
-    expect(find.text("¥40000"), findsOneWidget);
-    expect(find.text("¥50000"), findsOneWidget);
+    expect(find.text("¥100000"), findsOneWidget);
+    expect(find.text("¥200000"), findsOneWidget);
+    expect(find.text("¥300000"), findsOneWidget);
+    expect(find.text("¥400000"), findsOneWidget);
+    expect(find.text("¥500000"), findsOneWidget);
   });
 
   testWidgets('ホーム画面でタイトルが表示されていること', (WidgetTester tester) async {
