@@ -5,7 +5,10 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
+import 'package:bacon_bringer/data/account_data.dart';
+import 'package:bacon_bringer/data/category_budget.dart';
 import 'package:bacon_bringer/data/overview_data.dart';
+import 'package:bacon_bringer/data/user_data.dart';
 import 'package:bacon_bringer/model/home/home_page_model.dart';
 import 'package:bacon_bringer/repository/home_page_repository.dart';
 import 'package:bacon_bringer/ui/home/view_model/home_page_view_model.dart';
@@ -34,6 +37,18 @@ class HomePageTestRepository extends HomePageRepository {
         budget: 30000,
         totalExpencesOnMonth: 40000,
         totalIncomesOnMonth: 50000);
+  }
+
+  @override
+  Future<List<CategoryBudget>> fetchCategoryBudgetList() {
+    // TODO: implement fetchCategoryBudgetList
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<AccountData>> fetchAccounts(UserData user) {
+    // TODO: implement fetchAccounts
+    throw UnimplementedError();
   }
 }
 

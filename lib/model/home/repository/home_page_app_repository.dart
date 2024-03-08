@@ -10,22 +10,22 @@ import 'package:bacon_bringer/repository/home_page_repository.dart';
 class HomePageAppRepository extends HomePageRepository {
   @override
   Future loadLocalData() async {
-    await Future.delayed(const Duration(milliseconds: 2000));
+    await Future.delayed(const Duration(milliseconds: 1000));
   }
 
   @override
   Future authenticate() async {
-    await Future.delayed(const Duration(milliseconds: 2000));
+    await Future.delayed(const Duration(milliseconds: 1000));
   }
 
   @override
   Future connectDatabase() async {
-    await Future.delayed(const Duration(milliseconds: 2000));
+    await Future.delayed(const Duration(milliseconds: 1000));
   }
 
   @override
   Future<OverviewData> fetchMonthlyOverview() async {
-    await Future.delayed(const Duration(milliseconds: 2000));
+    await Future.delayed(const Duration(milliseconds: 500));
     return OverviewData(
         sumOfMoney: 10000,
         balanceAgainstBudget: 2000,
@@ -36,7 +36,7 @@ class HomePageAppRepository extends HomePageRepository {
 
   @override
   Future<List<CategoryBudget>> fetchCategoryBudgetList() async {
-    await Future.delayed(const Duration(milliseconds: 2000));
+    await Future.delayed(const Duration(milliseconds: 500));
     final user = UserData(
         id: '01HR7FA4EXR3S8YCJ53A1FXTEF',
         userName: 'testuser',
@@ -90,5 +90,16 @@ class HomePageAppRepository extends HomePageRepository {
         leftBudgetPerMonth: 8258,
         budgetPerDay: 805.3));
     return data;
+  }
+
+  @override
+  Future<List<AccountData>> fetchAccounts(UserData user) async {
+    await Future.delayed(const Duration(milliseconds: 500));
+    final accounts = <AccountData>[];
+    accounts.add(AccountData(
+        user: user, name: "test account 01", purpose: "for test 1"));
+    accounts.add(AccountData(
+        user: user, name: "test account 02", purpose: "for test 1"));
+    return accounts;
   }
 }
