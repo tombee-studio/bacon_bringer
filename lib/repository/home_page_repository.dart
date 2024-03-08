@@ -9,7 +9,7 @@ abstract class HomePageRepository implements Repository {
   Future loadLocalData();
 
   /// Firebase Authによるユーザ認証
-  Future authenticate();
+  Future<UserData> authenticate();
 
   /// データベース接続
   Future connectDatabase();
@@ -21,5 +21,5 @@ abstract class HomePageRepository implements Repository {
   Future<OverviewData> fetchMonthlyOverview();
 
   /// 月間カテゴリ予算概要を表示
-  Future<List<CategoryBudget>> fetchCategoryBudgetList();
+  Future<List<CategoryBudget>> fetchCategoryBudgetList(AccountData account);
 }

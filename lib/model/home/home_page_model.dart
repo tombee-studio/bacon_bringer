@@ -14,6 +14,8 @@ class HomePageModel<T extends HomePageRepository> extends Model<T> {
   late Property<int> _currentIndex;
   late Property<LoadingData> _isLoading;
   late Property<OverviewData> _overviewData;
+  late Property<UserData> _user;
+
   late ListProperty<CategoryBudget> _categoryBudgets;
   late ListProperty<AccountData> _accounts;
 
@@ -21,6 +23,8 @@ class HomePageModel<T extends HomePageRepository> extends Model<T> {
 
   LoadingData get isLoading => _isLoading.value;
   OverviewData get overviewData => _overviewData.value;
+  UserData get user => _user.value;
+
   List<CategoryBudget> get categoryBudgetList => _categoryBudgets.value;
   List<AccountData> get accounts => _accounts.value;
 
@@ -35,6 +39,7 @@ class HomePageModel<T extends HomePageRepository> extends Model<T> {
         totalExpencesOnMonth: 0,
         totalIncomesOnMonth: 0));
     _currentIndex = propertyOf(0);
+    _user = propertyOf(UserData(id: "", userName: "", password: ""));
     _categoryBudgets = listPropertyOf(<CategoryBudget>[]);
     _isLoading =
         propertyOf(LoadingData(isLoading: true, message: "ローカルデータを取得中..."));
@@ -45,18 +50,19 @@ class HomePageModel<T extends HomePageRepository> extends Model<T> {
     await repository.loadLocalData();
 
     _isLoading.value = LoadingData(isLoading: true, message: "ユーザ認証中...");
-    await repository.authenticate();
+    _user.value = await repository.authenticate();
 
     _isLoading.value = LoadingData(isLoading: true, message: "データベースと接続中...");
     await repository.connectDatabase();
 
     _isLoading.value = LoadingData(isLoading: true, message: "各種データ取得中...");
 
-    final user =
-        UserData(id: "testuser", userName: "testuser", password: "password");
     _accounts.value = await repository.fetchAccounts(user);
     _overviewData.value = await repository.fetchMonthlyOverview();
-    _categoryBudgets.value = await repository.fetchCategoryBudgetList();
+    for (final account in _accounts.value) {
+      _categoryBudgets.value =
+          await repository.fetchCategoryBudgetList(account);
+    }
 
     onLoaded();
   }

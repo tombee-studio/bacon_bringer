@@ -14,8 +14,12 @@ class HomePageAppRepository extends HomePageRepository {
   }
 
   @override
-  Future authenticate() async {
+  Future<UserData> authenticate() async {
     await Future.delayed(const Duration(milliseconds: 1000));
+    return UserData(
+        id: '01HR7FA4EXR3S8YCJ53A1FXTEF',
+        userName: 'testuser',
+        password: '01HR7FA4EXR3S8YCJ53A1FXTEF');
   }
 
   @override
@@ -35,14 +39,9 @@ class HomePageAppRepository extends HomePageRepository {
   }
 
   @override
-  Future<List<CategoryBudget>> fetchCategoryBudgetList() async {
+  Future<List<CategoryBudget>> fetchCategoryBudgetList(
+      AccountData account) async {
     await Future.delayed(const Duration(milliseconds: 500));
-    final user = UserData(
-        id: '01HR7FA4EXR3S8YCJ53A1FXTEF',
-        userName: 'testuser',
-        password: '01HR7FA4EXR3S8YCJ53A1FXTEF');
-    final account =
-        AccountData(user: user, name: "テスト用アカウント", purpose: "テスト用に作成しました");
     final data = <CategoryBudget>[];
     data.add(CategoryBudget(
         account: account,
