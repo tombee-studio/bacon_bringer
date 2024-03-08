@@ -42,7 +42,13 @@ class HomePageViewModel extends ViewModel<HomePageModel> {
     if (accounts.isEmpty) {
       return null;
     }
-    return AccountListDrawer(accounts: accounts);
+    return AccountListDrawer(
+        accounts: accounts,
+        currentAccountIndex: model.currentAccountIndex,
+        changeAccountCallback: (index) {
+          model.currentAccountIndex = index;
+          Navigator.of(context).pop();
+        });
   }
 
   Widget body(BuildContext context) {

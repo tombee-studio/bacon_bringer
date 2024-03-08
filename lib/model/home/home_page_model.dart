@@ -33,6 +33,12 @@ class HomePageModel<T extends HomePageRepository> extends Model<T> {
   set currentIndex(int value) => _currentIndex.value = value;
 
   int get currentAccountIndex => _currentAccountIndex.value;
+  set currentAccountIndex(value) {
+    _currentAccountIndex.value = value;
+
+    loadData();
+  }
+
   AccountData get currentAccount => accounts[currentAccountIndex];
 
   HomePageModel(super.notifier, super._repository, this._title) {
@@ -65,14 +71,18 @@ class HomePageModel<T extends HomePageRepository> extends Model<T> {
     _isLoading.value = LoadingData(isLoading: true, message: "各種データ取得中...");
 
     _accounts.value = await repository.fetchAccounts(user);
-    _overviewData.value = await repository.fetchMonthlyOverview(currentAccount);
-    _categoryBudgets.value =
-        await repository.fetchCategoryBudgetList(currentAccount);
-
-    onLoaded();
+    await loadData();
   }
 
   void onLoaded() {
     _isLoading.value = LoadingData(isLoading: false, message: "起動時処理成功");
+  }
+
+  Future loadData() async {
+    _isLoading.value = LoadingData(isLoading: true, message: "各種データ取得中...");
+    _overviewData.value = await repository.fetchMonthlyOverview(currentAccount);
+    _categoryBudgets.value =
+        await repository.fetchCategoryBudgetList(currentAccount);
+    onLoaded();
   }
 }

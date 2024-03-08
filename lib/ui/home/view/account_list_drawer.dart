@@ -3,8 +3,14 @@ import 'package:flutter/material.dart';
 
 class AccountListDrawer extends StatelessWidget {
   final List<AccountData> accounts;
+  final int currentAccountIndex;
+  final void Function(int) changeAccountCallback;
 
-  const AccountListDrawer({super.key, required this.accounts});
+  const AccountListDrawer(
+      {super.key,
+      required this.accounts,
+      required this.currentAccountIndex,
+      required this.changeAccountCallback});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +33,10 @@ class AccountListDrawer extends StatelessWidget {
                     leading: const Icon(Icons.person),
                     title: Text(account.name),
                     subtitle: Text(account.purpose),
-                    trailing: index == 0 ? const Icon(Icons.check) : null);
+                    trailing: index == currentAccountIndex
+                        ? const Icon(Icons.check)
+                        : null,
+                    onTap: () => changeAccountCallback(index));
               },
               separatorBuilder: (context, index) => const Divider(),
               itemCount: accounts.length))
