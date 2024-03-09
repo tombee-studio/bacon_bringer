@@ -235,6 +235,9 @@ void main() {
     expect(model.categoryBudgetList[4].category.minor, MinorState.extraIncome);
     expect(model.categoryBudgetList[4].leftBudgetPerMonth, 50000);
     expect(model.categoryBudgetList[4].budgetPerDay, 51000);
+
+    model.currentAccountIndex = 1;
+    expect(model.currentAccountIndex, 1);
   });
 
   testWidgets("HomePageViewModelがタイトルを返していること", (tester) async {
@@ -292,5 +295,13 @@ void main() {
         find.byWidgetPredicate(
             (Widget widget) => widget is CircularProgressIndicator),
         findsOneWidget);
+  });
+
+  testWidgets('ホーム画面でローディング後にページが表示されていること', (WidgetTester tester) async {
+    homePageRepositoryProvider.overrideRepository(HomePageTestRepository());
+
+    await tester.pumpWidget(const BaconBringerApp());
+    await tester.pumpAndSettle();
+    expect(find.text("¥100000"), findsOneWidget);
   });
 }
