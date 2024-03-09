@@ -1,5 +1,6 @@
 import 'package:bacon_bringer/bases/model.dart';
 import 'package:bacon_bringer/bases/property.dart';
+import 'package:bacon_bringer/data/account_data.dart';
 import 'package:bacon_bringer/data/user_data.dart';
 import 'package:bacon_bringer/repository/account_screen_repository.dart';
 
@@ -22,7 +23,7 @@ class AccountScreenModel extends Model<AccountScreenRepository> {
     _purpose = propertyOf("");
   }
 
-  Future addAccount() async {
-    await repository.addAccount(user, _name.value, _purpose.value);
+  Future<AccountData> addAccount() async {
+    return await repository.addAccount(user, _name.value, _purpose.value);
   }
 }
