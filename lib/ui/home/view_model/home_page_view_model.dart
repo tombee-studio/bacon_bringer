@@ -1,6 +1,7 @@
 import 'package:bacon_bringer/bases/notifier.dart';
 import 'package:bacon_bringer/bases/repository_provider.dart';
 import 'package:bacon_bringer/bases/view_model.dart';
+import 'package:bacon_bringer/enum/home_page_state.dart';
 import 'package:bacon_bringer/model/home/home_page_model.dart';
 import 'package:bacon_bringer/model/home/repository/home_page_app_repository.dart';
 import 'package:bacon_bringer/repository/home_page_repository.dart';
@@ -51,6 +52,14 @@ class HomePageViewModel extends ViewModel<HomePageModel> {
         });
   }
 
+  Widget content() {
+    final views = [overview, categoryBudgetList];
+    return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListView.builder(
+            itemCount: 2, itemBuilder: (context, index) => views[index]));
+  }
+
   Widget body(BuildContext context) {
     final loadingData = model.isLoading;
     if (loadingData.isLoading) {
@@ -58,29 +67,13 @@ class HomePageViewModel extends ViewModel<HomePageModel> {
     } else {
       final size = MediaQuery.of(context).size;
       if (size.width > 640) {
-        return SizedBox(
-            width: 640,
-            child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ListView.builder(
-                    itemCount: 2,
-                    itemBuilder: (context, index) {
-                      final views = [overview, categoryBudgetList];
-                      return views[index];
-                    })));
+        return SizedBox(width: 640, child: content());
       } else {
-        return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ListView.builder(
-                itemCount: 2,
-                itemBuilder: (context, index) {
-                  final views = [overview, categoryBudgetList];
-                  return views[index];
-                }));
+        return content();
       }
     }
   }
 
-  int get currentIndex => model.currentIndex;
-  set currentIndex(int value) => model.currentIndex = value;
+  HomePageState get currentState => model.currentState;
+  set currentState(HomePageState value) => model.currentState = value;
 }

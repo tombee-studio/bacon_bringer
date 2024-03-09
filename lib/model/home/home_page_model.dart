@@ -6,12 +6,13 @@ import 'package:bacon_bringer/data/category_budget.dart';
 import 'package:bacon_bringer/data/loading_data.dart';
 import 'package:bacon_bringer/data/overview_data.dart';
 import 'package:bacon_bringer/data/user_data.dart';
+import 'package:bacon_bringer/enum/home_page_state.dart';
 import 'package:bacon_bringer/repository/home_page_repository.dart';
 
 class HomePageModel<T extends HomePageRepository> extends Model<T> {
   final String _title;
 
-  late Property<int> _currentIndex;
+  late Property<HomePageState> _currentState;
   late Property<int> _currentAccountIndex;
   late Property<LoadingData> _isLoading;
   late Property<OverviewData> _overviewData;
@@ -29,8 +30,8 @@ class HomePageModel<T extends HomePageRepository> extends Model<T> {
   List<CategoryBudget> get categoryBudgetList => _categoryBudgets.value;
   List<AccountData> get accounts => _accounts.value;
 
-  int get currentIndex => _currentIndex.value;
-  set currentIndex(int value) => _currentIndex.value = value;
+  HomePageState get currentState => _currentState.value;
+  set currentState(HomePageState value) => _currentState.value = value;
 
   int get currentAccountIndex => _currentAccountIndex.value;
   set currentAccountIndex(value) {
@@ -49,7 +50,7 @@ class HomePageModel<T extends HomePageRepository> extends Model<T> {
         totalExpencesOnMonth: 0,
         totalIncomesOnMonth: 0));
 
-    _currentIndex = propertyOf(0);
+    _currentState = propertyOf(HomePageState.overview);
     _currentAccountIndex = propertyOf(0);
 
     _user = propertyOf(UserData(id: "", userName: "", password: ""));

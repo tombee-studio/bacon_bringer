@@ -10,6 +10,7 @@ import 'package:bacon_bringer/data/category_budget.dart';
 import 'package:bacon_bringer/data/category_data.dart';
 import 'package:bacon_bringer/data/overview_data.dart';
 import 'package:bacon_bringer/data/user_data.dart';
+import 'package:bacon_bringer/enum/home_page_state.dart';
 import 'package:bacon_bringer/enum/major_state.dart';
 import 'package:bacon_bringer/enum/minor_state.dart';
 import 'package:bacon_bringer/model/home/home_page_model.dart';
@@ -176,10 +177,15 @@ void main() {
     final model =
         HomePageModel(TestNotifier(), homePageRepositoryProvider, title);
     expect(model.isLoading.isLoading, true);
+    expect(model.currentAccountIndex, 0);
 
     await model.launch();
 
     expect(model.isLoading.isLoading, false);
+
+    expect(model.currentAccountIndex, 0);
+    expect(model.currentAccount.name, "account1");
+    expect(model.currentAccount.purpose, "purpose1");
 
     expect(model.title, title);
 
@@ -237,7 +243,7 @@ void main() {
 
     final viewModel = HomePageViewModel(TestNotifier(), testTitle);
     await tester.pumpWidget(MaterialApp(home: viewModel.title));
-    expect(0, viewModel.currentIndex);
+    expect(HomePageState.overview, viewModel.currentState);
     expect(find.text(testTitle), findsOneWidget);
   });
 
@@ -246,11 +252,11 @@ void main() {
     homePageRepositoryProvider.overrideRepository(HomePageTestRepository());
 
     final viewModel = HomePageViewModel(TestNotifier(), testTitle);
-    expect(0, viewModel.currentIndex);
-    viewModel.currentIndex = 1;
-    expect(1, viewModel.currentIndex);
-    viewModel.currentIndex = 2;
-    expect(2, viewModel.currentIndex);
+    expect(HomePageState.overview, viewModel.currentState);
+    viewModel.currentState = HomePageState.list;
+    expect(HomePageState.list, viewModel.currentState);
+    viewModel.currentState = HomePageState.settings;
+    expect(HomePageState.settings, viewModel.currentState);
   });
 
   testWidgets("HomePageViewModelが収支概要情報をWidgetで返却すること", (tester) async {
