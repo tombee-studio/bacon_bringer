@@ -68,10 +68,6 @@ class HomeScreenModel<T extends HomePageRepository> extends Model<T> {
 
     _isLoading.value = LoadingData(isLoading: true, message: "データベースと接続中...");
     await repository.connectDatabase();
-
-    _isLoading.value = LoadingData(isLoading: true, message: "各種データ取得中...");
-
-    _accounts.value = await repository.fetchAccounts(user);
     await loadData();
   }
 
@@ -81,6 +77,7 @@ class HomeScreenModel<T extends HomePageRepository> extends Model<T> {
 
   Future loadData() async {
     _isLoading.value = LoadingData(isLoading: true, message: "各種データ取得中...");
+    _accounts.value = await repository.fetchAccounts(user);
     _overviewData.value = await repository.fetchMonthlyOverview(currentAccount);
     _categoryBudgets.value =
         await repository.fetchCategoryBudgetList(currentAccount);
