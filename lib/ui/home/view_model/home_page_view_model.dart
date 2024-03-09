@@ -7,7 +7,9 @@ import 'package:bacon_bringer/model/home/repository/home_page_app_repository.dar
 import 'package:bacon_bringer/repository/home_page_repository.dart';
 import 'package:bacon_bringer/ui/common/loading_component.dart';
 import 'package:bacon_bringer/ui/home/view/components/account_list_drawer.dart';
+import 'package:bacon_bringer/ui/home/view/components/monthly_budget_balance_list.dart';
 import 'package:bacon_bringer/ui/home/view/components/overview_component.dart';
+import 'package:bacon_bringer/ui/home/view/components/settings_component.dart';
 import 'package:flutter/material.dart';
 
 final homePageRepositoryProvider =
@@ -43,9 +45,16 @@ class HomePageViewModel extends ViewModel<HomePageModel> {
   }
 
   Widget content() {
-    return OverviewComponent(
-        overviewData: model.overviewData,
-        categoryBudgetList: model.categoryBudgetList);
+    switch (model.currentState) {
+      case HomePageState.overview:
+        return OverviewComponent(
+            overviewData: model.overviewData,
+            categoryBudgetList: model.categoryBudgetList);
+      case HomePageState.list:
+        return const MonthlyBudgetBalanceList();
+      case HomePageState.settings:
+        return const SettingsComponent();
+    }
   }
 
   Widget body(BuildContext context) {
