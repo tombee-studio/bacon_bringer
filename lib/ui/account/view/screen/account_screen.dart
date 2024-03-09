@@ -26,6 +26,9 @@ class AccountScreenState
           backgroundColor: Theme.of(context).colorScheme.primaryContainer,
           foregroundColor: Theme.of(context).colorScheme.primary,
         ),
-        body: viewModel.body(context));
+        body: viewModel.body(context),
+        floatingActionButton: FloatingActionButton(
+            onPressed: () => viewModel.addAccount(context),
+            child: const Icon(Icons.add)));
   }
 }

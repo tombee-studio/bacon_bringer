@@ -15,13 +15,31 @@ class AccountScreenViewModel extends ViewModel<AccountScreenModel> {
 
   AccountScreenViewModel(super.notifier, this.user);
 
-  Widget content(BuildContext context) {
-    return Text(model.user.userName);
-  }
-
   @override
   AccountScreenModel createModel(Notifier notifier) =>
       AccountScreenModel(notifier, user, accountScreenRepositoryProvider);
+
+  Widget content(BuildContext context) {
+    return Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+          const Icon(Icons.person),
+          name(context),
+          purpose(context)
+        ]));
+  }
+
+  Widget name(BuildContext context) {
+    return TextField(
+        decoration: const InputDecoration(label: Text("アカウント名")),
+        onChanged: (value) => model.name = value);
+  }
+
+  Widget purpose(BuildContext context) {
+    return TextField(
+        decoration: const InputDecoration(label: Text("目的・説明")),
+        onChanged: (value) => model.purpose = value);
+  }
 
   Widget body(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -30,5 +48,9 @@ class AccountScreenViewModel extends ViewModel<AccountScreenModel> {
     } else {
       return content(context);
     }
+  }
+
+  void addAccount(BuildContext context) async {
+    await model.addAccount().then((value) => Navigator.of(context).pop());
   }
 }
