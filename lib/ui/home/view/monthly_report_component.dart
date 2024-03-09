@@ -1,10 +1,10 @@
 import 'package:bacon_bringer/data/overview_data.dart';
 import 'package:flutter/material.dart';
 
-class OverviewComponent extends StatelessWidget {
+class MonthlyReportComponent extends StatelessWidget {
   final OverviewData overviewData;
 
-  const OverviewComponent({super.key, required this.overviewData});
+  const MonthlyReportComponent({super.key, required this.overviewData});
 
   @override
   Widget build(BuildContext context) {

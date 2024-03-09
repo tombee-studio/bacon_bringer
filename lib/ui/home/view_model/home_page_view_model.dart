@@ -8,7 +8,7 @@ import 'package:bacon_bringer/repository/home_page_repository.dart';
 import 'package:bacon_bringer/ui/common/loading_component.dart';
 import 'package:bacon_bringer/ui/home/view/account_list_drawer.dart';
 import 'package:bacon_bringer/ui/home/view/category_budget_list_component.dart';
-import 'package:bacon_bringer/ui/home/view/overview_component.dart';
+import 'package:bacon_bringer/ui/home/view/monthly_report_component.dart';
 import 'package:flutter/material.dart';
 
 final homePageRepositoryProvider =
@@ -28,9 +28,9 @@ class HomePageViewModel extends ViewModel<HomePageModel> {
   }
 
   Widget get title => Text(model.title);
-  Widget get overview {
+  Widget get monthlyReport {
     final overviewData = model.overviewData;
-    return OverviewComponent(overviewData: overviewData);
+    return MonthlyReportComponent(overviewData: overviewData);
   }
 
   Widget get categoryBudgetList {
@@ -53,7 +53,7 @@ class HomePageViewModel extends ViewModel<HomePageModel> {
   }
 
   Widget content() {
-    final views = [overview, categoryBudgetList];
+    final views = [monthlyReport, categoryBudgetList];
     return Padding(
         padding: const EdgeInsets.all(8.0),
         child: ListView.builder(
