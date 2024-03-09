@@ -3,7 +3,7 @@ import 'package:bacon_bringer/bases/repository_provider.dart';
 import 'package:bacon_bringer/bases/view_model.dart';
 import 'package:bacon_bringer/enum/home_page_state.dart';
 import 'package:bacon_bringer/model/home/home_screen_model.dart';
-import 'package:bacon_bringer/model/home/repository/home_page_app_repository.dart';
+import 'package:bacon_bringer/ui/home/view_model/repository/home_page_app_repository.dart';
 import 'package:bacon_bringer/repository/home_page_repository.dart';
 import 'package:bacon_bringer/ui/common/loading_component.dart';
 import 'package:bacon_bringer/ui/home/view/components/account_list_drawer.dart';
