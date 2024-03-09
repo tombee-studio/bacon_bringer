@@ -3,6 +3,7 @@ import 'package:bacon_bringer/bases/repository_provider.dart';
 import 'package:bacon_bringer/bases/view_model.dart';
 import 'package:bacon_bringer/enum/home_page_state.dart';
 import 'package:bacon_bringer/model/home/home_screen_model.dart';
+import 'package:bacon_bringer/ui/account/view/screen/account_screen.dart';
 import 'package:bacon_bringer/ui/home/view_model/repository/home_page_app_repository.dart';
 import 'package:bacon_bringer/repository/home_page_repository.dart';
 import 'package:bacon_bringer/ui/common/loading_component.dart';
@@ -40,6 +41,10 @@ class HomeScreenViewModel extends ViewModel<HomeScreenModel> {
         currentAccountIndex: model.currentAccountIndex,
         addAccountCallback: () async {
           Navigator.of(context).pop();
+          await Navigator.of(context).push(MaterialPageRoute(
+              builder: (_) => AccountScreen(user: model.user)));
+          model.loadData().then(
+              (_) => Navigator.of(context).popUntil((route) => route.isFirst));
         },
         changeAccountCallback: (index) {
           model.currentAccountIndex = index;
