@@ -9,7 +9,7 @@ import 'package:bacon_bringer/data/user_data.dart';
 import 'package:bacon_bringer/enum/home_page_state.dart';
 import 'package:bacon_bringer/repository/home_page_repository.dart';
 
-class HomePageModel<T extends HomePageRepository> extends Model<T> {
+class HomeScreenModel<T extends HomePageRepository> extends Model<T> {
   final String _title;
 
   late Property<HomePageState> _currentState;
@@ -42,7 +42,7 @@ class HomePageModel<T extends HomePageRepository> extends Model<T> {
 
   AccountData get currentAccount => accounts[currentAccountIndex];
 
-  HomePageModel(super.notifier, super._repository, this._title) {
+  HomeScreenModel(super.notifier, super._repository, this._title) {
     _overviewData = propertyOf(OverviewData(
         sumOfMoney: 0,
         balanceAgainstBudget: 0,

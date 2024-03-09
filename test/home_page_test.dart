@@ -13,7 +13,7 @@ import 'package:bacon_bringer/data/user_data.dart';
 import 'package:bacon_bringer/enum/home_page_state.dart';
 import 'package:bacon_bringer/enum/major_state.dart';
 import 'package:bacon_bringer/enum/minor_state.dart';
-import 'package:bacon_bringer/model/home/home_page_model.dart';
+import 'package:bacon_bringer/model/home/home_screen_model.dart';
 import 'package:bacon_bringer/repository/home_page_repository.dart';
 import 'package:bacon_bringer/ui/home/view_model/home_page_view_model.dart';
 import 'package:flutter/material.dart';
@@ -175,7 +175,7 @@ void main() {
     homePageRepositoryProvider.overrideRepository(HomePageTestRepository());
 
     final model =
-        HomePageModel(TestNotifier(), homePageRepositoryProvider, title);
+        HomeScreenModel(TestNotifier(), homePageRepositoryProvider, title);
     expect(model.isLoading.isLoading, true);
     expect(model.currentAccountIndex, 0);
 
@@ -241,7 +241,7 @@ void main() {
     const testTitle = "TestTitle";
     homePageRepositoryProvider.overrideRepository(HomePageTestRepository());
 
-    final viewModel = HomePageViewModel(TestNotifier(), testTitle);
+    final viewModel = HomeScreenViewModel(TestNotifier(), testTitle);
     await tester.pumpWidget(MaterialApp(home: viewModel.title));
     expect(HomePageState.overview, viewModel.currentState);
     expect(find.text(testTitle), findsOneWidget);
@@ -251,7 +251,7 @@ void main() {
     const testTitle = "TestTitle";
     homePageRepositoryProvider.overrideRepository(HomePageTestRepository());
 
-    final viewModel = HomePageViewModel(TestNotifier(), testTitle);
+    final viewModel = HomeScreenViewModel(TestNotifier(), testTitle);
     expect(HomePageState.overview, viewModel.currentState);
     viewModel.currentState = HomePageState.list;
     expect(HomePageState.list, viewModel.currentState);
@@ -263,7 +263,7 @@ void main() {
     const testTitle = "TestTitle";
     homePageRepositoryProvider.overrideRepository(HomePageTestRepository());
 
-    final viewModel = HomePageViewModel(TestNotifier(), testTitle);
+    final viewModel = HomeScreenViewModel(TestNotifier(), testTitle);
     await viewModel.launch();
     await tester.pumpWidget(
         MaterialApp(home: TestSkeletonWidget(builder: viewModel.body)));

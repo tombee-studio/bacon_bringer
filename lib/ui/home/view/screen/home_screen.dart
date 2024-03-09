@@ -3,18 +3,19 @@ import 'package:bacon_bringer/enum/home_page_state.dart';
 import 'package:bacon_bringer/ui/home/view_model/home_page_view_model.dart';
 import 'package:flutter/material.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key, required this.title});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key, required this.title});
 
   final String title;
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomePageState extends ViewModelState<HomePage, HomePageViewModel> {
+class _HomeScreenState extends ViewModelState<HomeScreen, HomeScreenViewModel> {
   @override
-  HomePageViewModel createViewModel() => HomePageViewModel(this, widget.title);
+  HomeScreenViewModel createViewModel() =>
+      HomeScreenViewModel(this, widget.title);
 
   @override
   void initState() {

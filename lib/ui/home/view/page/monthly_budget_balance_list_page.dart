@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class MonthlyBudgetBalanceList extends StatelessWidget {
-  const MonthlyBudgetBalanceList({super.key});
+class MonthlyBudgetBalanceListPage extends StatelessWidget {
+  const MonthlyBudgetBalanceListPage({super.key});
 
   @override
   Widget build(BuildContext context) {

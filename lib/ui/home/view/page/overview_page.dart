@@ -4,11 +4,11 @@ import 'package:bacon_bringer/ui/home/view/components/category_budget_list_compo
 import 'package:bacon_bringer/ui/home/view/components/monthly_report_component.dart';
 import 'package:flutter/material.dart';
 
-class OverviewComponent extends StatelessWidget {
+class OverviewPage extends StatelessWidget {
   final OverviewData overviewData;
   final List<CategoryBudget> categoryBudgetList;
 
-  const OverviewComponent(
+  const OverviewPage(
       {super.key,
       required this.overviewData,
       required this.categoryBudgetList});
