@@ -28,7 +28,9 @@ class AccountScreenState
         ),
         body: viewModel.body(context),
         floatingActionButton: FloatingActionButton(
-            onPressed: () => viewModel.addAccount(context),
+            onPressed: () => viewModel
+                .addAccount()
+                .then((value) => Navigator.of(context).pop(value)),
             child: const Icon(Icons.add)));
   }
 }

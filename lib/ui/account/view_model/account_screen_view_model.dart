@@ -1,6 +1,7 @@
 import 'package:bacon_bringer/bases/notifier.dart';
 import 'package:bacon_bringer/bases/repository_provider.dart';
 import 'package:bacon_bringer/bases/view_model.dart';
+import 'package:bacon_bringer/data/account_data.dart';
 import 'package:bacon_bringer/data/user_data.dart';
 import 'package:bacon_bringer/model/account/account_screen_model.dart';
 import 'package:bacon_bringer/repository/account_screen_repository.dart';
@@ -43,14 +44,14 @@ class AccountScreenViewModel extends ViewModel<AccountScreenModel> {
 
   Widget body(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    if (size.width > 640) {
+    if (size.width >= 641) {
       return SizedBox(width: 640, child: content(context));
     } else {
       return content(context);
     }
   }
 
-  void addAccount(BuildContext context) async {
-    await model.addAccount().then((value) => Navigator.of(context).pop());
+  Future<AccountData> addAccount() async {
+    return await model.addAccount();
   }
 }
