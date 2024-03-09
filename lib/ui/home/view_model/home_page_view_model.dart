@@ -6,8 +6,8 @@ import 'package:bacon_bringer/model/home/home_page_model.dart';
 import 'package:bacon_bringer/model/home/repository/home_page_app_repository.dart';
 import 'package:bacon_bringer/repository/home_page_repository.dart';
 import 'package:bacon_bringer/ui/common/loading_component.dart';
-import 'package:bacon_bringer/ui/home/view/account_list_drawer.dart';
-import 'package:bacon_bringer/ui/home/view/overview_component.dart';
+import 'package:bacon_bringer/ui/home/view/components/account_list_drawer.dart';
+import 'package:bacon_bringer/ui/home/view/components/overview_component.dart';
 import 'package:flutter/material.dart';
 
 final homePageRepositoryProvider =

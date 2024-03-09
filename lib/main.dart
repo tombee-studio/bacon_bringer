@@ -1,4 +1,4 @@
-import 'package:bacon_bringer/ui/home/view/home_page.dart';
+import 'package:bacon_bringer/ui/home/view/page/home_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
