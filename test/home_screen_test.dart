@@ -159,16 +159,6 @@ class HomePageTestRepository extends HomePageRepository {
   }
 }
 
-class TestSkeletonWidget extends StatelessWidget {
-  final Function builder;
-  const TestSkeletonWidget({super.key, required this.builder});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(body: builder(context));
-  }
-}
-
 void main() {
   test("収支概要が初期化されていること", () async {
     const title = "TestTitle";
