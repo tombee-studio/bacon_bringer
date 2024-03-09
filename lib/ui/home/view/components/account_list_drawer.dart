@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 class AccountListDrawer extends StatelessWidget {
   final List<AccountData> accounts;
   final int currentAccountIndex;
+  final void Function() addAccountCallback;
   final void Function(int) changeAccountCallback;
 
   const AccountListDrawer(
       {super.key,
       required this.accounts,
       required this.currentAccountIndex,
+      required this.addAccountCallback,
       required this.changeAccountCallback});
 
   @override
@@ -18,13 +20,20 @@ class AccountListDrawer extends StatelessWidget {
         child: Column(children: [
       SizedBox(
           width: double.infinity,
-          height: 76.0,
+          height: 84.0,
           child: DrawerHeader(
               margin: EdgeInsets.zero,
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.primaryContainer,
               ),
-              child: const Text("収支管理アカウント"))),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text("収支管理アカウント"),
+                    IconButton(
+                        onPressed: addAccountCallback,
+                        icon: const Icon(Icons.add))
+                  ]))),
       Expanded(
           child: ListView.separated(
               itemBuilder: (context, index) {

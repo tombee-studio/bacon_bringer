@@ -38,6 +38,9 @@ class HomeScreenViewModel extends ViewModel<HomeScreenModel> {
     return AccountListDrawer(
         accounts: accounts,
         currentAccountIndex: model.currentAccountIndex,
+        addAccountCallback: () async {
+          Navigator.of(context).pop();
+        },
         changeAccountCallback: (index) {
           model.currentAccountIndex = index;
           Navigator.of(context).pop();
