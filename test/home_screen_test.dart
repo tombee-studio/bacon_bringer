@@ -18,6 +18,7 @@ import 'package:bacon_bringer/model/home/home_screen_model.dart';
 import 'package:bacon_bringer/repository/home_page_repository.dart';
 import 'package:bacon_bringer/ui/home/view/page/monthly_budget_balance_list_page.dart';
 import 'package:bacon_bringer/ui/home/view_model/home_page_view_model.dart';
+import 'package:bacon_bringer/ui/home/view_model/repository/home_page_app_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -214,6 +215,72 @@ class HomePageTestRepository extends HomePageRepository {
 }
 
 void main() {
+  group("HomeScreenAppRepository", () {
+    test("connectDatabaseが正しく動作すること", () async {
+      final repository = HomePageAppRepository();
+      await repository.connectDatabase();
+    });
+
+    test("loadLocalDataが正しく動作すること", () async {
+      final repository = HomePageAppRepository();
+      await repository.loadLocalData();
+    });
+
+    test("authenticateが正しく動作すること", () async {
+      final repository = HomePageAppRepository();
+      final user = await repository.authenticate();
+      expect(user.id, "01HR7FA4EXR3S8YCJ53A1FXTEF");
+      expect(user.userName, "testuser");
+      expect(user.password, "01HR7FA4EXR3S8YCJ53A1FXTEF");
+    });
+
+    test("fetchMonthlyOverviewが正しく動作すること", () async {
+      final repository = HomePageAppRepository();
+      final user = UserData(
+          id: "test", userName: "testUserName", password: "testPassword");
+      const testAccountName = "test_account_name_created";
+      const testAccountPurpose = "test_account_purpose_created";
+      final data = await repository.fetchMonthlyOverview(AccountData(
+          user: user, name: testAccountName, purpose: testAccountPurpose));
+      expect(data.sumOfMoney, 10000);
+      expect(data.balanceAgainstBudget, 2000);
+      expect(data.totalExpencesOnMonth, 2000);
+      expect(data.totalIncomesOnMonth, 10000);
+    });
+
+    test("fetchCategoryBudgetListが正しく動作すること", () async {
+      final repository = HomePageAppRepository();
+      final user = UserData(
+          id: "test", userName: "testUserName", password: "testPassword");
+      const testAccountName = "test_account_name_created";
+      const testAccountPurpose = "test_account_purpose_created";
+      final items = await repository.fetchCategoryBudgetList(AccountData(
+          user: user, name: testAccountName, purpose: testAccountPurpose));
+      expect(items.length, 5);
+    });
+
+    test("fetchAccountsが正しく動作すること", () async {
+      final repository = HomePageAppRepository();
+      final user = UserData(
+          id: "test", userName: "testUserName", password: "testPassword");
+      final items = await repository.fetchAccounts(user);
+      expect(items.length, 2);
+    });
+
+    test("fetchTransactionsが正しく動作すること", () async {
+      final repository = HomePageAppRepository();
+      final user = UserData(
+          id: "test", userName: "testUserName", password: "testPassword");
+      const testAccountName = "test_account_name_created";
+      const testAccountPurpose = "test_account_purpose_created";
+      final items = await repository.fetchTransactions(
+          AccountData(
+              user: user, name: testAccountName, purpose: testAccountPurpose),
+          from: DateTime(2024, 3, 1),
+          to: DateTime(2024, 4, 1));
+      expect(items.length, 4);
+    });
+  });
   group("HomeScreenModel", () {
     test("HomeScreenModelが初期化されていること", () async {
       const title = "TestTitle";
