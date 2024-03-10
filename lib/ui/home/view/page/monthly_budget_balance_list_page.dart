@@ -21,7 +21,12 @@ class MonthlyBudgetBalanceListPage
                 return ListTile(
                     leading: Icon(icon(transaction)),
                     title: Text(transaction.purpose),
-                    subtitle: Text(transaction.category.name),
+                    subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(transaction.category.name),
+                          Text("取引日：${transaction.createdAt}")
+                        ]),
                     trailing: Text("¥${transaction.money.toInt()}"));
               },
               separatorBuilder: (context, index) => const Divider(),
