@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 const beforeTrasitionText = "遷移前の画面";
 
 class TestNotifier implements Notifier {
+  Function? testCallback;
+  TestNotifier({this.testCallback});
+
   @override
   void notify() {}
 }
