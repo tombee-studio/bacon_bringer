@@ -1,6 +1,6 @@
 import 'package:bacon_bringer/bases/view_model_state.dart';
-import 'package:bacon_bringer/enum/home_page_state.dart';
-import 'package:bacon_bringer/ui/home/view_model/home_page_view_model.dart';
+import 'package:bacon_bringer/enum/home_screen_state.dart';
+import 'package:bacon_bringer/ui/home/view_model/home_screen_view_model.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -35,7 +35,8 @@ class _HomeScreenState extends ViewModelState<HomeScreen, HomeScreenViewModel> {
         body: Center(child: viewModel.body(context)),
         bottomNavigationBar: BottomNavigationBar(
             backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-            currentIndex: HomePageState.values.indexOf(viewModel.currentState),
+            currentIndex:
+                HomeScreenState.values.indexOf(viewModel.currentState),
             onTap: onTap,
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(icon: Icon(Icons.home), label: 'ホーム'),
@@ -45,6 +46,6 @@ class _HomeScreenState extends ViewModelState<HomeScreen, HomeScreenViewModel> {
   }
 
   void onTap(int index) {
-    viewModel.currentState = HomePageState.values[index];
+    viewModel.currentState = HomeScreenState.values[index];
   }
 }

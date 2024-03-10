@@ -3,7 +3,7 @@ import 'package:bacon_bringer/data/category_budget.dart';
 import 'package:bacon_bringer/data/overview_data.dart';
 import 'package:bacon_bringer/ui/home/view/components/category_budget_list_component.dart';
 import 'package:bacon_bringer/ui/home/view/components/monthly_report_component.dart';
-import 'package:bacon_bringer/ui/home/view_model/home_page_view_model.dart';
+import 'package:bacon_bringer/ui/home/view_model/home_screen_view_model.dart';
 import 'package:flutter/material.dart';
 
 class OverviewPage extends ViewModelWidget<HomeScreenViewModel> {

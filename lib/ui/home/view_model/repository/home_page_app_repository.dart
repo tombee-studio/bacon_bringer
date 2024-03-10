@@ -6,9 +6,9 @@ import 'package:bacon_bringer/data/transaction_data.dart';
 import 'package:bacon_bringer/data/user_data.dart';
 import 'package:bacon_bringer/enum/major_state.dart';
 import 'package:bacon_bringer/enum/minor_state.dart';
-import 'package:bacon_bringer/repository/home_page_repository.dart';
+import 'package:bacon_bringer/repository/home_screen_repository.dart';
 
-class HomePageAppRepository extends HomePageRepository {
+class HomeScreenAppRepository extends HomeScreenRepository {
   @override
   Future loadLocalData() async {
     await Future.delayed(const Duration(milliseconds: 1000));

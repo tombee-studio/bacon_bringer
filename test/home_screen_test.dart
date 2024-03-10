@@ -11,13 +11,13 @@ import 'package:bacon_bringer/data/category_data.dart';
 import 'package:bacon_bringer/data/overview_data.dart';
 import 'package:bacon_bringer/data/transaction_data.dart';
 import 'package:bacon_bringer/data/user_data.dart';
-import 'package:bacon_bringer/enum/home_page_state.dart';
+import 'package:bacon_bringer/enum/home_screen_state.dart';
 import 'package:bacon_bringer/enum/major_state.dart';
 import 'package:bacon_bringer/enum/minor_state.dart';
 import 'package:bacon_bringer/model/home/home_screen_model.dart';
-import 'package:bacon_bringer/repository/home_page_repository.dart';
+import 'package:bacon_bringer/repository/home_screen_repository.dart';
 import 'package:bacon_bringer/ui/home/view/page/monthly_budget_balance_list_page.dart';
-import 'package:bacon_bringer/ui/home/view_model/home_page_view_model.dart';
+import 'package:bacon_bringer/ui/home/view_model/home_screen_view_model.dart';
 import 'package:bacon_bringer/ui/home/view_model/repository/home_page_app_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -26,7 +26,7 @@ import 'package:bacon_bringer/main.dart';
 
 import 'util.dart';
 
-class HomePageTestRepository extends HomePageRepository {
+class HomeScreenTestRepository extends HomeScreenRepository {
   @override
   Future<UserData> authenticate() async {
     return UserData(
@@ -217,17 +217,17 @@ class HomePageTestRepository extends HomePageRepository {
 void main() {
   group("HomeScreenAppRepository", () {
     test("connectDatabaseが正しく動作すること", () async {
-      final repository = HomePageAppRepository();
+      final repository = HomeScreenAppRepository();
       await repository.connectDatabase();
     });
 
     test("loadLocalDataが正しく動作すること", () async {
-      final repository = HomePageAppRepository();
+      final repository = HomeScreenAppRepository();
       await repository.loadLocalData();
     });
 
     test("authenticateが正しく動作すること", () async {
-      final repository = HomePageAppRepository();
+      final repository = HomeScreenAppRepository();
       final user = await repository.authenticate();
       expect(user.id, "01HR7FA4EXR3S8YCJ53A1FXTEF");
       expect(user.userName, "testuser");
@@ -235,7 +235,7 @@ void main() {
     });
 
     test("fetchMonthlyOverviewが正しく動作すること", () async {
-      final repository = HomePageAppRepository();
+      final repository = HomeScreenAppRepository();
       final user = UserData(
           id: "test", userName: "testUserName", password: "testPassword");
       const testAccountName = "test_account_name_created";
@@ -249,7 +249,7 @@ void main() {
     });
 
     test("fetchCategoryBudgetListが正しく動作すること", () async {
-      final repository = HomePageAppRepository();
+      final repository = HomeScreenAppRepository();
       final user = UserData(
           id: "test", userName: "testUserName", password: "testPassword");
       const testAccountName = "test_account_name_created";
@@ -260,7 +260,7 @@ void main() {
     });
 
     test("fetchAccountsが正しく動作すること", () async {
-      final repository = HomePageAppRepository();
+      final repository = HomeScreenAppRepository();
       final user = UserData(
           id: "test", userName: "testUserName", password: "testPassword");
       final items = await repository.fetchAccounts(user);
@@ -268,7 +268,7 @@ void main() {
     });
 
     test("fetchTransactionsが正しく動作すること", () async {
-      final repository = HomePageAppRepository();
+      final repository = HomeScreenAppRepository();
       final user = UserData(
           id: "test", userName: "testUserName", password: "testPassword");
       const testAccountName = "test_account_name_created";
@@ -284,10 +284,11 @@ void main() {
   group("HomeScreenModel", () {
     test("HomeScreenModelが初期化されていること", () async {
       const title = "TestTitle";
-      homePageRepositoryProvider.overrideRepository(HomePageTestRepository());
+      homeScreenRepositoryProvider
+          .overrideRepository(HomeScreenTestRepository());
 
       final model =
-          HomeScreenModel(TestNotifier(), homePageRepositoryProvider, title);
+          HomeScreenModel(TestNotifier(), homeScreenRepositoryProvider, title);
       expect(model.isLoading.isLoading, true);
       expect(model.currentAccountIndex, 0);
       expect(model.transactions.length, 0);
@@ -357,31 +358,34 @@ void main() {
   });
 
   group("HomeScreenViewModel", () {
-    testWidgets("HomePageViewModelがタイトルを返していること", (tester) async {
+    testWidgets("HomeScreenViewModelがタイトルを返していること", (tester) async {
       const testTitle = "TestTitle";
-      homePageRepositoryProvider.overrideRepository(HomePageTestRepository());
+      homeScreenRepositoryProvider
+          .overrideRepository(HomeScreenTestRepository());
 
       final viewModel = HomeScreenViewModel(TestNotifier(), testTitle);
       await tester.pumpWidget(MaterialApp(home: viewModel.title));
-      expect(HomePageState.overview, viewModel.currentState);
+      expect(HomeScreenState.overview, viewModel.currentState);
       expect(find.text(testTitle), findsOneWidget);
     });
 
-    test("HomePageViewModelのタブが反映されること", () {
+    test("HomeScreenViewModelのタブが反映されること", () {
       const testTitle = "TestTitle";
-      homePageRepositoryProvider.overrideRepository(HomePageTestRepository());
+      homeScreenRepositoryProvider
+          .overrideRepository(HomeScreenTestRepository());
 
       final viewModel = HomeScreenViewModel(TestNotifier(), testTitle);
-      expect(HomePageState.overview, viewModel.currentState);
-      viewModel.currentState = HomePageState.list;
-      expect(HomePageState.list, viewModel.currentState);
-      viewModel.currentState = HomePageState.settings;
-      expect(HomePageState.settings, viewModel.currentState);
+      expect(HomeScreenState.overview, viewModel.currentState);
+      viewModel.currentState = HomeScreenState.list;
+      expect(HomeScreenState.list, viewModel.currentState);
+      viewModel.currentState = HomeScreenState.settings;
+      expect(HomeScreenState.settings, viewModel.currentState);
     });
 
     testWidgets("HomePageViewModelが収支概要情報をWidgetで返却すること", (tester) async {
       const testTitle = "TestTitle";
-      homePageRepositoryProvider.overrideRepository(HomePageTestRepository());
+      homeScreenRepositoryProvider
+          .overrideRepository(HomeScreenTestRepository());
 
       final viewModel = HomeScreenViewModel(TestNotifier(), testTitle);
       await viewModel.launch();
@@ -398,7 +402,8 @@ void main() {
   group("HomeScreen", () {
     testWidgets('ホーム画面でタイトルが表示されていること', (WidgetTester tester) async {
       const testTitle = "Bacon Bringer";
-      homePageRepositoryProvider.overrideRepository(HomePageTestRepository());
+      homeScreenRepositoryProvider
+          .overrideRepository(HomeScreenTestRepository());
 
       await tester.runAsync(() async {
         await tester.pumpWidget(const BaconBringerApp());
@@ -407,7 +412,8 @@ void main() {
     });
 
     testWidgets('ホーム画面でローディングアニメーションが表示されていること', (WidgetTester tester) async {
-      homePageRepositoryProvider.overrideRepository(HomePageTestRepository());
+      homeScreenRepositoryProvider
+          .overrideRepository(HomeScreenTestRepository());
 
       await tester.pumpWidget(const BaconBringerApp());
       expect(
@@ -417,7 +423,8 @@ void main() {
     });
 
     testWidgets('ホーム画面でローディング後にページが表示されていること', (WidgetTester tester) async {
-      homePageRepositoryProvider.overrideRepository(HomePageTestRepository());
+      homeScreenRepositoryProvider
+          .overrideRepository(HomeScreenTestRepository());
 
       await tester.pumpWidget(const BaconBringerApp());
       await tester.pumpAndSettle();
@@ -426,7 +433,8 @@ void main() {
 
     testWidgets('ホーム画面で収支管理ボタンタップ後、収支管理ページが表示されていること',
         (WidgetTester tester) async {
-      homePageRepositoryProvider.overrideRepository(HomePageTestRepository());
+      homeScreenRepositoryProvider
+          .overrideRepository(HomeScreenTestRepository());
 
       await tester.pumpWidget(const BaconBringerApp());
       await tester.tap(find.byIcon(Icons.list));

@@ -5,7 +5,7 @@ import 'package:bacon_bringer/data/overview_data.dart';
 import 'package:bacon_bringer/data/transaction_data.dart';
 import 'package:bacon_bringer/data/user_data.dart';
 
-abstract class HomePageRepository implements Repository {
+abstract class HomeScreenRepository implements Repository {
   /// ローカルデータの読み込み
   Future loadLocalData();
 

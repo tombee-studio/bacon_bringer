@@ -1,7 +1,7 @@
 import 'package:bacon_bringer/bases/view_model_widget.dart';
 import 'package:bacon_bringer/data/transaction_data.dart';
 import 'package:bacon_bringer/enum/major_state.dart';
-import 'package:bacon_bringer/ui/home/view_model/home_page_view_model.dart';
+import 'package:bacon_bringer/ui/home/view_model/home_screen_view_model.dart';
 import 'package:flutter/material.dart';
 
 class MonthlyBudgetBalanceListPage
