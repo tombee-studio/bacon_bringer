@@ -1,6 +1,7 @@
 import 'package:bacon_bringer/data/account_data.dart';
 import 'package:bacon_bringer/data/category_data.dart';
 import 'package:bacon_bringer/data/transaction_data.dart';
+import 'package:bacon_bringer/data/transaction_overview_data.dart';
 import 'package:bacon_bringer/data/user_data.dart';
 import 'package:bacon_bringer/enum/major_state.dart';
 import 'package:bacon_bringer/enum/minor_state.dart';
@@ -43,6 +44,16 @@ void main() {
           data.category.account.user.password, category.account.user.password);
       expect(
           data.category.account.user.userName, category.account.user.userName);
+    });
+  });
+
+  group("TransactionOverviewData", () {
+    test("TransactionOverviewDataが初期化されること", () {
+      final data =
+          TransactionOverviewData(1000.0, 2000.0, DateTime(2024, 3, 1));
+      expect(data.monthlyTotalExpense, 1000.0);
+      expect(data.monthlyTotalIncome, 2000.0);
+      expect(data.current, DateTime(2024, 3, 1));
     });
   });
 }
