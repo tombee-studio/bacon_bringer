@@ -5,6 +5,7 @@ import 'package:bacon_bringer/data/account_data.dart';
 import 'package:bacon_bringer/data/category_budget.dart';
 import 'package:bacon_bringer/data/loading_data.dart';
 import 'package:bacon_bringer/data/overview_data.dart';
+import 'package:bacon_bringer/data/transaction_data.dart';
 import 'package:bacon_bringer/data/user_data.dart';
 import 'package:bacon_bringer/enum/home_page_state.dart';
 import 'package:bacon_bringer/repository/home_page_repository.dart';
@@ -20,6 +21,7 @@ class HomeScreenModel<T extends HomePageRepository> extends Model<T> {
 
   late ListProperty<CategoryBudget> _categoryBudgets;
   late ListProperty<AccountData> _accounts;
+  late ListProperty<TransactionData> _transactions;
 
   String get title => _title;
 
@@ -29,6 +31,7 @@ class HomeScreenModel<T extends HomePageRepository> extends Model<T> {
 
   List<CategoryBudget> get categoryBudgetList => _categoryBudgets.value;
   List<AccountData> get accounts => _accounts.value;
+  List<TransactionData> get transactions => _transactions.value;
 
   HomePageState get currentState => _currentState.value;
   set currentState(HomePageState value) => _currentState.value = value;
@@ -54,10 +57,12 @@ class HomeScreenModel<T extends HomePageRepository> extends Model<T> {
     _currentAccountIndex = propertyOf(0);
 
     _user = propertyOf(UserData(id: "", userName: "", password: ""));
-    _categoryBudgets = listPropertyOf(<CategoryBudget>[]);
     _isLoading =
         propertyOf(LoadingData(isLoading: true, message: "ローカルデータを取得中..."));
+
+    _categoryBudgets = listPropertyOf(<CategoryBudget>[]);
     _accounts = listPropertyOf(<AccountData>[]);
+    _transactions = listPropertyOf(<TransactionData>[]);
   }
 
   Future launch() async {
