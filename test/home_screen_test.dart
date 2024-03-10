@@ -16,6 +16,7 @@ import 'package:bacon_bringer/enum/major_state.dart';
 import 'package:bacon_bringer/enum/minor_state.dart';
 import 'package:bacon_bringer/model/home/home_screen_model.dart';
 import 'package:bacon_bringer/repository/home_page_repository.dart';
+import 'package:bacon_bringer/ui/home/view/page/monthly_budget_balance_list_page.dart';
 import 'package:bacon_bringer/ui/home/view_model/home_page_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -183,7 +184,7 @@ class HomePageTestRepository extends HomePageRepository {
         createdAt: DateTime(3100)));
     transactions.add(TransactionData(
         purpose: "test purpose 3",
-        money: 2000.0,
+        money: 3000.0,
         category: CategoryData(
             account: account,
             major: MajorState.income,
@@ -192,12 +193,21 @@ class HomePageTestRepository extends HomePageRepository {
         createdAt: DateTime(3200)));
     transactions.add(TransactionData(
         purpose: "test purpose 4",
-        money: 3300.0,
+        money: 4000.0,
         category: CategoryData(
             account: account,
             major: MajorState.income,
             minor: MinorState.variableIncome,
             name: "test name 4"),
+        createdAt: DateTime(3200)));
+    transactions.add(TransactionData(
+        purpose: "test purpose 5",
+        money: 5000.0,
+        category: CategoryData(
+            account: account,
+            major: MajorState.others,
+            minor: MinorState.variableCosts,
+            name: "test name 5"),
         createdAt: DateTime(3200)));
     return transactions;
   }
@@ -338,5 +348,38 @@ void main() {
     await tester.pumpWidget(const BaconBringerApp());
     await tester.pumpAndSettle();
     expect(find.text("¥100000"), findsOneWidget);
+  });
+
+  testWidgets('ホーム画面で収支管理ボタンタップ後、収支管理ページが表示されていること',
+      (WidgetTester tester) async {
+    homePageRepositoryProvider.overrideRepository(HomePageTestRepository());
+
+    await tester.pumpWidget(const BaconBringerApp());
+    await tester.tap(find.byIcon(Icons.list));
+    await tester.pump();
+    expect(
+        find.byWidgetPredicate(
+            (Widget widget) => widget is MonthlyBudgetBalanceListPage),
+        findsOneWidget);
+
+    expect(find.text("test purpose 1"), findsOneWidget);
+    expect(find.text("¥1000"), findsOneWidget);
+
+    expect(find.text("test purpose 2"), findsOneWidget);
+    expect(find.text("¥2000"), findsOneWidget);
+
+    expect(find.byIcon(Icons.payment), findsNWidgets(2));
+
+    expect(find.text("test purpose 3"), findsOneWidget);
+    expect(find.text("¥3000"), findsOneWidget);
+
+    expect(find.text("test purpose 4"), findsOneWidget);
+    expect(find.text("¥4000"), findsOneWidget);
+
+    expect(find.byIcon(Icons.money), findsNWidgets(2));
+
+    expect(find.text("test purpose 5"), findsOneWidget);
+    expect(find.text("¥5000"), findsOneWidget);
+    expect(find.byIcon(Icons.question_mark), findsOneWidget);
   });
 }
