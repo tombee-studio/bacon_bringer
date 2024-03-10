@@ -1,8 +1,9 @@
 class TransactionOverviewData {
   final double monthlyTotalExpense;
   final double monthlyTotalIncome;
-  final DateTime current;
+  final DateTime from;
+  final DateTime to;
 
   TransactionOverviewData(
-      this.monthlyTotalExpense, this.monthlyTotalIncome, this.current);
+      this.monthlyTotalExpense, this.monthlyTotalIncome, this.from, this.to);
 }

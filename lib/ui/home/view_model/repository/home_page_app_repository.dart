@@ -3,6 +3,7 @@ import 'package:bacon_bringer/data/category_budget.dart';
 import 'package:bacon_bringer/data/category_data.dart';
 import 'package:bacon_bringer/data/overview_data.dart';
 import 'package:bacon_bringer/data/transaction_data.dart';
+import 'package:bacon_bringer/data/transaction_overview_data.dart';
 import 'package:bacon_bringer/data/user_data.dart';
 import 'package:bacon_bringer/enum/major_state.dart';
 import 'package:bacon_bringer/enum/minor_state.dart';
@@ -144,5 +145,11 @@ class HomeScreenAppRepository extends HomeScreenRepository {
             name: "test name 4"),
         createdAt: DateTime(3200)));
     return transactions;
+  }
+
+  @override
+  Future<TransactionOverviewData> fetchTransactionOverview(AccountData account,
+      {required DateTime from, required DateTime to}) async {
+    return TransactionOverviewData(1000.0, 2000.0, from, to);
   }
 }

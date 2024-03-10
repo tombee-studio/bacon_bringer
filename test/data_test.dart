@@ -49,11 +49,12 @@ void main() {
 
   group("TransactionOverviewData", () {
     test("TransactionOverviewDataが初期化されること", () {
-      final data =
-          TransactionOverviewData(1000.0, 2000.0, DateTime(2024, 3, 1));
+      final data = TransactionOverviewData(
+          1000.0, 2000.0, DateTime(2024, 3, 1), DateTime(2024, 4, 1));
       expect(data.monthlyTotalExpense, 1000.0);
       expect(data.monthlyTotalIncome, 2000.0);
-      expect(data.current, DateTime(2024, 3, 1));
+      expect(data.from, DateTime(2024, 3, 1));
+      expect(data.to, DateTime(2024, 4, 1));
     });
   });
 }
