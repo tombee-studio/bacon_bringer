@@ -60,7 +60,8 @@ class HomeScreenViewModel extends ViewModel<HomeScreenModel> {
             overviewData: model.overviewData,
             categoryBudgetList: model.categoryBudgetList);
       case HomePageState.list:
-        return const MonthlyBudgetBalanceListPage();
+        return MonthlyBudgetBalanceListPage(
+            parentViewModel: this, transactions: model.transactions);
       case HomePageState.settings:
         return const SettingsPage();
     }
