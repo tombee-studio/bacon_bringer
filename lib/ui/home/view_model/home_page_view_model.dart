@@ -56,6 +56,7 @@ class HomeScreenViewModel extends ViewModel<HomeScreenModel> {
     switch (model.currentState) {
       case HomePageState.overview:
         return OverviewPage(
+            parentViewModel: this,
             overviewData: model.overviewData,
             categoryBudgetList: model.categoryBudgetList);
       case HomePageState.list:
