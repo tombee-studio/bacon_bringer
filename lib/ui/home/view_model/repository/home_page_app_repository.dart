@@ -2,6 +2,7 @@ import 'package:bacon_bringer/data/account_data.dart';
 import 'package:bacon_bringer/data/category_budget.dart';
 import 'package:bacon_bringer/data/category_data.dart';
 import 'package:bacon_bringer/data/overview_data.dart';
+import 'package:bacon_bringer/data/transaction_data.dart';
 import 'package:bacon_bringer/data/user_data.dart';
 import 'package:bacon_bringer/enum/major_state.dart';
 import 'package:bacon_bringer/enum/minor_state.dart';
@@ -100,5 +101,48 @@ class HomePageAppRepository extends HomePageRepository {
     accounts.add(AccountData(
         user: user, name: "test account 02", purpose: "for test 1"));
     return accounts;
+  }
+
+  @override
+  Future<List<TransactionData>> fetchTransactions(AccountData account,
+      {required DateTime from, required DateTime to}) async {
+    final transactions = <TransactionData>[];
+    transactions.add(TransactionData(
+        purpose: "test purpose 1",
+        money: 1000.0,
+        category: CategoryData(
+            account: account,
+            major: MajorState.expense,
+            minor: MinorState.fixedCosts,
+            name: "test name 1"),
+        createdAt: DateTime(3000)));
+    transactions.add(TransactionData(
+        purpose: "test purpose 2",
+        money: 2000.0,
+        category: CategoryData(
+            account: account,
+            major: MajorState.expense,
+            minor: MinorState.variableCosts,
+            name: "test name 2"),
+        createdAt: DateTime(3100)));
+    transactions.add(TransactionData(
+        purpose: "test purpose 3",
+        money: 2000.0,
+        category: CategoryData(
+            account: account,
+            major: MajorState.income,
+            minor: MinorState.fixedIncome,
+            name: "test name 3"),
+        createdAt: DateTime(3200)));
+    transactions.add(TransactionData(
+        purpose: "test purpose 4",
+        money: 3300.0,
+        category: CategoryData(
+            account: account,
+            major: MajorState.income,
+            minor: MinorState.variableIncome,
+            name: "test name 4"),
+        createdAt: DateTime(3200)));
+    return transactions;
   }
 }
