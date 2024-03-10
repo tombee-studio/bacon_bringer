@@ -214,172 +214,180 @@ class HomePageTestRepository extends HomePageRepository {
 }
 
 void main() {
-  test("収支概要が初期化されていること", () async {
-    const title = "TestTitle";
-    homePageRepositoryProvider.overrideRepository(HomePageTestRepository());
+  group("HomeScreenModel", () {
+    test("HomeScreenModelが初期化されていること", () async {
+      const title = "TestTitle";
+      homePageRepositoryProvider.overrideRepository(HomePageTestRepository());
 
-    final model =
-        HomeScreenModel(TestNotifier(), homePageRepositoryProvider, title);
-    expect(model.isLoading.isLoading, true);
-    expect(model.currentAccountIndex, 0);
-    expect(model.transactions.length, 0);
+      final model =
+          HomeScreenModel(TestNotifier(), homePageRepositoryProvider, title);
+      expect(model.isLoading.isLoading, true);
+      expect(model.currentAccountIndex, 0);
+      expect(model.transactions.length, 0);
 
-    await model.launch();
+      await model.launch();
 
-    expect(model.isLoading.isLoading, false);
+      expect(model.isLoading.isLoading, false);
 
-    expect(model.currentAccountIndex, 0);
-    expect(model.currentAccount.name, "account1");
-    expect(model.currentAccount.purpose, "purpose1");
+      expect(model.currentAccountIndex, 0);
+      expect(model.currentAccount.name, "account1");
+      expect(model.currentAccount.purpose, "purpose1");
 
-    expect(model.title, title);
+      expect(model.title, title);
 
-    expect(model.user.id, "testuser");
-    expect(model.user.userName, "testname");
-    expect(model.user.password, "testpassword");
+      expect(model.user.id, "testuser");
+      expect(model.user.userName, "testname");
+      expect(model.user.password, "testpassword");
 
-    expect(model.overviewData.sumOfMoney, 100000);
-    expect(model.overviewData.balanceAgainstBudget, 200000);
-    expect(model.overviewData.budget, 300000);
-    expect(model.overviewData.totalExpencesOnMonth, 400000);
-    expect(model.overviewData.totalIncomesOnMonth, 500000);
+      expect(model.overviewData.sumOfMoney, 100000);
+      expect(model.overviewData.balanceAgainstBudget, 200000);
+      expect(model.overviewData.budget, 300000);
+      expect(model.overviewData.totalExpencesOnMonth, 400000);
+      expect(model.overviewData.totalIncomesOnMonth, 500000);
 
-    expect(model.accounts[0].name, "account1");
-    expect(model.accounts[0].purpose, "purpose1");
-    expect(model.accounts[1].name, "account2");
-    expect(model.accounts[1].purpose, "purpose2");
+      expect(model.accounts[0].name, "account1");
+      expect(model.accounts[0].purpose, "purpose1");
+      expect(model.accounts[1].name, "account2");
+      expect(model.accounts[1].purpose, "purpose2");
 
-    expect(model.categoryBudgetList[0].category.name, "account1_cost1");
-    expect(model.categoryBudgetList[0].category.major, MajorState.expense);
-    expect(model.categoryBudgetList[0].category.minor, MinorState.fixedCosts);
-    expect(model.categoryBudgetList[0].leftBudgetPerMonth, 10000);
-    expect(model.categoryBudgetList[0].budgetPerDay, 11000);
+      expect(model.categoryBudgetList[0].category.name, "account1_cost1");
+      expect(model.categoryBudgetList[0].category.major, MajorState.expense);
+      expect(model.categoryBudgetList[0].category.minor, MinorState.fixedCosts);
+      expect(model.categoryBudgetList[0].leftBudgetPerMonth, 10000);
+      expect(model.categoryBudgetList[0].budgetPerDay, 11000);
 
-    expect(model.categoryBudgetList[1].category.name, "account1_cost2");
-    expect(model.categoryBudgetList[1].category.major, MajorState.expense);
-    expect(
-        model.categoryBudgetList[1].category.minor, MinorState.variableCosts);
-    expect(model.categoryBudgetList[1].leftBudgetPerMonth, 20000);
-    expect(model.categoryBudgetList[1].budgetPerDay, 21000);
+      expect(model.categoryBudgetList[1].category.name, "account1_cost2");
+      expect(model.categoryBudgetList[1].category.major, MajorState.expense);
+      expect(
+          model.categoryBudgetList[1].category.minor, MinorState.variableCosts);
+      expect(model.categoryBudgetList[1].leftBudgetPerMonth, 20000);
+      expect(model.categoryBudgetList[1].budgetPerDay, 21000);
 
-    expect(model.categoryBudgetList[2].category.name, "account1_income1");
-    expect(model.categoryBudgetList[2].category.major, MajorState.income);
-    expect(model.categoryBudgetList[2].category.minor, MinorState.fixedIncome);
-    expect(model.categoryBudgetList[2].leftBudgetPerMonth, 30000);
-    expect(model.categoryBudgetList[2].budgetPerDay, 31000);
+      expect(model.categoryBudgetList[2].category.name, "account1_income1");
+      expect(model.categoryBudgetList[2].category.major, MajorState.income);
+      expect(
+          model.categoryBudgetList[2].category.minor, MinorState.fixedIncome);
+      expect(model.categoryBudgetList[2].leftBudgetPerMonth, 30000);
+      expect(model.categoryBudgetList[2].budgetPerDay, 31000);
 
-    expect(model.categoryBudgetList[3].category.name, "account1_income2");
-    expect(model.categoryBudgetList[3].category.major, MajorState.income);
-    expect(
-        model.categoryBudgetList[3].category.minor, MinorState.variableIncome);
-    expect(model.categoryBudgetList[3].leftBudgetPerMonth, 40000);
-    expect(model.categoryBudgetList[3].budgetPerDay, 41000);
+      expect(model.categoryBudgetList[3].category.name, "account1_income2");
+      expect(model.categoryBudgetList[3].category.major, MajorState.income);
+      expect(model.categoryBudgetList[3].category.minor,
+          MinorState.variableIncome);
+      expect(model.categoryBudgetList[3].leftBudgetPerMonth, 40000);
+      expect(model.categoryBudgetList[3].budgetPerDay, 41000);
 
-    expect(model.categoryBudgetList[4].category.name, "account1_income3");
-    expect(model.categoryBudgetList[4].category.major, MajorState.income);
-    expect(model.categoryBudgetList[4].category.minor, MinorState.extraIncome);
-    expect(model.categoryBudgetList[4].leftBudgetPerMonth, 50000);
-    expect(model.categoryBudgetList[4].budgetPerDay, 51000);
+      expect(model.categoryBudgetList[4].category.name, "account1_income3");
+      expect(model.categoryBudgetList[4].category.major, MajorState.income);
+      expect(
+          model.categoryBudgetList[4].category.minor, MinorState.extraIncome);
+      expect(model.categoryBudgetList[4].leftBudgetPerMonth, 50000);
+      expect(model.categoryBudgetList[4].budgetPerDay, 51000);
 
-    model.currentAccountIndex = 1;
-    expect(model.currentAccountIndex, 1);
-  });
-
-  testWidgets("HomePageViewModelがタイトルを返していること", (tester) async {
-    const testTitle = "TestTitle";
-    homePageRepositoryProvider.overrideRepository(HomePageTestRepository());
-
-    final viewModel = HomeScreenViewModel(TestNotifier(), testTitle);
-    await tester.pumpWidget(MaterialApp(home: viewModel.title));
-    expect(HomePageState.overview, viewModel.currentState);
-    expect(find.text(testTitle), findsOneWidget);
-  });
-
-  test("HomePageViewModelのタブが反映されること", () {
-    const testTitle = "TestTitle";
-    homePageRepositoryProvider.overrideRepository(HomePageTestRepository());
-
-    final viewModel = HomeScreenViewModel(TestNotifier(), testTitle);
-    expect(HomePageState.overview, viewModel.currentState);
-    viewModel.currentState = HomePageState.list;
-    expect(HomePageState.list, viewModel.currentState);
-    viewModel.currentState = HomePageState.settings;
-    expect(HomePageState.settings, viewModel.currentState);
-  });
-
-  testWidgets("HomePageViewModelが収支概要情報をWidgetで返却すること", (tester) async {
-    const testTitle = "TestTitle";
-    homePageRepositoryProvider.overrideRepository(HomePageTestRepository());
-
-    final viewModel = HomeScreenViewModel(TestNotifier(), testTitle);
-    await viewModel.launch();
-    await tester.pumpWidget(
-        MaterialApp(home: TestSkeletonWidget(builder: viewModel.body)));
-    expect(find.text("¥100000"), findsOneWidget);
-    expect(find.text("¥200000"), findsOneWidget);
-    expect(find.text("¥300000"), findsOneWidget);
-    expect(find.text("¥400000"), findsOneWidget);
-    expect(find.text("¥500000"), findsOneWidget);
-  });
-
-  testWidgets('ホーム画面でタイトルが表示されていること', (WidgetTester tester) async {
-    const testTitle = "Bacon Bringer";
-    homePageRepositoryProvider.overrideRepository(HomePageTestRepository());
-
-    await tester.runAsync(() async {
-      await tester.pumpWidget(const BaconBringerApp());
-      expect(find.text(testTitle), findsOneWidget);
+      model.currentAccountIndex = 1;
+      expect(model.currentAccountIndex, 1);
     });
   });
 
-  testWidgets('ホーム画面でローディングアニメーションが表示されていること', (WidgetTester tester) async {
-    homePageRepositoryProvider.overrideRepository(HomePageTestRepository());
+  group("HomeScreenViewModel", () {
+    testWidgets("HomePageViewModelがタイトルを返していること", (tester) async {
+      const testTitle = "TestTitle";
+      homePageRepositoryProvider.overrideRepository(HomePageTestRepository());
 
-    await tester.pumpWidget(const BaconBringerApp());
-    expect(
-        find.byWidgetPredicate(
-            (Widget widget) => widget is CircularProgressIndicator),
-        findsOneWidget);
+      final viewModel = HomeScreenViewModel(TestNotifier(), testTitle);
+      await tester.pumpWidget(MaterialApp(home: viewModel.title));
+      expect(HomePageState.overview, viewModel.currentState);
+      expect(find.text(testTitle), findsOneWidget);
+    });
+
+    test("HomePageViewModelのタブが反映されること", () {
+      const testTitle = "TestTitle";
+      homePageRepositoryProvider.overrideRepository(HomePageTestRepository());
+
+      final viewModel = HomeScreenViewModel(TestNotifier(), testTitle);
+      expect(HomePageState.overview, viewModel.currentState);
+      viewModel.currentState = HomePageState.list;
+      expect(HomePageState.list, viewModel.currentState);
+      viewModel.currentState = HomePageState.settings;
+      expect(HomePageState.settings, viewModel.currentState);
+    });
+
+    testWidgets("HomePageViewModelが収支概要情報をWidgetで返却すること", (tester) async {
+      const testTitle = "TestTitle";
+      homePageRepositoryProvider.overrideRepository(HomePageTestRepository());
+
+      final viewModel = HomeScreenViewModel(TestNotifier(), testTitle);
+      await viewModel.launch();
+      await tester.pumpWidget(
+          MaterialApp(home: TestSkeletonWidget(builder: viewModel.body)));
+      expect(find.text("¥100000"), findsOneWidget);
+      expect(find.text("¥200000"), findsOneWidget);
+      expect(find.text("¥300000"), findsOneWidget);
+      expect(find.text("¥400000"), findsOneWidget);
+      expect(find.text("¥500000"), findsOneWidget);
+    });
   });
 
-  testWidgets('ホーム画面でローディング後にページが表示されていること', (WidgetTester tester) async {
-    homePageRepositoryProvider.overrideRepository(HomePageTestRepository());
+  group("HomeScreen", () {
+    testWidgets('ホーム画面でタイトルが表示されていること', (WidgetTester tester) async {
+      const testTitle = "Bacon Bringer";
+      homePageRepositoryProvider.overrideRepository(HomePageTestRepository());
 
-    await tester.pumpWidget(const BaconBringerApp());
-    await tester.pumpAndSettle();
-    expect(find.text("¥100000"), findsOneWidget);
-  });
+      await tester.runAsync(() async {
+        await tester.pumpWidget(const BaconBringerApp());
+        expect(find.text(testTitle), findsOneWidget);
+      });
+    });
 
-  testWidgets('ホーム画面で収支管理ボタンタップ後、収支管理ページが表示されていること',
-      (WidgetTester tester) async {
-    homePageRepositoryProvider.overrideRepository(HomePageTestRepository());
+    testWidgets('ホーム画面でローディングアニメーションが表示されていること', (WidgetTester tester) async {
+      homePageRepositoryProvider.overrideRepository(HomePageTestRepository());
 
-    await tester.pumpWidget(const BaconBringerApp());
-    await tester.tap(find.byIcon(Icons.list));
-    await tester.pump();
-    expect(
-        find.byWidgetPredicate(
-            (Widget widget) => widget is MonthlyBudgetBalanceListPage),
-        findsOneWidget);
+      await tester.pumpWidget(const BaconBringerApp());
+      expect(
+          find.byWidgetPredicate(
+              (Widget widget) => widget is CircularProgressIndicator),
+          findsOneWidget);
+    });
 
-    expect(find.text("test purpose 1"), findsOneWidget);
-    expect(find.text("¥1000"), findsOneWidget);
+    testWidgets('ホーム画面でローディング後にページが表示されていること', (WidgetTester tester) async {
+      homePageRepositoryProvider.overrideRepository(HomePageTestRepository());
 
-    expect(find.text("test purpose 2"), findsOneWidget);
-    expect(find.text("¥2000"), findsOneWidget);
+      await tester.pumpWidget(const BaconBringerApp());
+      await tester.pumpAndSettle();
+      expect(find.text("¥100000"), findsOneWidget);
+    });
 
-    expect(find.byIcon(Icons.payment), findsNWidgets(2));
+    testWidgets('ホーム画面で収支管理ボタンタップ後、収支管理ページが表示されていること',
+        (WidgetTester tester) async {
+      homePageRepositoryProvider.overrideRepository(HomePageTestRepository());
 
-    expect(find.text("test purpose 3"), findsOneWidget);
-    expect(find.text("¥3000"), findsOneWidget);
+      await tester.pumpWidget(const BaconBringerApp());
+      await tester.tap(find.byIcon(Icons.list));
+      await tester.pump();
+      expect(
+          find.byWidgetPredicate(
+              (Widget widget) => widget is MonthlyBudgetBalanceListPage),
+          findsOneWidget);
 
-    expect(find.text("test purpose 4"), findsOneWidget);
-    expect(find.text("¥4000"), findsOneWidget);
+      expect(find.text("test purpose 1"), findsOneWidget);
+      expect(find.text("¥1000"), findsOneWidget);
 
-    expect(find.byIcon(Icons.money), findsNWidgets(2));
+      expect(find.text("test purpose 2"), findsOneWidget);
+      expect(find.text("¥2000"), findsOneWidget);
 
-    expect(find.text("test purpose 5"), findsOneWidget);
-    expect(find.text("¥5000"), findsOneWidget);
-    expect(find.byIcon(Icons.question_mark), findsOneWidget);
+      expect(find.byIcon(Icons.payment), findsNWidgets(2));
+
+      expect(find.text("test purpose 3"), findsOneWidget);
+      expect(find.text("¥3000"), findsOneWidget);
+
+      expect(find.text("test purpose 4"), findsOneWidget);
+      expect(find.text("¥4000"), findsOneWidget);
+
+      expect(find.byIcon(Icons.money), findsNWidgets(2));
+
+      expect(find.text("test purpose 5"), findsOneWidget);
+      expect(find.text("¥5000"), findsOneWidget);
+      expect(find.byIcon(Icons.question_mark), findsOneWidget);
+    });
   });
 }
