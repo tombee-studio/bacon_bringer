@@ -1,4 +1,4 @@
-import 'package:bacon_bringer/pages/home_page.dart';
+import 'package:bacon_bringer/ui/home/view/screen/home_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -16,7 +16,7 @@ class BaconBringerApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
       ),
-      home: const HomePage(title: 'Bacon Bringer'),
+      home: const HomeScreen(title: 'Bacon Bringer'),
     );
   }
 }

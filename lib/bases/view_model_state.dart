@@ -17,7 +17,9 @@ abstract class ViewModelState<T extends StatefulWidget, S extends ViewModel>
 
   @override
   void notify() {
-    setState(nop);
+    if (mounted) {
+      setState(nop);
+    }
   }
 
   /// Viewへの更新通知用に作成
