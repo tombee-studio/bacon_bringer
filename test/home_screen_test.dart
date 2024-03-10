@@ -287,6 +287,23 @@ void main() {
           to: DateTime(2024, 4, 1));
       expect(items.length, 4);
     });
+
+    test("fetchTransactionOverviewDataが正しく動作すること", () async {
+      final repository = HomeScreenAppRepository();
+      final user = UserData(
+          id: "test", userName: "testUserName", password: "testPassword");
+      const testAccountName = "test_account_name_created";
+      const testAccountPurpose = "test_account_purpose_created";
+      final data = await repository.fetchTransactionOverview(
+          AccountData(
+              user: user, name: testAccountName, purpose: testAccountPurpose),
+          from: DateTime(2024, 3, 1),
+          to: DateTime(2024, 4, 1));
+      expect(data.monthlyTotalExpense, 1000.0);
+      expect(data.monthlyTotalIncome, 2000.0);
+      expect(data.from, DateTime(2024, 3, 1));
+      expect(data.to, DateTime(2024, 4, 1));
+    });
   });
   group("HomeScreenModel", () {
     test("HomeScreenModelが初期化されていること", () async {
