@@ -168,6 +168,7 @@ void main() {
         HomeScreenModel(TestNotifier(), homePageRepositoryProvider, title);
     expect(model.isLoading.isLoading, true);
     expect(model.currentAccountIndex, 0);
+    expect(model.transactions.length, 0);
 
     await model.launch();
 
