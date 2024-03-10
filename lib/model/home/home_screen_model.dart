@@ -86,6 +86,8 @@ class HomeScreenModel<T extends HomePageRepository> extends Model<T> {
     _overviewData.value = await repository.fetchMonthlyOverview(currentAccount);
     _categoryBudgets.value =
         await repository.fetchCategoryBudgetList(currentAccount);
+    _transactions.value = await repository.fetchTransactions(currentAccount,
+        from: DateTime(2024, 3, 1), to: DateTime(2024, 4, 1));
     onLoaded();
   }
 }
