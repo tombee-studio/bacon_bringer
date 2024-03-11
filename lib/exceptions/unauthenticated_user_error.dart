@@ -1,0 +1,1 @@
+class UnauthenticatedUserError extends Error {}

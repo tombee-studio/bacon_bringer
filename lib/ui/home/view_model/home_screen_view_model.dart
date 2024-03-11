@@ -11,6 +11,7 @@ import 'package:bacon_bringer/ui/home/view/components/account_list_drawer.dart';
 import 'package:bacon_bringer/ui/home/view/page/monthly_budget_balance_list_page.dart';
 import 'package:bacon_bringer/ui/home/view/page/overview_page.dart';
 import 'package:bacon_bringer/ui/home/view/page/settings_page.dart';
+import 'package:bacon_bringer/ui/user/view/screen/user_screen.dart';
 import 'package:flutter/material.dart';
 
 final homeScreenRepositoryProvider =
@@ -25,8 +26,16 @@ class HomeScreenViewModel extends ViewModel<HomeScreenModel> {
   HomeScreenModel createModel(Notifier notifier) =>
       HomeScreenModel(notifier, homeScreenRepositoryProvider, _title);
 
-  Future launch() async {
-    await model.launch();
+  Future launch() {
+    var future = model
+        .loadLocalData()
+        .then((value) => model.connectDatabase())
+        .then((value) => model.authenticate());
+    future = future.catchError((ex) => model.authenticateAs(
+        Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => const UserScreen()))));
+    future.then((_) => model.loadData());
+    return future;
   }
 
   Widget get title => Text(model.title);

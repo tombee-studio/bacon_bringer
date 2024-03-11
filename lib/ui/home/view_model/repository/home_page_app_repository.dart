@@ -7,6 +7,7 @@ import 'package:bacon_bringer/data/transaction_overview_data.dart';
 import 'package:bacon_bringer/data/user_data.dart';
 import 'package:bacon_bringer/enum/major_state.dart';
 import 'package:bacon_bringer/enum/minor_state.dart';
+import 'package:bacon_bringer/exceptions/unauthenticated_user_error.dart';
 import 'package:bacon_bringer/repository/home_screen_repository.dart';
 
 class HomeScreenAppRepository extends HomeScreenRepository {
@@ -18,10 +19,7 @@ class HomeScreenAppRepository extends HomeScreenRepository {
   @override
   Future<UserData> authenticate() async {
     await Future.delayed(const Duration(milliseconds: 1000));
-    return UserData(
-        id: '01HR7FA4EXR3S8YCJ53A1FXTEF',
-        userName: 'testuser',
-        password: '01HR7FA4EXR3S8YCJ53A1FXTEF');
+    throw UnauthenticatedUserError();
   }
 
   @override

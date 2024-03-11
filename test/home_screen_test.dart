@@ -317,7 +317,10 @@ void main() {
       expect(model.currentAccountIndex, 0);
       expect(model.transactions.length, 0);
 
-      await model.launch();
+      await model.loadLocalData();
+      await model.connectDatabase();
+      await model.authenticate();
+      await model.loadData();
 
       expect(model.isLoading.isLoading, false);
 

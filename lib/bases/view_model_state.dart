@@ -16,6 +16,13 @@ abstract class ViewModelState<T extends StatefulWidget, S extends ViewModel>
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    _viewModel.context = context;
+  }
+
+  @override
   void notify() {
     if (mounted) {
       setState(nop);

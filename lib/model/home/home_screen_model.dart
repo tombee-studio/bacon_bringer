@@ -65,15 +65,23 @@ class HomeScreenModel<T extends HomeScreenRepository> extends Model<T> {
     _transactions = listPropertyOf(<TransactionData>[]);
   }
 
-  Future launch() async {
-    await repository.loadLocalData();
-
-    _isLoading.value = LoadingData(isLoading: true, message: "ユーザ認証中...");
-    _user.value = await repository.authenticate();
-
+  Future connectDatabase() async {
     _isLoading.value = LoadingData(isLoading: true, message: "データベースと接続中...");
     await repository.connectDatabase();
-    await loadData();
+  }
+
+  Future authenticate() async {
+    _isLoading.value = LoadingData(isLoading: true, message: "ユーザ認証中...");
+    _user.value = await repository.authenticate();
+  }
+
+  Future authenticateAs(Future<dynamic> user) async {
+    _isLoading.value = LoadingData(isLoading: true, message: "ユーザ認証中...");
+    _user.value = await user as UserData;
+  }
+
+  Future loadLocalData() async {
+    await repository.loadLocalData();
   }
 
   void onLoaded() {

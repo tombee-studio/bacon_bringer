@@ -18,8 +18,8 @@ class _HomeScreenState extends ViewModelState<HomeScreen, HomeScreenViewModel> {
       HomeScreenViewModel(this, widget.title);
 
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
 
     viewModel.launch();
   }
