@@ -1,4 +1,5 @@
 import 'package:bacon_bringer/bases/view_model_state.dart';
+import 'package:bacon_bringer/ui/home/view/screen/home_screen.dart';
 import 'package:bacon_bringer/ui/user/view_model/user_screen_view_model.dart';
 import 'package:flutter/material.dart';
 
@@ -14,15 +15,14 @@ class _UserScreenState extends ViewModelState<UserScreen, UserScreenViewModel> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("ユーザ情報を登録"),
-          backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-          foregroundColor: Theme.of(context).colorScheme.primary,
-        ),
+            title: const Text("ユーザ情報を登録"),
+            backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+            foregroundColor: Theme.of(context).colorScheme.primary),
         body: viewModel.body(context),
         floatingActionButton: FloatingActionButton(
-            onPressed: () => viewModel
-                .authenticate()
-                .then((value) => Navigator.of(context).pop(value)),
+            onPressed: () => viewModel.authenticate().then((value) =>
+                Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => HomeScreen()))),
             child: const Icon(Icons.add)));
   }
 

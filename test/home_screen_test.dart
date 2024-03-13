@@ -390,18 +390,17 @@ void main() {
       homeScreenRepositoryProvider
           .overrideRepository(HomeScreenTestRepository());
 
-      final viewModel = HomeScreenViewModel(TestNotifier(), testTitle);
+      final viewModel = HomeScreenViewModel(TestNotifier());
       await tester.pumpWidget(MaterialApp(home: viewModel.title));
       expect(HomeScreenState.overview, viewModel.currentState);
       expect(find.text(testTitle), findsOneWidget);
     });
 
     test("HomeScreenViewModelのタブが反映されること", () {
-      const testTitle = "TestTitle";
       homeScreenRepositoryProvider
           .overrideRepository(HomeScreenTestRepository());
 
-      final viewModel = HomeScreenViewModel(TestNotifier(), testTitle);
+      final viewModel = HomeScreenViewModel(TestNotifier());
       expect(HomeScreenState.overview, viewModel.currentState);
       viewModel.currentState = HomeScreenState.list;
       expect(HomeScreenState.list, viewModel.currentState);
@@ -410,11 +409,10 @@ void main() {
     });
 
     testWidgets("HomePageViewModelが収支概要情報をWidgetで返却すること", (tester) async {
-      const testTitle = "TestTitle";
       homeScreenRepositoryProvider
           .overrideRepository(HomeScreenTestRepository());
 
-      final viewModel = HomeScreenViewModel(TestNotifier(), testTitle);
+      final viewModel = HomeScreenViewModel(TestNotifier());
       await viewModel.launch();
       await tester.pumpWidget(
           MaterialApp(home: TestSkeletonWidget(builder: viewModel.body)));

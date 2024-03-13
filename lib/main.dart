@@ -16,7 +16,7 @@ class BaconBringerApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
       ),
-      home: const HomeScreen(title: 'Bacon Bringer'),
+      home: const HomeScreen(),
     );
   }
 }

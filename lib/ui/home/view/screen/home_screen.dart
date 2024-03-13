@@ -4,9 +4,7 @@ import 'package:bacon_bringer/ui/home/view_model/home_screen_view_model.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key, required this.title});
-
-  final String title;
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -14,8 +12,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends ViewModelState<HomeScreen, HomeScreenViewModel> {
   @override
-  HomeScreenViewModel createViewModel() =>
-      HomeScreenViewModel(this, widget.title);
+  HomeScreenViewModel createViewModel() => HomeScreenViewModel(this);
 
   @override
   void didChangeDependencies() {

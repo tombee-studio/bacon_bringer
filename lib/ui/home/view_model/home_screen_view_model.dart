@@ -18,22 +18,19 @@ final homeScreenRepositoryProvider =
     RepositoryProvider<HomeScreenRepository>(HomeScreenAppRepository());
 
 class HomeScreenViewModel extends ViewModel<HomeScreenModel> {
-  final String _title;
-
-  HomeScreenViewModel(super.notifier, this._title);
+  HomeScreenViewModel(super.notifier);
 
   @override
   HomeScreenModel createModel(Notifier notifier) =>
-      HomeScreenModel(notifier, homeScreenRepositoryProvider, _title);
+      HomeScreenModel(notifier, homeScreenRepositoryProvider, "Bacon Bringer");
 
   Future launch() {
     var future = model
         .loadLocalData()
         .then((value) => model.connectDatabase())
         .then((value) => model.authenticate());
-    future = future.catchError((ex) => model.authenticateAs(
-        Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => const UserScreen()))));
+    future = future.catchError((ex) => Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => const UserScreen())));
     future.then((_) => model.loadData());
     return future;
   }
