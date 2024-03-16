@@ -29,16 +29,17 @@ import 'util.dart';
 
 class HomeScreenTestRepository extends HomeScreenRepository {
   @override
-  Future<UserData> authenticate() async {
-    return UserData(
-        id: "testuser", userName: "testname", password: "testpassword");
+  Future<UserData> authenticate(int userId) async {
+    return UserData(id: 0, userName: "testname", password: "testpassword");
   }
 
   @override
   Future connectDatabase() async {}
 
   @override
-  Future loadLocalData() async {}
+  Future<int> loadLocalData() async {
+    return 0;
+  }
 
   @override
   Future<OverviewData> fetchMonthlyOverview(AccountData account) async {
@@ -235,7 +236,7 @@ void main() {
 
     test("authenticateが正しく動作すること", () async {
       final repository = HomeScreenAppRepository();
-      final user = await repository.authenticate();
+      final user = await repository.authenticate(0);
       expect(user.id, "01HR7FA4EXR3S8YCJ53A1FXTEF");
       expect(user.userName, "testuser");
       expect(user.password, "01HR7FA4EXR3S8YCJ53A1FXTEF");
@@ -243,8 +244,8 @@ void main() {
 
     test("fetchMonthlyOverviewが正しく動作すること", () async {
       final repository = HomeScreenAppRepository();
-      final user = UserData(
-          id: "test", userName: "testUserName", password: "testPassword");
+      final user =
+          UserData(id: 0, userName: "testUserName", password: "testPassword");
       const testAccountName = "test_account_name_created";
       const testAccountPurpose = "test_account_purpose_created";
       final data = await repository.fetchMonthlyOverview(AccountData(
@@ -257,8 +258,8 @@ void main() {
 
     test("fetchCategoryBudgetListが正しく動作すること", () async {
       final repository = HomeScreenAppRepository();
-      final user = UserData(
-          id: "test", userName: "testUserName", password: "testPassword");
+      final user =
+          UserData(id: 0, userName: "testUserName", password: "testPassword");
       const testAccountName = "test_account_name_created";
       const testAccountPurpose = "test_account_purpose_created";
       final items = await repository.fetchCategoryBudgetList(AccountData(
@@ -268,16 +269,16 @@ void main() {
 
     test("fetchAccountsが正しく動作すること", () async {
       final repository = HomeScreenAppRepository();
-      final user = UserData(
-          id: "test", userName: "testUserName", password: "testPassword");
+      final user =
+          UserData(id: 0, userName: "testUserName", password: "testPassword");
       final items = await repository.fetchAccounts(user);
       expect(items.length, 2);
     });
 
     test("fetchTransactionsが正しく動作すること", () async {
       final repository = HomeScreenAppRepository();
-      final user = UserData(
-          id: "test", userName: "testUserName", password: "testPassword");
+      final user =
+          UserData(id: 0, userName: "testUserName", password: "testPassword");
       const testAccountName = "test_account_name_created";
       const testAccountPurpose = "test_account_purpose_created";
       final items = await repository.fetchTransactions(
@@ -290,8 +291,8 @@ void main() {
 
     test("fetchTransactionOverviewDataが正しく動作すること", () async {
       final repository = HomeScreenAppRepository();
-      final user = UserData(
-          id: "test", userName: "testUserName", password: "testPassword");
+      final user =
+          UserData(id: 0, userName: "testUserName", password: "testPassword");
       const testAccountName = "test_account_name_created";
       const testAccountPurpose = "test_account_purpose_created";
       final data = await repository.fetchTransactionOverview(
@@ -319,7 +320,7 @@ void main() {
 
       await model.loadLocalData();
       await model.connectDatabase();
-      await model.authenticate();
+      await model.authenticate(0);
       await model.loadData();
 
       expect(model.isLoading.isLoading, false);

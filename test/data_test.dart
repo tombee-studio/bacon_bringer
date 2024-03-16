@@ -10,8 +10,8 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   group("TransactionData", () {
     test("TransactionDataが初期化されること", () {
-      final user = UserData(
-          id: "test", userName: "testUserName", password: "testPassword");
+      final user =
+          UserData(id: 0, userName: "testUserName", password: "testPassword");
       const testAccountName = "test_account_name_created";
       const testAccountPurpose = "test_account_purpose_created";
       const testPurpose = "test_purpose";

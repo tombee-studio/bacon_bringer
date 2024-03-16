@@ -1,5 +1,5 @@
 class UserData {
-  final String id;
+  final int id;
   final String userName;
   final String password;
 

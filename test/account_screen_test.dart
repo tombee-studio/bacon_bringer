@@ -21,8 +21,8 @@ class AccountScreenTestRepository extends AccountScreenRepository {
 void main() {
   group("AccountScreenAppRepository", () {
     test("AccountScreenAppRepositoryのaddAccountがAccountDataを作成すること", () async {
-      final user = UserData(
-          id: "test", userName: "testUserName", password: "testPassword");
+      final user =
+          UserData(id: 0, userName: "testUserName", password: "testPassword");
       const testAccountName = "test_account_name_created";
       const testAccountPurpose = "test_account_purpose_created";
       final repository = AccountScreenAppRepository();
@@ -38,8 +38,8 @@ void main() {
 
   group("AccountScreenModel", () {
     test("AccountScreenModelが正しく初期化されていること", () async {
-      final user = UserData(
-          id: "test", userName: "testUserName", password: "testPassword");
+      final user =
+          UserData(id: 0, userName: "testUserName", password: "testPassword");
       accountScreenRepositoryProvider
           .overrideRepository(AccountScreenTestRepository());
 
@@ -53,8 +53,8 @@ void main() {
     });
 
     test("AccountScreenModelのプロパティを更新できていること", () async {
-      final user = UserData(
-          id: "test", userName: "testUserName", password: "testPassword");
+      final user =
+          UserData(id: 0, userName: "testUserName", password: "testPassword");
       const testAccountName = "test_account_name_created";
       const testAccountPurpose = "test_account_purpose_created";
       accountScreenRepositoryProvider
@@ -70,8 +70,8 @@ void main() {
     });
 
     test("AccountScreenModelからAccountDataを作成できていること", () async {
-      final user = UserData(
-          id: "test", userName: "testUserName", password: "testPassword");
+      final user =
+          UserData(id: 0, userName: "testUserName", password: "testPassword");
       const testAccountName = "test_account_name_created";
       const testAccountPurpose = "test_account_purpose_created";
       accountScreenRepositoryProvider
@@ -90,8 +90,8 @@ void main() {
 
   group("AccountScreenViewModel", () {
     test("AccountScreenViewModelが正しく初期化されていること", () {
-      final user = UserData(
-          id: "test", userName: "testUserName", password: "testPassword");
+      final user =
+          UserData(id: 0, userName: "testUserName", password: "testPassword");
       accountScreenRepositoryProvider
           .overrideRepository(AccountScreenTestRepository());
       final viewModel = AccountScreenViewModel(TestNotifier(), user);
@@ -101,8 +101,8 @@ void main() {
     });
 
     testWidgets("AccountScreenViewModelのnameが初期化されていること", (tester) async {
-      final user = UserData(
-          id: "test", userName: "testUserName", password: "testPassword");
+      final user =
+          UserData(id: 0, userName: "testUserName", password: "testPassword");
       accountScreenRepositoryProvider
           .overrideRepository(AccountScreenTestRepository());
       final viewModel = AccountScreenViewModel(TestNotifier(), user);
@@ -113,8 +113,8 @@ void main() {
     });
 
     testWidgets("AccountScreenViewModelのpurposeが初期化されていること", (tester) async {
-      final user = UserData(
-          id: "test", userName: "testUserName", password: "testPassword");
+      final user =
+          UserData(id: 0, userName: "testUserName", password: "testPassword");
       accountScreenRepositoryProvider
           .overrideRepository(AccountScreenTestRepository());
       final viewModel = AccountScreenViewModel(TestNotifier(), user);
@@ -125,8 +125,8 @@ void main() {
     });
 
     testWidgets("AccountScreenViewModelのcontentが初期化されていること", (tester) async {
-      final user = UserData(
-          id: "test", userName: "testUserName", password: "testPassword");
+      final user =
+          UserData(id: 0, userName: "testUserName", password: "testPassword");
       accountScreenRepositoryProvider
           .overrideRepository(AccountScreenTestRepository());
       final viewModel = AccountScreenViewModel(TestNotifier(), user);
@@ -140,8 +140,8 @@ void main() {
         (tester) async {
       tester.view.physicalSize = const Size(641, 480);
       tester.view.devicePixelRatio = 1.0;
-      final user = UserData(
-          id: "test", userName: "testUserName", password: "testPassword");
+      final user =
+          UserData(id: 0, userName: "testUserName", password: "testPassword");
       accountScreenRepositoryProvider
           .overrideRepository(AccountScreenTestRepository());
       final viewModel = AccountScreenViewModel(TestNotifier(), user);
@@ -154,8 +154,8 @@ void main() {
     testWidgets("AccountScreenViewModelのbodyが初期化されていること（スマホ）", (tester) async {
       tester.view.physicalSize = const Size(640, 480);
       tester.view.devicePixelRatio = 1.0;
-      final user = UserData(
-          id: "test", userName: "testUserName", password: "testPassword");
+      final user =
+          UserData(id: 0, userName: "testUserName", password: "testPassword");
       accountScreenRepositoryProvider
           .overrideRepository(AccountScreenTestRepository());
       final viewModel = AccountScreenViewModel(TestNotifier(), user);
@@ -167,8 +167,8 @@ void main() {
 
     testWidgets("AccountScreenViewModelのnameの文字列を編集できること", (tester) async {
       const testAccountName = "test_account_name_created";
-      final user = UserData(
-          id: "test", userName: "testUserName", password: "testPassword");
+      final user =
+          UserData(id: 0, userName: "testUserName", password: "testPassword");
       accountScreenRepositoryProvider
           .overrideRepository(AccountScreenTestRepository());
       final viewModel = AccountScreenViewModel(TestNotifier(), user);
@@ -181,8 +181,8 @@ void main() {
 
     testWidgets("AccountScreenViewModelのpurposeの文字列を編集できること", (tester) async {
       const testAccountPurpose = "test_account_purpose_created";
-      final user = UserData(
-          id: "test", userName: "testUserName", password: "testPassword");
+      final user =
+          UserData(id: 0, userName: "testUserName", password: "testPassword");
       accountScreenRepositoryProvider
           .overrideRepository(AccountScreenTestRepository());
       final viewModel = AccountScreenViewModel(TestNotifier(), user);
@@ -196,8 +196,8 @@ void main() {
     testWidgets("AccountScreenViewModelのaddAccountが実行できること", (tester) async {
       const testAccountName = "test_account_name_created";
       const testAccountPurpose = "test_account_purpose_created";
-      final user = UserData(
-          id: "test", userName: "testUserName", password: "testPassword");
+      final user =
+          UserData(id: 0, userName: "testUserName", password: "testPassword");
       accountScreenRepositoryProvider
           .overrideRepository(AccountScreenTestRepository());
 
@@ -220,8 +220,8 @@ void main() {
     testWidgets("AccountScreen", (tester) async {
       const testAccountName = "test_account_name_created";
       const testAccountPurpose = "test_account_purpose_created";
-      final user = UserData(
-          id: "test", userName: "testUserName", password: "testPassword");
+      final user =
+          UserData(id: 0, userName: "testUserName", password: "testPassword");
 
       await tester.pumpWidget(MaterialApp(home: AccountScreen(user: user)));
       await tester.enterText(find.byType(TextField).at(0), testAccountName);

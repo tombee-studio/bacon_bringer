@@ -5,21 +5,32 @@ import 'package:bacon_bringer/data/overview_data.dart';
 import 'package:bacon_bringer/data/transaction_data.dart';
 import 'package:bacon_bringer/data/transaction_overview_data.dart';
 import 'package:bacon_bringer/data/user_data.dart';
+import 'package:bacon_bringer/database/app_database.dart';
 import 'package:bacon_bringer/enum/major_state.dart';
 import 'package:bacon_bringer/enum/minor_state.dart';
 import 'package:bacon_bringer/exceptions/unauthenticated_user_error.dart';
 import 'package:bacon_bringer/repository/home_screen_repository.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreenAppRepository extends HomeScreenRepository {
   @override
-  Future loadLocalData() async {
-    await Future.delayed(const Duration(milliseconds: 1000));
+  Future<int> loadLocalData() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final id = prefs.getInt("userId");
+    if (id == null) {
+      throw UnauthenticatedUserError();
+    }
+    return id;
   }
 
   @override
-  Future<UserData> authenticate() async {
-    await Future.delayed(const Duration(milliseconds: 1000));
-    throw UnauthenticatedUserError();
+  Future<UserData> authenticate(int userId) async {
+    final db = AppDatabase();
+    final dbUserData = await db.select(db.dBUserDataClass).get();
+    return UserData(
+        id: dbUserData.first.id,
+        userName: dbUserData.first.userName,
+        password: dbUserData.first.password);
   }
 
   @override

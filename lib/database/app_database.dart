@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:bacon_bringer/bases/provider.dart';
 import 'package:bacon_bringer/database/data/db_account_data_class.dart';
 import 'package:bacon_bringer/database/data/db_user_data.dart';
 import 'package:drift/native.dart';
@@ -12,9 +13,11 @@ import 'package:drift/drift.dart';
 
 part 'app_database.g.dart';
 
+final databaseProvider = Provider<LazyDatabase>(_openConnection());
+
 @DriftDatabase(tables: [DBUserDataClass, DBAccountDataClass])
 class AppDatabase extends _$AppDatabase {
-  AppDatabase() : super(_openConnection());
+  AppDatabase() : super(databaseProvider.instance);
 
   @override
   int get schemaVersion => 1;

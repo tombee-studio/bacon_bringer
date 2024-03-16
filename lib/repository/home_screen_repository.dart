@@ -8,10 +8,10 @@ import 'package:bacon_bringer/data/user_data.dart';
 
 abstract class HomeScreenRepository implements Repository {
   /// ローカルデータの読み込み
-  Future loadLocalData();
+  Future<int> loadLocalData();
 
   /// Firebase Authによるユーザ認証
-  Future<UserData> authenticate();
+  Future<UserData> authenticate(int userId);
 
   /// データベース接続
   Future connectDatabase();

@@ -27,11 +27,13 @@ class HomeScreenViewModel extends ViewModel<HomeScreenModel> {
   Future launch() {
     var future = model
         .loadLocalData()
-        .then((value) => model.connectDatabase())
-        .then((value) => model.authenticate());
-    future = future.catchError((ex) => Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const UserScreen())));
-    future.then((_) => model.loadData());
+        .then((userId) => model.authenticate(userId))
+        .then((_) => model.loadData());
+    future = future.catchError((ex) {
+      print(ex);
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const UserScreen()));
+    });
     return future;
   }
 

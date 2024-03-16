@@ -56,7 +56,7 @@ class HomeScreenModel<T extends HomeScreenRepository> extends Model<T> {
     _currentState = propertyOf(HomeScreenState.overview);
     _currentAccountIndex = propertyOf(0);
 
-    _user = propertyOf(UserData(id: "", userName: "", password: ""));
+    _user = propertyOf(UserData(id: 0, userName: "", password: ""));
     _isLoading =
         propertyOf(LoadingData(isLoading: true, message: "ローカルデータを取得中..."));
 
@@ -70,9 +70,9 @@ class HomeScreenModel<T extends HomeScreenRepository> extends Model<T> {
     await repository.connectDatabase();
   }
 
-  Future authenticate() async {
+  Future authenticate(int userId) async {
     _isLoading.value = LoadingData(isLoading: true, message: "ユーザ認証中...");
-    _user.value = await repository.authenticate();
+    _user.value = await repository.authenticate(userId);
   }
 
   Future authenticateAs(Future<dynamic> user) async {
@@ -80,8 +80,8 @@ class HomeScreenModel<T extends HomeScreenRepository> extends Model<T> {
     _user.value = await user as UserData;
   }
 
-  Future loadLocalData() async {
-    await repository.loadLocalData();
+  Future<int> loadLocalData() async {
+    return await repository.loadLocalData();
   }
 
   void onLoaded() {
