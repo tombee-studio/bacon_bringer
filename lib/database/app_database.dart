@@ -19,9 +19,9 @@ final databaseProvider = Provider<QueryExecutor>(_openConnection);
 class AppDatabase extends _$AppDatabase {
   AppDatabase._(QueryExecutor e) : super(e);
 
-  factory AppDatabase() {
-    return AppDatabase._(databaseProvider.instance);
-  }
+  static final AppDatabase _instance = AppDatabase._(databaseProvider.instance);
+
+  factory AppDatabase() => _instance;
 
   @override
   int get schemaVersion => 1;
