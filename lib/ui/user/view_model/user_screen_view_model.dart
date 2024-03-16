@@ -7,7 +7,7 @@ import 'package:bacon_bringer/ui/user/view_model/repository/user_screen_app_repo
 import 'package:flutter/material.dart';
 
 final userScreenRepositoryProvider =
-    RepositoryProvider(UserScreenAppRepository());
+    RepositoryProvider(() => UserScreenAppRepository());
 
 class UserScreenViewModel extends ViewModel<UserScreenModel> {
   UserScreenViewModel(super.notifier);

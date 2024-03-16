@@ -310,7 +310,7 @@ void main() {
     test("HomeScreenModelが初期化されていること", () async {
       const title = "TestTitle";
       homeScreenRepositoryProvider
-          .overrideRepository(HomeScreenTestRepository());
+          .overrideRepository(() => HomeScreenTestRepository());
 
       final model =
           HomeScreenModel(TestNotifier(), homeScreenRepositoryProvider, title);
@@ -389,7 +389,7 @@ void main() {
     testWidgets("HomeScreenViewModelがタイトルを返していること", (tester) async {
       const testTitle = "TestTitle";
       homeScreenRepositoryProvider
-          .overrideRepository(HomeScreenTestRepository());
+          .overrideRepository(() => HomeScreenTestRepository());
 
       final viewModel = HomeScreenViewModel(TestNotifier());
       await tester.pumpWidget(MaterialApp(home: viewModel.title));
@@ -399,7 +399,7 @@ void main() {
 
     test("HomeScreenViewModelのタブが反映されること", () {
       homeScreenRepositoryProvider
-          .overrideRepository(HomeScreenTestRepository());
+          .overrideRepository(() => HomeScreenTestRepository());
 
       final viewModel = HomeScreenViewModel(TestNotifier());
       expect(HomeScreenState.overview, viewModel.currentState);
@@ -411,7 +411,7 @@ void main() {
 
     testWidgets("HomePageViewModelが収支概要情報をWidgetで返却すること", (tester) async {
       homeScreenRepositoryProvider
-          .overrideRepository(HomeScreenTestRepository());
+          .overrideRepository(() => HomeScreenTestRepository());
 
       final viewModel = HomeScreenViewModel(TestNotifier());
       await viewModel.launch();
@@ -429,7 +429,7 @@ void main() {
     testWidgets('ホーム画面でタイトルが表示されていること', (WidgetTester tester) async {
       const testTitle = "Bacon Bringer";
       homeScreenRepositoryProvider
-          .overrideRepository(HomeScreenTestRepository());
+          .overrideRepository(() => HomeScreenTestRepository());
 
       await tester.runAsync(() async {
         await tester.pumpWidget(const BaconBringerApp());
@@ -439,7 +439,7 @@ void main() {
 
     testWidgets('ホーム画面でローディングアニメーションが表示されていること', (WidgetTester tester) async {
       homeScreenRepositoryProvider
-          .overrideRepository(HomeScreenTestRepository());
+          .overrideRepository(() => HomeScreenTestRepository());
 
       await tester.pumpWidget(const BaconBringerApp());
       expect(
@@ -450,7 +450,7 @@ void main() {
 
     testWidgets('ホーム画面でローディング後にページが表示されていること', (WidgetTester tester) async {
       homeScreenRepositoryProvider
-          .overrideRepository(HomeScreenTestRepository());
+          .overrideRepository(() => HomeScreenTestRepository());
 
       await tester.pumpWidget(const BaconBringerApp());
       await tester.pumpAndSettle();
@@ -460,7 +460,7 @@ void main() {
     testWidgets('ホーム画面で収支管理ボタンタップ後、収支管理ページが表示されていること',
         (WidgetTester tester) async {
       homeScreenRepositoryProvider
-          .overrideRepository(HomeScreenTestRepository());
+          .overrideRepository(() => HomeScreenTestRepository());
 
       await tester.pumpWidget(const BaconBringerApp());
       await tester.tap(find.byIcon(Icons.list));

@@ -13,11 +13,15 @@ import 'package:drift/drift.dart';
 
 part 'app_database.g.dart';
 
-final databaseProvider = Provider<LazyDatabase>(_openConnection());
+final databaseProvider = Provider<QueryExecutor>(_openConnection);
 
 @DriftDatabase(tables: [DBUserDataClass, DBAccountDataClass])
 class AppDatabase extends _$AppDatabase {
-  AppDatabase() : super(databaseProvider.instance);
+  AppDatabase._(QueryExecutor e) : super(e);
+
+  factory AppDatabase() {
+    return AppDatabase._(databaseProvider.instance);
+  }
 
   @override
   int get schemaVersion => 1;

@@ -1,10 +1,12 @@
 class Provider<T> {
-  late T _instance;
-  T get instance => _instance;
+  T? _instance;
 
-  Provider(this._instance);
+  late T Function() _generator;
+  T get instance => _instance ??= _generator();
 
-  void overrideRepository(T instance) {
-    _instance = instance;
+  Provider(this._generator);
+
+  void overrideRepository(T Function() generator) {
+    _generator = generator;
   }
 }

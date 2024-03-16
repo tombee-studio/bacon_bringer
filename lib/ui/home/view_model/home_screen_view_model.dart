@@ -15,7 +15,7 @@ import 'package:bacon_bringer/ui/user/view/screen/user_screen.dart';
 import 'package:flutter/material.dart';
 
 final homeScreenRepositoryProvider =
-    RepositoryProvider<HomeScreenRepository>(HomeScreenAppRepository());
+    RepositoryProvider<HomeScreenRepository>(() => HomeScreenAppRepository());
 
 class HomeScreenViewModel extends ViewModel<HomeScreenModel> {
   HomeScreenViewModel(super.notifier);

@@ -41,7 +41,7 @@ void main() {
       final user =
           UserData(id: 0, userName: "testUserName", password: "testPassword");
       accountScreenRepositoryProvider
-          .overrideRepository(AccountScreenTestRepository());
+          .overrideRepository(() => AccountScreenTestRepository());
 
       final model = AccountScreenModel(
           TestNotifier(), user, accountScreenRepositoryProvider);
@@ -58,7 +58,7 @@ void main() {
       const testAccountName = "test_account_name_created";
       const testAccountPurpose = "test_account_purpose_created";
       accountScreenRepositoryProvider
-          .overrideRepository(AccountScreenTestRepository());
+          .overrideRepository(() => AccountScreenTestRepository());
 
       final model = AccountScreenModel(
           TestNotifier(), user, accountScreenRepositoryProvider);
@@ -75,7 +75,7 @@ void main() {
       const testAccountName = "test_account_name_created";
       const testAccountPurpose = "test_account_purpose_created";
       accountScreenRepositoryProvider
-          .overrideRepository(AccountScreenTestRepository());
+          .overrideRepository(() => AccountScreenTestRepository());
 
       final model = AccountScreenModel(
           TestNotifier(), user, accountScreenRepositoryProvider);
@@ -93,7 +93,7 @@ void main() {
       final user =
           UserData(id: 0, userName: "testUserName", password: "testPassword");
       accountScreenRepositoryProvider
-          .overrideRepository(AccountScreenTestRepository());
+          .overrideRepository(() => AccountScreenTestRepository());
       final viewModel = AccountScreenViewModel(TestNotifier(), user);
       expect(viewModel.user.id, user.id);
       expect(viewModel.user.userName, user.userName);
@@ -104,7 +104,7 @@ void main() {
       final user =
           UserData(id: 0, userName: "testUserName", password: "testPassword");
       accountScreenRepositoryProvider
-          .overrideRepository(AccountScreenTestRepository());
+          .overrideRepository(() => AccountScreenTestRepository());
       final viewModel = AccountScreenViewModel(TestNotifier(), user);
       final widget =
           TestSkeletonWidget(builder: (context) => viewModel.name(context));
@@ -116,7 +116,7 @@ void main() {
       final user =
           UserData(id: 0, userName: "testUserName", password: "testPassword");
       accountScreenRepositoryProvider
-          .overrideRepository(AccountScreenTestRepository());
+          .overrideRepository(() => AccountScreenTestRepository());
       final viewModel = AccountScreenViewModel(TestNotifier(), user);
       final widget =
           TestSkeletonWidget(builder: (context) => viewModel.purpose(context));
@@ -128,7 +128,7 @@ void main() {
       final user =
           UserData(id: 0, userName: "testUserName", password: "testPassword");
       accountScreenRepositoryProvider
-          .overrideRepository(AccountScreenTestRepository());
+          .overrideRepository(() => AccountScreenTestRepository());
       final viewModel = AccountScreenViewModel(TestNotifier(), user);
       final widget =
           TestSkeletonWidget(builder: (context) => viewModel.content(context));
@@ -143,7 +143,7 @@ void main() {
       final user =
           UserData(id: 0, userName: "testUserName", password: "testPassword");
       accountScreenRepositoryProvider
-          .overrideRepository(AccountScreenTestRepository());
+          .overrideRepository(() => AccountScreenTestRepository());
       final viewModel = AccountScreenViewModel(TestNotifier(), user);
       final widget =
           TestSkeletonWidget(builder: (context) => viewModel.body(context));
@@ -157,7 +157,7 @@ void main() {
       final user =
           UserData(id: 0, userName: "testUserName", password: "testPassword");
       accountScreenRepositoryProvider
-          .overrideRepository(AccountScreenTestRepository());
+          .overrideRepository(() => AccountScreenTestRepository());
       final viewModel = AccountScreenViewModel(TestNotifier(), user);
       final widget =
           TestSkeletonWidget(builder: (context) => viewModel.body(context));
@@ -170,7 +170,7 @@ void main() {
       final user =
           UserData(id: 0, userName: "testUserName", password: "testPassword");
       accountScreenRepositoryProvider
-          .overrideRepository(AccountScreenTestRepository());
+          .overrideRepository(() => AccountScreenTestRepository());
       final viewModel = AccountScreenViewModel(TestNotifier(), user);
       final widget =
           TestSkeletonWidget(builder: (context) => viewModel.name(context));
@@ -184,7 +184,7 @@ void main() {
       final user =
           UserData(id: 0, userName: "testUserName", password: "testPassword");
       accountScreenRepositoryProvider
-          .overrideRepository(AccountScreenTestRepository());
+          .overrideRepository(() => AccountScreenTestRepository());
       final viewModel = AccountScreenViewModel(TestNotifier(), user);
       final widget =
           TestSkeletonWidget(builder: (context) => viewModel.purpose(context));
@@ -199,7 +199,7 @@ void main() {
       final user =
           UserData(id: 0, userName: "testUserName", password: "testPassword");
       accountScreenRepositoryProvider
-          .overrideRepository(AccountScreenTestRepository());
+          .overrideRepository(() => AccountScreenTestRepository());
 
       final viewModel = AccountScreenViewModel(TestNotifier(), user);
       await tester.pumpWidget(

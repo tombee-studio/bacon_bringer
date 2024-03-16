@@ -9,7 +9,8 @@ import 'package:bacon_bringer/ui/account/view_model/repository/account_screen_ap
 import 'package:flutter/material.dart';
 
 final accountScreenRepositoryProvider =
-    RepositoryProvider<AccountScreenRepository>(AccountScreenAppRepository());
+    RepositoryProvider<AccountScreenRepository>(
+        () => AccountScreenAppRepository());
 
 class AccountScreenViewModel extends ViewModel<AccountScreenModel> {
   final UserData user;
