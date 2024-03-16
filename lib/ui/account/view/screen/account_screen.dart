@@ -1,6 +1,7 @@
 import 'package:bacon_bringer/bases/view_model_state.dart';
 import 'package:bacon_bringer/data/user_data.dart';
 import 'package:bacon_bringer/ui/account/view_model/account_screen_view_model.dart';
+import 'package:bacon_bringer/ui/home/view/screen/home_screen.dart';
 import 'package:flutter/material.dart';
 
 class AccountScreen extends StatefulWidget {
@@ -28,9 +29,11 @@ class AccountScreenState
         ),
         body: viewModel.body(context),
         floatingActionButton: FloatingActionButton(
-            onPressed: () => viewModel
-                .addAccount()
-                .then((value) => Navigator.of(context).pop(value)),
+            onPressed: () => viewModel.addAccount().then((value) =>
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const HomeScreen()))),
             child: const Icon(Icons.add)));
   }
 }

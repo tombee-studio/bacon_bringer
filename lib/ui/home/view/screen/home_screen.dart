@@ -1,6 +1,10 @@
 import 'package:bacon_bringer/bases/view_model_state.dart';
 import 'package:bacon_bringer/enum/home_screen_state.dart';
+import 'package:bacon_bringer/exceptions/not_created_account_error.dart';
+import 'package:bacon_bringer/exceptions/unauthenticated_user_error.dart';
+import 'package:bacon_bringer/ui/account/view/screen/account_screen.dart';
 import 'package:bacon_bringer/ui/home/view_model/home_screen_view_model.dart';
+import 'package:bacon_bringer/ui/user/view/screen/user_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -18,7 +22,16 @@ class _HomeScreenState extends ViewModelState<HomeScreen, HomeScreenViewModel> {
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    viewModel.launch();
+    viewModel.launch().catchError((ex) {
+      if (ex is UnauthenticatedUserError) {
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => const UserScreen()));
+      }
+      if (ex is NotCreatedAccountError) {
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) => AccountScreen(user: viewModel.model.user)));
+      }
+    });
   }
 
   @override

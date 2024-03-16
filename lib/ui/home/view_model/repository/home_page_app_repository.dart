@@ -8,8 +8,10 @@ import 'package:bacon_bringer/data/user_data.dart';
 import 'package:bacon_bringer/database/app_database.dart';
 import 'package:bacon_bringer/enum/major_state.dart';
 import 'package:bacon_bringer/enum/minor_state.dart';
+import 'package:bacon_bringer/exceptions/not_created_account_error.dart';
 import 'package:bacon_bringer/exceptions/unauthenticated_user_error.dart';
 import 'package:bacon_bringer/repository/home_screen_repository.dart';
+import 'package:drift/drift.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreenAppRepository extends HomeScreenRepository {
@@ -26,11 +28,13 @@ class HomeScreenAppRepository extends HomeScreenRepository {
   @override
   Future<UserData> authenticate(int userId) async {
     final db = AppDatabase();
-    final dbUserData = await db.select(db.dBUserDataClass).get();
+    final dbUserData = await (db.select(db.dBUserDataClass)
+          ..where((user) => user.id.equals(userId)))
+        .getSingle();
     return UserData(
-        id: dbUserData.first.id,
-        userName: dbUserData.first.userName,
-        password: dbUserData.first.password);
+        id: dbUserData.id,
+        userName: dbUserData.userName,
+        password: dbUserData.password);
   }
 
   @override
@@ -104,12 +108,25 @@ class HomeScreenAppRepository extends HomeScreenRepository {
 
   @override
   Future<List<AccountData>> fetchAccounts(UserData user) async {
-    await Future.delayed(const Duration(milliseconds: 500));
-    final accounts = <AccountData>[];
-    accounts.add(AccountData(
-        user: user, name: "test account 01", purpose: "for test 1"));
-    accounts.add(AccountData(
-        user: user, name: "test account 02", purpose: "for test 1"));
+    final db = AppDatabase();
+    final dbAccounts = await db.select(db.dBAccountDataClass).join([
+      innerJoin(db.dBUserDataClass,
+          db.dBUserDataClass.userName.equalsExp(db.dBAccountDataClass.user))
+    ]).get();
+    final accounts = dbAccounts.map((row) {
+      final dbUser = row.readTable(db.dBUserDataClass);
+      final dbAccount = row.readTable(db.dBAccountDataClass);
+      return AccountData(
+          user: UserData(
+              id: dbUser.id,
+              userName: dbUser.userName,
+              password: dbUser.password),
+          name: dbAccount.name,
+          purpose: dbAccount.purpose);
+    }).toList();
+    if (accounts.isEmpty) {
+      throw NotCreatedAccountError();
+    }
     return accounts;
   }
 
