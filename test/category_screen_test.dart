@@ -28,7 +28,7 @@ main() {
       final user =
           UserData(id: 0, userName: "test_user", password: "test_password");
       final account = AccountData(
-          user: user, name: "test_account", purpose: "test_purpose");
+          id: 0, user: user, name: "test_account", purpose: "test_purpose");
       categoryScreenRepositoryProvider
           .overrideRepository(() => CategorySreenTestRepository());
 
@@ -46,7 +46,7 @@ main() {
       final user =
           UserData(id: 0, userName: "test_user", password: "test_password");
       final account = AccountData(
-          user: user, name: "test_account", purpose: "test_purpose");
+          id: 0, user: user, name: "test_account", purpose: "test_purpose");
       categoryScreenRepositoryProvider
           .overrideRepository(() => CategorySreenTestRepository());
 
@@ -68,7 +68,7 @@ main() {
       final user =
           UserData(id: 0, userName: "test_user", password: "test_password");
       final account = AccountData(
-          user: user, name: "test_account", purpose: "test_purpose");
+          id: 0, user: user, name: "test_account", purpose: "test_purpose");
       categoryScreenRepositoryProvider
           .overrideRepository(() => CategorySreenTestRepository());
 
@@ -90,7 +90,7 @@ main() {
       final user =
           UserData(id: 0, userName: "test_user", password: "test_password");
       final account = AccountData(
-          user: user, name: "test_account", purpose: "test_purpose");
+          id: 0, user: user, name: "test_account", purpose: "test_purpose");
       categoryScreenRepositoryProvider
           .overrideRepository(() => CategorySreenTestRepository());
 
@@ -103,7 +103,7 @@ main() {
       final user =
           UserData(id: 0, userName: "test_user", password: "test_password");
       final account = AccountData(
-          user: user, name: "test_account", purpose: "test_purpose");
+          id: 0, user: user, name: "test_account", purpose: "test_purpose");
       categoryScreenRepositoryProvider
           .overrideRepository(() => CategorySreenTestRepository());
 
@@ -121,7 +121,7 @@ main() {
       final user =
           UserData(id: 0, userName: "test_user", password: "test_password");
       final account = AccountData(
-          user: user, name: "test_account", purpose: "test_purpose");
+          id: 0, user: user, name: "test_account", purpose: "test_purpose");
       categoryScreenRepositoryProvider
           .overrideRepository(() => CategorySreenTestRepository());
       final viewModel = CategoryScreenViewModel(TestNotifier(), account);
@@ -137,7 +137,7 @@ main() {
       final user =
           UserData(id: 0, userName: "test_user", password: "test_password");
       final account = AccountData(
-          user: user, name: "test_account", purpose: "test_purpose");
+          id: 0, user: user, name: "test_account", purpose: "test_purpose");
       categoryScreenRepositoryProvider
           .overrideRepository(() => CategorySreenTestRepository());
       final viewModel = CategoryScreenViewModel(TestNotifier(), account);
@@ -154,7 +154,7 @@ main() {
       final user =
           UserData(id: 0, userName: "test_user", password: "test_password");
       final account = AccountData(
-          user: user, name: "test_account", purpose: "test_purpose");
+          id: 0, user: user, name: "test_account", purpose: "test_purpose");
       categoryScreenRepositoryProvider
           .overrideRepository(() => CategorySreenTestRepository());
 

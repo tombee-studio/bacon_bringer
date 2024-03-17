@@ -157,10 +157,10 @@ class HomeScreenTestRepository extends HomeScreenRepository {
   @override
   Future<List<AccountData>> fetchAccounts(UserData user) async {
     final accounts = <AccountData>[];
-    accounts
-        .add(AccountData(user: user, name: "account1", purpose: "purpose1"));
-    accounts
-        .add(AccountData(user: user, name: "account2", purpose: "purpose2"));
+    accounts.add(
+        AccountData(id: 0, user: user, name: "account1", purpose: "purpose1"));
+    accounts.add(
+        AccountData(id: 0, user: user, name: "account2", purpose: "purpose2"));
     return accounts;
   }
 

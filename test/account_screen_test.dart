@@ -14,7 +14,7 @@ class AccountScreenTestRepository extends AccountScreenRepository {
   @override
   Future<AccountData> addAccount(
       UserData user, String name, String purpose) async {
-    return AccountData(user: user, name: name, purpose: purpose);
+    return AccountData(id: 0, user: user, name: name, purpose: purpose);
   }
 }
 

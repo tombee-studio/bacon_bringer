@@ -19,7 +19,10 @@ void main() {
       final testDate = DateTime.fromMicrosecondsSinceEpoch(3000);
       final category = CategoryData(
           account: AccountData(
-              user: user, name: testAccountName, purpose: testAccountPurpose),
+              id: 0,
+              user: user,
+              name: testAccountName,
+              purpose: testAccountPurpose),
           major: MajorState.expense,
           minor: MinorState.fixedCosts,
           name: testAccountName);
