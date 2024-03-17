@@ -1,7 +1,7 @@
+import 'package:bacon_bringer/common/providers.dart';
 import 'package:bacon_bringer/data/user_data.dart';
 import 'package:bacon_bringer/model/user/user_screen_model.dart';
 import 'package:bacon_bringer/repository/user_screen_repository.dart';
-import 'package:bacon_bringer/ui/user/view_model/user_screen_view_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'util.dart';

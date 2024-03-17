@@ -1,14 +1,9 @@
 import 'package:bacon_bringer/bases/notifier.dart';
-import 'package:bacon_bringer/bases/repository_provider.dart';
 import 'package:bacon_bringer/bases/view_model.dart';
+import 'package:bacon_bringer/common/providers.dart';
 import 'package:bacon_bringer/data/user_data.dart';
 import 'package:bacon_bringer/model/user/user_screen_model.dart';
-import 'package:bacon_bringer/repository/user_screen_repository.dart';
-import 'package:bacon_bringer/ui/user/view_model/repository/user_screen_app_repository.dart';
 import 'package:flutter/material.dart';
-
-final userScreenRepositoryProvider =
-    RepositoryProvider<UserScreenRepository>(() => UserScreenAppRepository());
 
 class UserScreenViewModel extends ViewModel<UserScreenModel> {
   UserScreenViewModel(super.notifier);

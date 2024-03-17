@@ -1,3 +1,4 @@
+import 'package:bacon_bringer/common/providers.dart';
 import 'package:bacon_bringer/data/account_data.dart';
 import 'package:bacon_bringer/data/category_data.dart';
 import 'package:bacon_bringer/data/user_data.dart';

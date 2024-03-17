@@ -1,15 +1,9 @@
 import 'package:bacon_bringer/bases/notifier.dart';
-import 'package:bacon_bringer/bases/repository_provider.dart';
 import 'package:bacon_bringer/bases/view_model.dart';
+import 'package:bacon_bringer/common/providers.dart';
 import 'package:bacon_bringer/data/account_data.dart';
 import 'package:bacon_bringer/model/category/category_screen_model.dart';
-import 'package:bacon_bringer/repository/category_screen_repository.dart';
-import 'package:bacon_bringer/ui/category/view_model/repository/category_screen_app_repository.dart';
 import 'package:flutter/material.dart';
-
-final categoryScreenRepositoryProvider =
-    RepositoryProvider<CategoryScreenRepository>(
-        () => CategoryScreenAppRepository());
 
 class CategoryScreenViewModel extends ViewModel<CategoryScreenModel> {
   final AccountData account;

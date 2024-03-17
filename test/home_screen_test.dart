@@ -5,6 +5,7 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
+import 'package:bacon_bringer/common/providers.dart';
 import 'package:bacon_bringer/data/account_data.dart';
 import 'package:bacon_bringer/data/category_budget.dart';
 import 'package:bacon_bringer/data/category_data.dart';

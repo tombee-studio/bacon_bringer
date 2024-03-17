@@ -1,21 +1,16 @@
 import 'package:bacon_bringer/bases/notifier.dart';
-import 'package:bacon_bringer/bases/repository_provider.dart';
 import 'package:bacon_bringer/bases/view_model.dart';
+import 'package:bacon_bringer/common/providers.dart';
 import 'package:bacon_bringer/data/category_data.dart';
 import 'package:bacon_bringer/enum/home_screen_state.dart';
 import 'package:bacon_bringer/model/home/home_screen_model.dart';
 import 'package:bacon_bringer/ui/account/view/screen/account_screen.dart';
-import 'package:bacon_bringer/ui/home/view_model/repository/home_page_app_repository.dart';
-import 'package:bacon_bringer/repository/home_screen_repository.dart';
 import 'package:bacon_bringer/ui/common/loading_component.dart';
 import 'package:bacon_bringer/ui/home/view/components/account_list_drawer.dart';
 import 'package:bacon_bringer/ui/home/view/page/monthly_budget_balance_list_page.dart';
 import 'package:bacon_bringer/ui/home/view/page/overview_page.dart';
 import 'package:bacon_bringer/ui/home/view/page/settings_page.dart';
 import 'package:flutter/material.dart';
-
-final homeScreenRepositoryProvider =
-    RepositoryProvider<HomeScreenRepository>(() => HomeScreenAppRepository());
 
 class HomeScreenViewModel extends ViewModel<HomeScreenModel> {
   HomeScreenViewModel(super.notifier);
