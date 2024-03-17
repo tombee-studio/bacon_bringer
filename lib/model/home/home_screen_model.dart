@@ -80,11 +80,6 @@ class HomeScreenModel<T extends HomeScreenRepository> extends Model<T> {
     _user.value = await repository.authenticate(userId);
   }
 
-  Future authenticateAs(Future<dynamic> user) async {
-    _isLoading.value = LoadingData(isLoading: true, message: "ユーザ認証中...");
-    _user.value = await user as UserData;
-  }
-
   Future<int> loadLocalData() async {
     return await repository.loadLocalData();
   }
