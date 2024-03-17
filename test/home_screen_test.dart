@@ -18,6 +18,7 @@ import 'package:bacon_bringer/enum/minor_state.dart';
 import 'package:bacon_bringer/model/home/home_screen_model.dart';
 import 'package:bacon_bringer/repository/home_screen_repository.dart';
 import 'package:bacon_bringer/ui/home/view/page/monthly_budget_balance_list_page.dart';
+import 'package:bacon_bringer/ui/home/view/page/settings_page.dart';
 import 'package:bacon_bringer/ui/home/view_model/home_screen_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -497,6 +498,21 @@ void main() {
       expect(find.text("¥100000"), findsOneWidget);
     });
 
+    // TODO: ドロワーのテストを追加
+    // testWidgets('ホーム画面でハンバーガーメニューボタンタップ後、アカウントリストページが表示されていること',
+    //     (WidgetTester tester) async {
+    //   homeScreenRepositoryProvider
+    //       .overrideRepository(() => HomeScreenTestRepository());
+
+    //   await tester.pumpWidget(const BaconBringerApp());
+
+    //   final ScaffoldState state = tester.firstState(find.byType(Scaffold));
+    //   state.openDrawer();
+
+    //   await tester.pump();
+    //   expect(find.text("account1"), findsOneWidget);
+    // });
+
     testWidgets('ホーム画面で収支管理ボタンタップ後、収支管理ページが表示されていること',
         (WidgetTester tester) async {
       homeScreenRepositoryProvider
@@ -529,6 +545,17 @@ void main() {
       expect(find.text("test purpose 5"), findsOneWidget);
       expect(find.text("¥5000"), findsOneWidget);
       expect(find.byIcon(Icons.question_mark), findsOneWidget);
+    });
+
+    testWidgets('ホーム画面で設定ボタンタップ後、設定ページが表示されていること', (WidgetTester tester) async {
+      homeScreenRepositoryProvider
+          .overrideRepository(() => HomeScreenTestRepository());
+
+      await tester.pumpWidget(const BaconBringerApp());
+      await tester.tap(find.byIcon(Icons.settings));
+      await tester.pump();
+      expect(find.byWidgetPredicate((Widget widget) => widget is SettingsPage),
+          findsOneWidget);
     });
   });
 }
