@@ -11,7 +11,7 @@ import 'package:bacon_bringer/data/user_data.dart';
 import 'package:bacon_bringer/enum/home_screen_state.dart';
 import 'package:bacon_bringer/repository/home_screen_repository.dart';
 
-class HomeScreenModel<T extends HomeScreenRepository> extends Model<T> {
+class HomeScreenModel extends Model<HomeScreenRepository> {
   final String _title;
 
   late Property<HomeScreenState> _currentState;

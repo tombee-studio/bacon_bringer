@@ -37,10 +37,7 @@ class _HomeScreenState extends ViewModelState<HomeScreen, HomeScreenViewModel> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-            foregroundColor: Theme.of(context).colorScheme.primary,
-            title: viewModel.title),
+        appBar: viewModel.appBar(context),
         drawer: viewModel.drawer(context),
         body: Center(child: viewModel.body(context)),
         bottomNavigationBar: BottomNavigationBar(

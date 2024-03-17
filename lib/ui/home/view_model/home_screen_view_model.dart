@@ -11,6 +11,7 @@ import 'package:bacon_bringer/ui/home/view/components/account_list_drawer.dart';
 import 'package:bacon_bringer/ui/home/view/page/monthly_budget_balance_list_page.dart';
 import 'package:bacon_bringer/ui/home/view/page/overview_page.dart';
 import 'package:bacon_bringer/ui/home/view/page/settings_page.dart';
+import 'package:bacon_bringer/ui/transaction/view/screen/transaction_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreenViewModel extends ViewModel<HomeScreenModel> {
@@ -26,7 +27,29 @@ class HomeScreenViewModel extends ViewModel<HomeScreenModel> {
     await model.loadData();
   }
 
-  Widget get title => Text(model.title);
+  AppBar appBar(BuildContext context) {
+    switch (model.currentState) {
+      case HomeScreenState.list:
+        return AppBar(
+            backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+            foregroundColor: Theme.of(context).colorScheme.primary,
+            title: Text(model.title),
+            actions: [
+              IconButton(
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => TransactionScreen(
+                            user: model.user, categories: categories)));
+                  },
+                  icon: const Icon(Icons.add))
+            ]);
+      default:
+        return AppBar(
+            backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+            foregroundColor: Theme.of(context).colorScheme.primary,
+            title: Text(model.title));
+    }
+  }
 
   Widget? drawer(BuildContext context) {
     final accounts = model.accounts;

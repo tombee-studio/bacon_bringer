@@ -136,6 +136,7 @@ class HomeScreenAppRepository extends HomeScreenRepository {
       {required DateTime from, required DateTime to}) async {
     final transactions = <TransactionData>[];
     transactions.add(TransactionData(
+        account: account,
         purpose: "test purpose 1",
         money: 1000.0,
         category: CategoryData(
@@ -143,8 +144,9 @@ class HomeScreenAppRepository extends HomeScreenRepository {
             major: MajorState.expense,
             minor: MinorState.fixedCosts,
             name: "test name 1"),
-        createdAt: DateTime(3000)));
+        transactionDate: DateTime(3000)));
     transactions.add(TransactionData(
+        account: account,
         purpose: "test purpose 2",
         money: 2000.0,
         category: CategoryData(
@@ -152,8 +154,9 @@ class HomeScreenAppRepository extends HomeScreenRepository {
             major: MajorState.expense,
             minor: MinorState.variableCosts,
             name: "test name 2"),
-        createdAt: DateTime(3100)));
+        transactionDate: DateTime(3100)));
     transactions.add(TransactionData(
+        account: account,
         purpose: "test purpose 3",
         money: 2000.0,
         category: CategoryData(
@@ -161,8 +164,9 @@ class HomeScreenAppRepository extends HomeScreenRepository {
             major: MajorState.income,
             minor: MinorState.fixedIncome,
             name: "test name 3"),
-        createdAt: DateTime(3200)));
+        transactionDate: DateTime(3200)));
     transactions.add(TransactionData(
+        account: account,
         purpose: "test purpose 4",
         money: 3300.0,
         category: CategoryData(
@@ -170,7 +174,7 @@ class HomeScreenAppRepository extends HomeScreenRepository {
             major: MajorState.income,
             minor: MinorState.variableIncome,
             name: "test name 4"),
-        createdAt: DateTime(3200)));
+        transactionDate: DateTime(3200)));
     return transactions;
   }
 

@@ -25,7 +25,7 @@ class MonthlyBudgetBalanceListPage
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(transaction.category.name),
-                          Text("取引日：${transaction.createdAt}")
+                          Text("取引日：${transaction.transactionDate}")
                         ]),
                     trailing: Text("¥${transaction.money.toInt()}"));
               },

@@ -201,6 +201,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.6"
+  date_field:
+    dependency: "direct main"
+    description:
+      name: date_field
+      sha256: ae5c3b27051af048e92d5052c646e7450c00b6d5b75e11759e04a7ee0cb3c732
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.1"
   drift:
     dependency: "direct main"
     description:
@@ -312,6 +320,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.2"
+  intl:
+    dependency: transitive
+    description:
+      name: intl
+      sha256: "3bc132a9dbce73a7e4a21a17d06e1878839ffbf975568bc875c60537824b0c4d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.18.1"
   io:
     dependency: transitive
     description:

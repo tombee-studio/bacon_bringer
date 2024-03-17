@@ -14,26 +14,28 @@ void main() {
           UserData(id: 0, userName: "testUserName", password: "testPassword");
       const testAccountName = "test_account_name_created";
       const testAccountPurpose = "test_account_purpose_created";
+      final account = AccountData(
+          id: 0,
+          user: user,
+          name: testAccountName,
+          purpose: testAccountPurpose);
       const testPurpose = "test_purpose";
       const testMoney = 100.0;
       final testDate = DateTime.fromMicrosecondsSinceEpoch(3000);
       final category = CategoryData(
-          account: AccountData(
-              id: 0,
-              user: user,
-              name: testAccountName,
-              purpose: testAccountPurpose),
+          account: account,
           major: MajorState.expense,
           minor: MinorState.fixedCosts,
           name: testAccountName);
       final data = TransactionData(
+          account: account,
           purpose: testPurpose,
           money: testMoney,
           category: category,
-          createdAt: testDate);
+          transactionDate: testDate);
       expect(data.purpose, testPurpose);
       expect(data.money, testMoney);
-      expect(data.createdAt, testDate);
+      expect(data.transactionDate, testDate);
 
       expect(data.category.name, category.name);
       expect(data.category.major, category.major);
