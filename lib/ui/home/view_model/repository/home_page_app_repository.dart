@@ -117,6 +117,7 @@ class HomeScreenAppRepository extends HomeScreenRepository {
       final dbUser = row.readTable(db.dBUserDataClass);
       final dbAccount = row.readTable(db.dBAccountDataClass);
       return AccountData(
+          id: dbAccount.id,
           user: UserData(
               id: dbUser.id,
               userName: dbUser.userName,
@@ -181,22 +182,31 @@ class HomeScreenAppRepository extends HomeScreenRepository {
 
   @override
   Future<List<CategoryData>> fetchCategoryList(AccountData account) async {
-    final list = <CategoryData>[];
-    list.add(CategoryData(
-        account: account,
-        major: MajorState.expense,
-        minor: MinorState.fixedCosts,
-        name: "テスト1"));
-    list.add(CategoryData(
-        account: account,
-        major: MajorState.expense,
-        minor: MinorState.variableCosts,
-        name: "テスト2"));
-    list.add(CategoryData(
-        account: account,
-        major: MajorState.income,
-        minor: MinorState.fixedIncome,
-        name: "テスト3"));
-    return list;
+    final db = AppDatabase();
+    final rows = await (db.select(db.dBCategoryDataClass)
+          ..where((tbl) => tbl.account.equals(account.id)))
+        .join([
+      innerJoin(db.dBAccountDataClass,
+          db.dBAccountDataClass.id.equalsExp(db.dBCategoryDataClass.account)),
+      innerJoin(db.dBUserDataClass,
+          db.dBUserDataClass.userName.equalsExp(db.dBAccountDataClass.user))
+    ]).get();
+    return rows.map((row) {
+      final dbUser = row.readTable(db.dBUserDataClass);
+      final dbAccount = row.readTable(db.dBAccountDataClass);
+      final dbCategoryData = row.readTable(db.dBCategoryDataClass);
+      return CategoryData(
+          account: AccountData(
+              id: dbAccount.id,
+              user: UserData(
+                  id: dbUser.id,
+                  userName: dbUser.userName,
+                  password: dbUser.password),
+              name: dbAccount.name,
+              purpose: dbAccount.purpose),
+          major: MajorState.values[dbCategoryData.major],
+          minor: MinorState.values[dbCategoryData.minor],
+          name: dbCategoryData.name);
+    }).toList();
   }
 }

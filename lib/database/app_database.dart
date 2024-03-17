@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:bacon_bringer/bases/provider.dart';
 import 'package:bacon_bringer/database/data/db_account_data_class.dart';
+import 'package:bacon_bringer/database/data/db_category_data_class.dart';
 import 'package:bacon_bringer/database/data/db_user_data.dart';
 import 'package:drift/native.dart';
 import 'package:path_provider/path_provider.dart';
@@ -15,7 +16,8 @@ part 'app_database.g.dart';
 
 final databaseProvider = Provider<QueryExecutor>(_openConnection);
 
-@DriftDatabase(tables: [DBUserDataClass, DBAccountDataClass])
+@DriftDatabase(
+    tables: [DBUserDataClass, DBAccountDataClass, DBCategoryDataClass])
 class AppDatabase extends _$AppDatabase {
   AppDatabase._(QueryExecutor e) : super(e);
 

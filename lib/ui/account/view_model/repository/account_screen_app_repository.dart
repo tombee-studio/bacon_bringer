@@ -24,6 +24,7 @@ class AccountScreenAppRepository extends AccountScreenRepository {
     final dbUser = row.readTable(db.dBUserDataClass);
     final dbAccount = row.readTable(db.dBAccountDataClass);
     return AccountData(
+        id: dbAccount.id,
         user: UserData(
             id: dbUser.id,
             userName: dbUser.userName,

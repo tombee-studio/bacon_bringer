@@ -466,16 +466,299 @@ class DBAccountDataClassCompanion extends UpdateCompanion<DBAccountData> {
   }
 }
 
+class $DBCategoryDataClassTable extends DBCategoryDataClass
+    with TableInfo<$DBCategoryDataClassTable, DBCategoryData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $DBCategoryDataClassTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _accountMeta =
+      const VerificationMeta('account');
+  @override
+  late final GeneratedColumn<int> account = GeneratedColumn<int>(
+      'account', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+      'name', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _majorMeta = const VerificationMeta('major');
+  @override
+  late final GeneratedColumn<int> major = GeneratedColumn<int>(
+      'major', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
+  static const VerificationMeta _minorMeta = const VerificationMeta('minor');
+  @override
+  late final GeneratedColumn<int> minor = GeneratedColumn<int>(
+      'minor', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns => [id, account, name, major, minor];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'd_b_category_data_class';
+  @override
+  VerificationContext validateIntegrity(Insertable<DBCategoryData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('account')) {
+      context.handle(_accountMeta,
+          account.isAcceptableOrUnknown(data['account']!, _accountMeta));
+    } else if (isInserting) {
+      context.missing(_accountMeta);
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('major')) {
+      context.handle(
+          _majorMeta, major.isAcceptableOrUnknown(data['major']!, _majorMeta));
+    } else if (isInserting) {
+      context.missing(_majorMeta);
+    }
+    if (data.containsKey('minor')) {
+      context.handle(
+          _minorMeta, minor.isAcceptableOrUnknown(data['minor']!, _minorMeta));
+    } else if (isInserting) {
+      context.missing(_minorMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  DBCategoryData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return DBCategoryData(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      account: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}account'])!,
+      name: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
+      major: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}major'])!,
+      minor: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}minor'])!,
+    );
+  }
+
+  @override
+  $DBCategoryDataClassTable createAlias(String alias) {
+    return $DBCategoryDataClassTable(attachedDatabase, alias);
+  }
+}
+
+class DBCategoryData extends DataClass implements Insertable<DBCategoryData> {
+  final int id;
+  final int account;
+  final String name;
+  final int major;
+  final int minor;
+  const DBCategoryData(
+      {required this.id,
+      required this.account,
+      required this.name,
+      required this.major,
+      required this.minor});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['account'] = Variable<int>(account);
+    map['name'] = Variable<String>(name);
+    map['major'] = Variable<int>(major);
+    map['minor'] = Variable<int>(minor);
+    return map;
+  }
+
+  DBCategoryDataClassCompanion toCompanion(bool nullToAbsent) {
+    return DBCategoryDataClassCompanion(
+      id: Value(id),
+      account: Value(account),
+      name: Value(name),
+      major: Value(major),
+      minor: Value(minor),
+    );
+  }
+
+  factory DBCategoryData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return DBCategoryData(
+      id: serializer.fromJson<int>(json['id']),
+      account: serializer.fromJson<int>(json['account']),
+      name: serializer.fromJson<String>(json['name']),
+      major: serializer.fromJson<int>(json['major']),
+      minor: serializer.fromJson<int>(json['minor']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'account': serializer.toJson<int>(account),
+      'name': serializer.toJson<String>(name),
+      'major': serializer.toJson<int>(major),
+      'minor': serializer.toJson<int>(minor),
+    };
+  }
+
+  DBCategoryData copyWith(
+          {int? id, int? account, String? name, int? major, int? minor}) =>
+      DBCategoryData(
+        id: id ?? this.id,
+        account: account ?? this.account,
+        name: name ?? this.name,
+        major: major ?? this.major,
+        minor: minor ?? this.minor,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('DBCategoryData(')
+          ..write('id: $id, ')
+          ..write('account: $account, ')
+          ..write('name: $name, ')
+          ..write('major: $major, ')
+          ..write('minor: $minor')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, account, name, major, minor);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is DBCategoryData &&
+          other.id == this.id &&
+          other.account == this.account &&
+          other.name == this.name &&
+          other.major == this.major &&
+          other.minor == this.minor);
+}
+
+class DBCategoryDataClassCompanion extends UpdateCompanion<DBCategoryData> {
+  final Value<int> id;
+  final Value<int> account;
+  final Value<String> name;
+  final Value<int> major;
+  final Value<int> minor;
+  const DBCategoryDataClassCompanion({
+    this.id = const Value.absent(),
+    this.account = const Value.absent(),
+    this.name = const Value.absent(),
+    this.major = const Value.absent(),
+    this.minor = const Value.absent(),
+  });
+  DBCategoryDataClassCompanion.insert({
+    this.id = const Value.absent(),
+    required int account,
+    required String name,
+    required int major,
+    required int minor,
+  })  : account = Value(account),
+        name = Value(name),
+        major = Value(major),
+        minor = Value(minor);
+  static Insertable<DBCategoryData> custom({
+    Expression<int>? id,
+    Expression<int>? account,
+    Expression<String>? name,
+    Expression<int>? major,
+    Expression<int>? minor,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (account != null) 'account': account,
+      if (name != null) 'name': name,
+      if (major != null) 'major': major,
+      if (minor != null) 'minor': minor,
+    });
+  }
+
+  DBCategoryDataClassCompanion copyWith(
+      {Value<int>? id,
+      Value<int>? account,
+      Value<String>? name,
+      Value<int>? major,
+      Value<int>? minor}) {
+    return DBCategoryDataClassCompanion(
+      id: id ?? this.id,
+      account: account ?? this.account,
+      name: name ?? this.name,
+      major: major ?? this.major,
+      minor: minor ?? this.minor,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (account.present) {
+      map['account'] = Variable<int>(account.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (major.present) {
+      map['major'] = Variable<int>(major.value);
+    }
+    if (minor.present) {
+      map['minor'] = Variable<int>(minor.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('DBCategoryDataClassCompanion(')
+          ..write('id: $id, ')
+          ..write('account: $account, ')
+          ..write('name: $name, ')
+          ..write('major: $major, ')
+          ..write('minor: $minor')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   late final $DBUserDataClassTable dBUserDataClass =
       $DBUserDataClassTable(this);
   late final $DBAccountDataClassTable dBAccountDataClass =
       $DBAccountDataClassTable(this);
+  late final $DBCategoryDataClassTable dBCategoryDataClass =
+      $DBCategoryDataClassTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [dBUserDataClass, dBAccountDataClass];
+      [dBUserDataClass, dBAccountDataClass, dBCategoryDataClass];
 }
