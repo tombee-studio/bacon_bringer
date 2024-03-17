@@ -1,7 +1,9 @@
 import 'package:bacon_bringer/bases/notifier.dart';
 import 'package:bacon_bringer/bases/repository_provider.dart';
 import 'package:bacon_bringer/bases/view_model.dart';
+import 'package:bacon_bringer/data/account_data.dart';
 import 'package:bacon_bringer/data/category_data.dart';
+import 'package:bacon_bringer/data/transaction_data.dart';
 import 'package:bacon_bringer/model/transaction/transaction_screen_model.dart';
 import 'package:bacon_bringer/repository/transaction_screen_repository.dart';
 import 'package:bacon_bringer/ui/transaction/view_model/repository/transaction_screen_app_repository.dart';
@@ -13,14 +15,15 @@ final transactionScreenRepositoryProvider =
         () => TransactionScreenAppRepository());
 
 class TransactionScreenViewModel extends ViewModel<TransactionScreenModel> {
+  final AccountData account;
   final List<CategoryData> categories;
 
-  TransactionScreenViewModel(super.notifier, this.categories);
+  TransactionScreenViewModel(super.notifier, this.account, this.categories);
 
   @override
   TransactionScreenModel createModel(Notifier notifier) =>
       TransactionScreenModel(
-          notifier, transactionScreenRepositoryProvider, categories);
+          notifier, transactionScreenRepositoryProvider, account, categories);
 
   Widget purpose(BuildContext context) {
     return TextField(
@@ -50,6 +53,19 @@ class TransactionScreenViewModel extends ViewModel<TransactionScreenModel> {
         });
   }
 
+  Widget category(BuildContext context) {
+    return DropdownButtonFormField(
+        items: categories
+            .map((category) =>
+                DropdownMenuItem(value: category, child: Text(category.name)))
+            .toList(),
+        onChanged: (value) {
+          if (value != null) {
+            model.category = value;
+          }
+        });
+  }
+
   Widget content(BuildContext context) {
     return Padding(
         padding: const EdgeInsets.all(12.0),
@@ -57,6 +73,7 @@ class TransactionScreenViewModel extends ViewModel<TransactionScreenModel> {
           const Icon(Icons.person),
           purpose(context),
           money(context),
+          category(context),
           date(context)
         ]));
   }
@@ -69,4 +86,6 @@ class TransactionScreenViewModel extends ViewModel<TransactionScreenModel> {
       return content(context);
     }
   }
+
+  Future<TransactionData> create() => model.create();
 }

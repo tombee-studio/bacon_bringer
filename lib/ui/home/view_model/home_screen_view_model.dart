@@ -36,10 +36,12 @@ class HomeScreenViewModel extends ViewModel<HomeScreenModel> {
             title: Text(model.title),
             actions: [
               IconButton(
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
+                  onPressed: () async {
+                    await Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => TransactionScreen(
-                            user: model.user, categories: categories)));
+                            account: model.currentAccount,
+                            categories: categories)));
+                    await model.loadData();
                   },
                   icon: const Icon(Icons.add))
             ]);

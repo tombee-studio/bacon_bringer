@@ -60,6 +60,7 @@ class HomeScreenTestRepository extends HomeScreenRepository {
       categoryBudgets.add(CategoryBudget(
           account: account,
           category: CategoryData(
+              id: 0,
               account: account,
               major: MajorState.expense,
               minor: MinorState.fixedCosts,
@@ -69,6 +70,7 @@ class HomeScreenTestRepository extends HomeScreenRepository {
       categoryBudgets.add(CategoryBudget(
           account: account,
           category: CategoryData(
+              id: 0,
               account: account,
               major: MajorState.expense,
               minor: MinorState.variableCosts,
@@ -78,6 +80,7 @@ class HomeScreenTestRepository extends HomeScreenRepository {
       categoryBudgets.add(CategoryBudget(
           account: account,
           category: CategoryData(
+              id: 0,
               account: account,
               major: MajorState.income,
               minor: MinorState.fixedIncome,
@@ -87,6 +90,7 @@ class HomeScreenTestRepository extends HomeScreenRepository {
       categoryBudgets.add(CategoryBudget(
           account: account,
           category: CategoryData(
+              id: 0,
               account: account,
               major: MajorState.income,
               minor: MinorState.variableIncome,
@@ -96,6 +100,7 @@ class HomeScreenTestRepository extends HomeScreenRepository {
       categoryBudgets.add(CategoryBudget(
           account: account,
           category: CategoryData(
+              id: 0,
               account: account,
               major: MajorState.income,
               minor: MinorState.extraIncome,
@@ -108,6 +113,7 @@ class HomeScreenTestRepository extends HomeScreenRepository {
       categoryBudgets.add(CategoryBudget(
           account: account,
           category: CategoryData(
+              id: 0,
               account: account,
               major: MajorState.expense,
               minor: MinorState.fixedCosts,
@@ -117,6 +123,7 @@ class HomeScreenTestRepository extends HomeScreenRepository {
       categoryBudgets.add(CategoryBudget(
           account: account,
           category: CategoryData(
+              id: 0,
               account: account,
               major: MajorState.expense,
               minor: MinorState.variableCosts,
@@ -126,6 +133,7 @@ class HomeScreenTestRepository extends HomeScreenRepository {
       categoryBudgets.add(CategoryBudget(
           account: account,
           category: CategoryData(
+              id: 0,
               account: account,
               major: MajorState.income,
               minor: MinorState.fixedIncome,
@@ -135,6 +143,7 @@ class HomeScreenTestRepository extends HomeScreenRepository {
       categoryBudgets.add(CategoryBudget(
           account: account,
           category: CategoryData(
+              id: 0,
               account: account,
               major: MajorState.income,
               minor: MinorState.variableIncome,
@@ -144,6 +153,7 @@ class HomeScreenTestRepository extends HomeScreenRepository {
       categoryBudgets.add(CategoryBudget(
           account: account,
           category: CategoryData(
+              id: 0,
               account: account,
               major: MajorState.income,
               minor: MinorState.extraIncome,
@@ -173,6 +183,7 @@ class HomeScreenTestRepository extends HomeScreenRepository {
         purpose: "test purpose 1",
         money: 1000.0,
         category: CategoryData(
+            id: 0,
             account: account,
             major: MajorState.expense,
             minor: MinorState.fixedCosts,
@@ -183,6 +194,7 @@ class HomeScreenTestRepository extends HomeScreenRepository {
         purpose: "test purpose 2",
         money: 2000.0,
         category: CategoryData(
+            id: 0,
             account: account,
             major: MajorState.expense,
             minor: MinorState.variableCosts,
@@ -193,6 +205,7 @@ class HomeScreenTestRepository extends HomeScreenRepository {
         purpose: "test purpose 3",
         money: 3000.0,
         category: CategoryData(
+            id: 0,
             account: account,
             major: MajorState.income,
             minor: MinorState.fixedIncome,
@@ -203,6 +216,7 @@ class HomeScreenTestRepository extends HomeScreenRepository {
         purpose: "test purpose 4",
         money: 4000.0,
         category: CategoryData(
+            id: 0,
             account: account,
             major: MajorState.income,
             minor: MinorState.variableIncome,
@@ -213,6 +227,7 @@ class HomeScreenTestRepository extends HomeScreenRepository {
         purpose: "test purpose 5",
         money: 5000.0,
         category: CategoryData(
+            id: 0,
             account: account,
             major: MajorState.others,
             minor: MinorState.variableCosts,
@@ -231,16 +246,19 @@ class HomeScreenTestRepository extends HomeScreenRepository {
   Future<List<CategoryData>> fetchCategoryList(AccountData account) async {
     final list = <CategoryData>[];
     list.add(CategoryData(
+        id: 0,
         account: account,
         major: MajorState.expense,
         minor: MinorState.fixedCosts,
         name: "test1"));
     list.add(CategoryData(
+        id: 0,
         account: account,
         major: MajorState.expense,
         minor: MinorState.variableCosts,
         name: "test2"));
     list.add(CategoryData(
+        id: 0,
         account: account,
         major: MajorState.income,
         minor: MinorState.fixedIncome,

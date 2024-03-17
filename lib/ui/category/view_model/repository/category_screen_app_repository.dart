@@ -30,6 +30,7 @@ class CategoryScreenAppRepository extends CategoryScreenRepository {
     final dbAccount = row.readTable(db.dBAccountDataClass);
     final dbCategoryData = row.readTable(db.dBCategoryDataClass);
     return CategoryData(
+        id: dbCategoryData.id,
         account: AccountData(
             id: dbAccount.id,
             user: UserData(

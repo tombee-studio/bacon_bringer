@@ -61,6 +61,7 @@ class HomeScreenAppRepository extends HomeScreenRepository {
     data.add(CategoryBudget(
         account: account,
         category: CategoryData(
+            id: 0,
             account: account,
             major: MajorState.expense,
             minor: MinorState.fixedCosts,
@@ -70,6 +71,7 @@ class HomeScreenAppRepository extends HomeScreenRepository {
     data.add(CategoryBudget(
         account: account,
         category: CategoryData(
+            id: 1,
             account: account,
             major: MajorState.expense,
             minor: MinorState.fixedCosts,
@@ -79,6 +81,7 @@ class HomeScreenAppRepository extends HomeScreenRepository {
     data.add(CategoryBudget(
         account: account,
         category: CategoryData(
+            id: 2,
             account: account,
             major: MajorState.expense,
             minor: MinorState.variableCosts,
@@ -88,6 +91,7 @@ class HomeScreenAppRepository extends HomeScreenRepository {
     data.add(CategoryBudget(
         account: account,
         category: CategoryData(
+            id: 3,
             account: account,
             major: MajorState.expense,
             minor: MinorState.variableCosts,
@@ -97,6 +101,7 @@ class HomeScreenAppRepository extends HomeScreenRepository {
     data.add(CategoryBudget(
         account: account,
         category: CategoryData(
+            id: 4,
             account: account,
             major: MajorState.expense,
             minor: MinorState.variableCosts,
@@ -134,48 +139,48 @@ class HomeScreenAppRepository extends HomeScreenRepository {
   @override
   Future<List<TransactionData>> fetchTransactions(AccountData account,
       {required DateTime from, required DateTime to}) async {
-    final transactions = <TransactionData>[];
-    transactions.add(TransactionData(
-        account: account,
-        purpose: "test purpose 1",
-        money: 1000.0,
-        category: CategoryData(
-            account: account,
-            major: MajorState.expense,
-            minor: MinorState.fixedCosts,
-            name: "test name 1"),
-        transactionDate: DateTime(3000)));
-    transactions.add(TransactionData(
-        account: account,
-        purpose: "test purpose 2",
-        money: 2000.0,
-        category: CategoryData(
-            account: account,
-            major: MajorState.expense,
-            minor: MinorState.variableCosts,
-            name: "test name 2"),
-        transactionDate: DateTime(3100)));
-    transactions.add(TransactionData(
-        account: account,
-        purpose: "test purpose 3",
-        money: 2000.0,
-        category: CategoryData(
-            account: account,
-            major: MajorState.income,
-            minor: MinorState.fixedIncome,
-            name: "test name 3"),
-        transactionDate: DateTime(3200)));
-    transactions.add(TransactionData(
-        account: account,
-        purpose: "test purpose 4",
-        money: 3300.0,
-        category: CategoryData(
-            account: account,
-            major: MajorState.income,
-            minor: MinorState.variableIncome,
-            name: "test name 4"),
-        transactionDate: DateTime(3200)));
-    return transactions;
+    final db = AppDatabase();
+    final rows = await (db.select(db.dBTransactionDataClass)
+          ..where((tbl) => tbl.account.equals(account.id)))
+        .join([
+      innerJoin(
+          db.dBCategoryDataClass,
+          db.dBCategoryDataClass.id
+              .equalsExp(db.dBTransactionDataClass.category)),
+      innerJoin(
+          db.dBAccountDataClass,
+          db.dBAccountDataClass.id
+              .equalsExp(db.dBTransactionDataClass.account)),
+      innerJoin(db.dBUserDataClass,
+          db.dBUserDataClass.userName.equalsExp(db.dBAccountDataClass.user))
+    ]).get();
+
+    return rows.map((row) {
+      final dbUser = row.readTable(db.dBUserDataClass);
+      final dbAccount = row.readTable(db.dBAccountDataClass);
+      final dbCategoryData = row.readTable(db.dBCategoryDataClass);
+      final dbTransactionData = row.readTable(db.dBTransactionDataClass);
+
+      final retAccount = AccountData(
+          id: dbAccount.id,
+          user: UserData(
+              id: dbUser.id,
+              userName: dbUser.userName,
+              password: dbUser.password),
+          name: dbAccount.name,
+          purpose: dbAccount.purpose);
+      return TransactionData(
+          account: retAccount,
+          purpose: dbTransactionData.purpose,
+          money: dbTransactionData.money,
+          category: CategoryData(
+              id: dbCategoryData.id,
+              account: retAccount,
+              major: MajorState.values[dbCategoryData.major],
+              minor: MinorState.values[dbCategoryData.minor],
+              name: dbCategoryData.name),
+          transactionDate: dbTransactionData.transactionDate);
+    }).toList();
   }
 
   @override
@@ -200,6 +205,7 @@ class HomeScreenAppRepository extends HomeScreenRepository {
       final dbAccount = row.readTable(db.dBAccountDataClass);
       final dbCategoryData = row.readTable(db.dBCategoryDataClass);
       return CategoryData(
+          id: dbCategoryData.id,
           account: AccountData(
               id: dbAccount.id,
               user: UserData(

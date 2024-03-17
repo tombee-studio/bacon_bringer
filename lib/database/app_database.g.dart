@@ -747,6 +747,335 @@ class DBCategoryDataClassCompanion extends UpdateCompanion<DBCategoryData> {
   }
 }
 
+class $DBTransactionDataClassTable extends DBTransactionDataClass
+    with TableInfo<$DBTransactionDataClassTable, DBTransactionData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $DBTransactionDataClassTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _accountMeta =
+      const VerificationMeta('account');
+  @override
+  late final GeneratedColumn<int> account = GeneratedColumn<int>(
+      'account', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
+  static const VerificationMeta _categoryMeta =
+      const VerificationMeta('category');
+  @override
+  late final GeneratedColumn<int> category = GeneratedColumn<int>(
+      'category', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
+  static const VerificationMeta _purposeMeta =
+      const VerificationMeta('purpose');
+  @override
+  late final GeneratedColumn<String> purpose = GeneratedColumn<String>(
+      'purpose', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _moneyMeta = const VerificationMeta('money');
+  @override
+  late final GeneratedColumn<double> money = GeneratedColumn<double>(
+      'money', aliasedName, false,
+      type: DriftSqlType.double, requiredDuringInsert: true);
+  static const VerificationMeta _transactionDateMeta =
+      const VerificationMeta('transactionDate');
+  @override
+  late final GeneratedColumn<DateTime> transactionDate =
+      GeneratedColumn<DateTime>('transaction_date', aliasedName, false,
+          type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns =>
+      [id, account, category, purpose, money, transactionDate];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'd_b_transaction_data_class';
+  @override
+  VerificationContext validateIntegrity(Insertable<DBTransactionData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('account')) {
+      context.handle(_accountMeta,
+          account.isAcceptableOrUnknown(data['account']!, _accountMeta));
+    } else if (isInserting) {
+      context.missing(_accountMeta);
+    }
+    if (data.containsKey('category')) {
+      context.handle(_categoryMeta,
+          category.isAcceptableOrUnknown(data['category']!, _categoryMeta));
+    } else if (isInserting) {
+      context.missing(_categoryMeta);
+    }
+    if (data.containsKey('purpose')) {
+      context.handle(_purposeMeta,
+          purpose.isAcceptableOrUnknown(data['purpose']!, _purposeMeta));
+    } else if (isInserting) {
+      context.missing(_purposeMeta);
+    }
+    if (data.containsKey('money')) {
+      context.handle(
+          _moneyMeta, money.isAcceptableOrUnknown(data['money']!, _moneyMeta));
+    } else if (isInserting) {
+      context.missing(_moneyMeta);
+    }
+    if (data.containsKey('transaction_date')) {
+      context.handle(
+          _transactionDateMeta,
+          transactionDate.isAcceptableOrUnknown(
+              data['transaction_date']!, _transactionDateMeta));
+    } else if (isInserting) {
+      context.missing(_transactionDateMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  DBTransactionData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return DBTransactionData(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      account: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}account'])!,
+      category: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}category'])!,
+      purpose: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}purpose'])!,
+      money: attachedDatabase.typeMapping
+          .read(DriftSqlType.double, data['${effectivePrefix}money'])!,
+      transactionDate: attachedDatabase.typeMapping.read(
+          DriftSqlType.dateTime, data['${effectivePrefix}transaction_date'])!,
+    );
+  }
+
+  @override
+  $DBTransactionDataClassTable createAlias(String alias) {
+    return $DBTransactionDataClassTable(attachedDatabase, alias);
+  }
+}
+
+class DBTransactionData extends DataClass
+    implements Insertable<DBTransactionData> {
+  final int id;
+  final int account;
+  final int category;
+  final String purpose;
+  final double money;
+  final DateTime transactionDate;
+  const DBTransactionData(
+      {required this.id,
+      required this.account,
+      required this.category,
+      required this.purpose,
+      required this.money,
+      required this.transactionDate});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['account'] = Variable<int>(account);
+    map['category'] = Variable<int>(category);
+    map['purpose'] = Variable<String>(purpose);
+    map['money'] = Variable<double>(money);
+    map['transaction_date'] = Variable<DateTime>(transactionDate);
+    return map;
+  }
+
+  DBTransactionDataClassCompanion toCompanion(bool nullToAbsent) {
+    return DBTransactionDataClassCompanion(
+      id: Value(id),
+      account: Value(account),
+      category: Value(category),
+      purpose: Value(purpose),
+      money: Value(money),
+      transactionDate: Value(transactionDate),
+    );
+  }
+
+  factory DBTransactionData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return DBTransactionData(
+      id: serializer.fromJson<int>(json['id']),
+      account: serializer.fromJson<int>(json['account']),
+      category: serializer.fromJson<int>(json['category']),
+      purpose: serializer.fromJson<String>(json['purpose']),
+      money: serializer.fromJson<double>(json['money']),
+      transactionDate: serializer.fromJson<DateTime>(json['transactionDate']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'account': serializer.toJson<int>(account),
+      'category': serializer.toJson<int>(category),
+      'purpose': serializer.toJson<String>(purpose),
+      'money': serializer.toJson<double>(money),
+      'transactionDate': serializer.toJson<DateTime>(transactionDate),
+    };
+  }
+
+  DBTransactionData copyWith(
+          {int? id,
+          int? account,
+          int? category,
+          String? purpose,
+          double? money,
+          DateTime? transactionDate}) =>
+      DBTransactionData(
+        id: id ?? this.id,
+        account: account ?? this.account,
+        category: category ?? this.category,
+        purpose: purpose ?? this.purpose,
+        money: money ?? this.money,
+        transactionDate: transactionDate ?? this.transactionDate,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('DBTransactionData(')
+          ..write('id: $id, ')
+          ..write('account: $account, ')
+          ..write('category: $category, ')
+          ..write('purpose: $purpose, ')
+          ..write('money: $money, ')
+          ..write('transactionDate: $transactionDate')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, account, category, purpose, money, transactionDate);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is DBTransactionData &&
+          other.id == this.id &&
+          other.account == this.account &&
+          other.category == this.category &&
+          other.purpose == this.purpose &&
+          other.money == this.money &&
+          other.transactionDate == this.transactionDate);
+}
+
+class DBTransactionDataClassCompanion
+    extends UpdateCompanion<DBTransactionData> {
+  final Value<int> id;
+  final Value<int> account;
+  final Value<int> category;
+  final Value<String> purpose;
+  final Value<double> money;
+  final Value<DateTime> transactionDate;
+  const DBTransactionDataClassCompanion({
+    this.id = const Value.absent(),
+    this.account = const Value.absent(),
+    this.category = const Value.absent(),
+    this.purpose = const Value.absent(),
+    this.money = const Value.absent(),
+    this.transactionDate = const Value.absent(),
+  });
+  DBTransactionDataClassCompanion.insert({
+    this.id = const Value.absent(),
+    required int account,
+    required int category,
+    required String purpose,
+    required double money,
+    required DateTime transactionDate,
+  })  : account = Value(account),
+        category = Value(category),
+        purpose = Value(purpose),
+        money = Value(money),
+        transactionDate = Value(transactionDate);
+  static Insertable<DBTransactionData> custom({
+    Expression<int>? id,
+    Expression<int>? account,
+    Expression<int>? category,
+    Expression<String>? purpose,
+    Expression<double>? money,
+    Expression<DateTime>? transactionDate,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (account != null) 'account': account,
+      if (category != null) 'category': category,
+      if (purpose != null) 'purpose': purpose,
+      if (money != null) 'money': money,
+      if (transactionDate != null) 'transaction_date': transactionDate,
+    });
+  }
+
+  DBTransactionDataClassCompanion copyWith(
+      {Value<int>? id,
+      Value<int>? account,
+      Value<int>? category,
+      Value<String>? purpose,
+      Value<double>? money,
+      Value<DateTime>? transactionDate}) {
+    return DBTransactionDataClassCompanion(
+      id: id ?? this.id,
+      account: account ?? this.account,
+      category: category ?? this.category,
+      purpose: purpose ?? this.purpose,
+      money: money ?? this.money,
+      transactionDate: transactionDate ?? this.transactionDate,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (account.present) {
+      map['account'] = Variable<int>(account.value);
+    }
+    if (category.present) {
+      map['category'] = Variable<int>(category.value);
+    }
+    if (purpose.present) {
+      map['purpose'] = Variable<String>(purpose.value);
+    }
+    if (money.present) {
+      map['money'] = Variable<double>(money.value);
+    }
+    if (transactionDate.present) {
+      map['transaction_date'] = Variable<DateTime>(transactionDate.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('DBTransactionDataClassCompanion(')
+          ..write('id: $id, ')
+          ..write('account: $account, ')
+          ..write('category: $category, ')
+          ..write('purpose: $purpose, ')
+          ..write('money: $money, ')
+          ..write('transactionDate: $transactionDate')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   late final $DBUserDataClassTable dBUserDataClass =
@@ -755,10 +1084,16 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       $DBAccountDataClassTable(this);
   late final $DBCategoryDataClassTable dBCategoryDataClass =
       $DBCategoryDataClassTable(this);
+  late final $DBTransactionDataClassTable dBTransactionDataClass =
+      $DBTransactionDataClassTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [dBUserDataClass, dBAccountDataClass, dBCategoryDataClass];
+  List<DatabaseSchemaEntity> get allSchemaEntities => [
+        dBUserDataClass,
+        dBAccountDataClass,
+        dBCategoryDataClass,
+        dBTransactionDataClass
+      ];
 }

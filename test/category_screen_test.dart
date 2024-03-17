@@ -18,7 +18,7 @@ class CategorySreenTestRepository extends CategoryScreenRepository {
   Future<CategoryData> create(AccountData account, String name,
       MajorState major, MinorState minor) async {
     return CategoryData(
-        account: account, major: major, minor: minor, name: name);
+        id: 0, account: account, major: major, minor: minor, name: name);
   }
 }
 

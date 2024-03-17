@@ -23,6 +23,7 @@ void main() {
       const testMoney = 100.0;
       final testDate = DateTime.fromMicrosecondsSinceEpoch(3000);
       final category = CategoryData(
+          id: 0,
           account: account,
           major: MajorState.expense,
           minor: MinorState.fixedCosts,

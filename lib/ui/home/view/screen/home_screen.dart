@@ -31,6 +31,7 @@ class _HomeScreenState extends ViewModelState<HomeScreen, HomeScreenViewModel> {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
             builder: (context) => AccountScreen(user: viewModel.model.user)));
       }
+      print(ex);
     });
   }
 
