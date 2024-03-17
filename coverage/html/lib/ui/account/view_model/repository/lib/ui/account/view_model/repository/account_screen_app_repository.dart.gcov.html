@@ -31,13 +31,13 @@
             <td class="headerValue">lcov.info</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntryHi">100.0&nbsp;%</td>
-            <td class="headerCovTableEntry">3</td>
-            <td class="headerCovTableEntry">3</td>
+            <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
+            <td class="headerCovTableEntry">22</td>
+            <td class="headerCovTableEntry">0</td>
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2024-03-10 19:21:23</td>
+            <td class="headerValue">2024-03-17 16:44:52</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">-</td>
@@ -62,16 +62,38 @@
 <pre class="source">
 <span id="L1"><span class="lineNum">       1</span>              : import 'package:bacon_bringer/data/account_data.dart';</span>
 <span id="L2"><span class="lineNum">       2</span>              : import 'package:bacon_bringer/data/user_data.dart';</span>
-<span id="L3"><span class="lineNum">       3</span>              : import 'package:bacon_bringer/repository/account_screen_repository.dart';</span>
-<span id="L4"><span class="lineNum">       4</span>              : </span>
-<span id="L5"><span class="lineNum">       5</span>              : class AccountScreenAppRepository extends AccountScreenRepository {</span>
-<span id="L6"><span class="lineNum">       6</span> <span class="tlaGNC tlaBgGNC">           1 :   @override</span></span>
-<span id="L7"><span class="lineNum">       7</span>              :   Future&lt;AccountData&gt; addAccount(</span>
-<span id="L8"><span class="lineNum">       8</span>              :       UserData user, String name, String purpose) async {</span>
-<span id="L9"><span class="lineNum">       9</span> <span class="tlaGNC">           1 :     await Future.delayed(const Duration(microseconds: 500));</span></span>
-<span id="L10"><span class="lineNum">      10</span> <span class="tlaGNC">           1 :     return AccountData(user: user, name: name, purpose: purpose);</span></span>
-<span id="L11"><span class="lineNum">      11</span>              :   }</span>
-<span id="L12"><span class="lineNum">      12</span>              : }</span>
+<span id="L3"><span class="lineNum">       3</span>              : import 'package:bacon_bringer/database/app_database.dart';</span>
+<span id="L4"><span class="lineNum">       4</span>              : import 'package:bacon_bringer/repository/account_screen_repository.dart';</span>
+<span id="L5"><span class="lineNum">       5</span>              : import 'package:drift/drift.dart';</span>
+<span id="L6"><span class="lineNum">       6</span>              : </span>
+<span id="L7"><span class="lineNum">       7</span>              : class AccountScreenAppRepository extends AccountScreenRepository {</span>
+<span id="L8"><span class="lineNum">       8</span> <span class="tlaUNC tlaBgUNC">           0 :   @override</span></span>
+<span id="L9"><span class="lineNum">       9</span>              :   Future&lt;AccountData&gt; addAccount(</span>
+<span id="L10"><span class="lineNum">      10</span>              :       UserData user, String name, String purpose) async {</span>
+<span id="L11"><span class="lineNum">      11</span> <span class="tlaUNC">           0 :     final db = AppDatabase();</span></span>
+<span id="L12"><span class="lineNum">      12</span> <span class="tlaUNC">           0 :     final accountId = await db.into(db.dBAccountDataClass).insert(</span></span>
+<span id="L13"><span class="lineNum">      13</span> <span class="tlaUNC">           0 :         DBAccountDataClassCompanion(</span></span>
+<span id="L14"><span class="lineNum">      14</span> <span class="tlaUNC">           0 :             user: Value(user.userName),</span></span>
+<span id="L15"><span class="lineNum">      15</span> <span class="tlaUNC">           0 :             name: Value(name),</span></span>
+<span id="L16"><span class="lineNum">      16</span> <span class="tlaUNC">           0 :             purpose: Value(purpose)));</span></span>
+<span id="L17"><span class="lineNum">      17</span> <span class="tlaUNC">           0 :     final row = await (db.select(db.dBAccountDataClass)</span></span>
+<span id="L18"><span class="lineNum">      18</span> <span class="tlaUNC">           0 :           ..where((tbl) =&gt; tbl.id.equals(accountId)))</span></span>
+<span id="L19"><span class="lineNum">      19</span> <span class="tlaUNC">           0 :         .join([</span></span>
+<span id="L20"><span class="lineNum">      20</span> <span class="tlaUNC">           0 :       innerJoin(db.dBUserDataClass,</span></span>
+<span id="L21"><span class="lineNum">      21</span> <span class="tlaUNC">           0 :           db.dBUserDataClass.userName.equalsExp(db.dBAccountDataClass.user))</span></span>
+<span id="L22"><span class="lineNum">      22</span> <span class="tlaUNC">           0 :     ]).getSingle();</span></span>
+<span id="L23"><span class="lineNum">      23</span>              : </span>
+<span id="L24"><span class="lineNum">      24</span> <span class="tlaUNC">           0 :     final dbUser = row.readTable(db.dBUserDataClass);</span></span>
+<span id="L25"><span class="lineNum">      25</span> <span class="tlaUNC">           0 :     final dbAccount = row.readTable(db.dBAccountDataClass);</span></span>
+<span id="L26"><span class="lineNum">      26</span> <span class="tlaUNC">           0 :     return AccountData(</span></span>
+<span id="L27"><span class="lineNum">      27</span> <span class="tlaUNC">           0 :         user: UserData(</span></span>
+<span id="L28"><span class="lineNum">      28</span> <span class="tlaUNC">           0 :             id: dbUser.id,</span></span>
+<span id="L29"><span class="lineNum">      29</span> <span class="tlaUNC">           0 :             userName: dbUser.userName,</span></span>
+<span id="L30"><span class="lineNum">      30</span> <span class="tlaUNC">           0 :             password: dbUser.password),</span></span>
+<span id="L31"><span class="lineNum">      31</span> <span class="tlaUNC">           0 :         name: dbAccount.name,</span></span>
+<span id="L32"><span class="lineNum">      32</span> <span class="tlaUNC">           0 :         purpose: dbAccount.purpose);</span></span>
+<span id="L33"><span class="lineNum">      33</span>              :   }</span>
+<span id="L34"><span class="lineNum">      34</span>              : }</span>
         </pre>
               </td>
             </tr>
