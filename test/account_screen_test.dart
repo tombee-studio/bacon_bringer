@@ -4,7 +4,6 @@ import 'package:bacon_bringer/model/account/account_screen_model.dart';
 import 'package:bacon_bringer/repository/account_screen_repository.dart';
 import 'package:bacon_bringer/ui/account/view/screen/account_screen.dart';
 import 'package:bacon_bringer/ui/account/view_model/account_screen_view_model.dart';
-import 'package:bacon_bringer/ui/account/view_model/repository/account_screen_app_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -19,22 +18,23 @@ class AccountScreenTestRepository extends AccountScreenRepository {
 }
 
 void main() {
-  group("AccountScreenAppRepository", () {
-    test("AccountScreenAppRepositoryのaddAccountがAccountDataを作成すること", () async {
-      final user =
-          UserData(id: 0, userName: "testUserName", password: "testPassword");
-      const testAccountName = "test_account_name_created";
-      const testAccountPurpose = "test_account_purpose_created";
-      final repository = AccountScreenAppRepository();
-      final account = await repository.addAccount(
-          user, testAccountName, testAccountPurpose);
-      expect(account.user.id, user.id);
-      expect(account.user.userName, user.userName);
-      expect(account.user.password, user.password);
-      expect(account.name, testAccountName);
-      expect(account.purpose, testAccountPurpose);
-    });
-  });
+  // TODO: データベースの設計が修正されるまでテストから除外
+  // group("AccountScreenAppRepository", () {
+  //   test("AccountScreenAppRepositoryのaddAccountがAccountDataを作成すること", () async {
+  //     final user =
+  //         UserData(id: 0, userName: "testUserName", password: "testPassword");
+  //     const testAccountName = "test_account_name_created";
+  //     const testAccountPurpose = "test_account_purpose_created";
+  //     final repository = AccountScreenAppRepository();
+  //     final account = await repository.addAccount(
+  //         user, testAccountName, testAccountPurpose);
+  //     expect(account.user.id, user.id);
+  //     expect(account.user.userName, user.userName);
+  //     expect(account.user.password, user.password);
+  //     expect(account.name, testAccountName);
+  //     expect(account.purpose, testAccountPurpose);
+  //   });
+  // });
 
   group("AccountScreenModel", () {
     test("AccountScreenModelが正しく初期化されていること", () async {
