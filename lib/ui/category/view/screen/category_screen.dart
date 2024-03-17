@@ -17,7 +17,7 @@ class _CategoryScreenState
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            title: const Text("ユーザ情報を登録"),
+            title: const Text("カテゴリーを登録"),
             backgroundColor: Theme.of(context).colorScheme.primaryContainer,
             foregroundColor: Theme.of(context).colorScheme.primary),
         body: viewModel.body(context),

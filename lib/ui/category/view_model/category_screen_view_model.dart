@@ -23,7 +23,7 @@ class CategoryScreenViewModel extends ViewModel<CategoryScreenModel> {
 
   Widget name(BuildContext context) {
     return TextField(
-        decoration: const InputDecoration(label: Text("アカウント名")),
+        decoration: const InputDecoration(label: Text("カテゴリー名")),
         onChanged: (value) => model.name = value);
   }
 

@@ -9,7 +9,10 @@ class SettingsPage extends ViewModelWidget<HomeScreenViewModel> {
   @override
   Widget build(BuildContext context) {
     return ListView(children: [
-      CategoryListComponent(categories: parentViewModel.categories)
+      CategoryListComponent(
+          categories: parentViewModel.categories,
+          account: parentViewModel.currentAccount,
+          callback: () => parentViewModel.launch())
     ]);
   }
 }
