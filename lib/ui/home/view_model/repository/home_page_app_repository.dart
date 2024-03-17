@@ -178,4 +178,25 @@ class HomeScreenAppRepository extends HomeScreenRepository {
       {required DateTime from, required DateTime to}) async {
     return TransactionOverviewData(1000.0, 2000.0, from, to);
   }
+
+  @override
+  Future<List<CategoryData>> fetchCategoryList(AccountData account) async {
+    final list = <CategoryData>[];
+    list.add(CategoryData(
+        account: account,
+        major: MajorState.expense,
+        minor: MinorState.fixedCosts,
+        name: "テスト1"));
+    list.add(CategoryData(
+        account: account,
+        major: MajorState.expense,
+        minor: MinorState.variableCosts,
+        name: "テスト2"));
+    list.add(CategoryData(
+        account: account,
+        major: MajorState.income,
+        minor: MinorState.fixedIncome,
+        name: "テスト3"));
+    return list;
+  }
 }

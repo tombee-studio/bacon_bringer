@@ -1,6 +1,7 @@
 import 'package:bacon_bringer/bases/notifier.dart';
 import 'package:bacon_bringer/bases/repository_provider.dart';
 import 'package:bacon_bringer/bases/view_model.dart';
+import 'package:bacon_bringer/data/category_data.dart';
 import 'package:bacon_bringer/enum/home_screen_state.dart';
 import 'package:bacon_bringer/model/home/home_screen_model.dart';
 import 'package:bacon_bringer/ui/account/view/screen/account_screen.dart';
@@ -63,7 +64,7 @@ class HomeScreenViewModel extends ViewModel<HomeScreenModel> {
         return MonthlyBudgetBalanceListPage(
             parentViewModel: this, transactions: model.transactions);
       case HomeScreenState.settings:
-        return const SettingsPage();
+        return SettingsPage(parentViewModel: this);
     }
   }
 
@@ -83,4 +84,6 @@ class HomeScreenViewModel extends ViewModel<HomeScreenModel> {
 
   HomeScreenState get currentState => model.currentState;
   set currentState(HomeScreenState value) => model.currentState = value;
+
+  List<CategoryData> get categories => model.categories;
 }
