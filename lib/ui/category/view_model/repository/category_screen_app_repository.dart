@@ -35,21 +35,23 @@ class CategoryScreenAppRepository extends CategoryScreenRepository {
     final dbAccount = row.readTable(db.dBAccountDataClass);
     final dbCategoryData = row.readTable(db.dBCategoryDataClass);
     final dbMinorCategoryData = row.readTable(db.dBMinorCategoryDataClass);
+    final rowAccount = AccountData(
+        id: dbAccount.id,
+        user: UserData(
+            id: dbUser.id,
+            userName: dbUser.userName,
+            password: dbUser.password),
+        name: dbAccount.name,
+        purpose: dbAccount.purpose);
     return CategoryData(
         id: dbCategoryData.id,
-        account: AccountData(
-            id: dbAccount.id,
-            user: UserData(
-                id: dbUser.id,
-                userName: dbUser.userName,
-                password: dbUser.password),
-            name: dbAccount.name,
-            purpose: dbAccount.purpose),
+        account: rowAccount,
         major: MajorState.values[dbCategoryData.major],
         minor: MinorCategoryData(
-            dbMinorCategoryData.id,
-            MajorState.values[dbMinorCategoryData.major],
-            dbMinorCategoryData.name),
+            id: dbMinorCategoryData.id,
+            account: rowAccount,
+            majorCategory: MajorState.values[dbMinorCategoryData.major],
+            name: dbMinorCategoryData.name),
         name: dbCategoryData.name);
   }
 }

@@ -5,6 +5,7 @@ import 'package:bacon_bringer/data/account_data.dart';
 import 'package:bacon_bringer/data/category_budget.dart';
 import 'package:bacon_bringer/data/category_data.dart';
 import 'package:bacon_bringer/data/loading_data.dart';
+import 'package:bacon_bringer/data/minor_category_data.dart';
 import 'package:bacon_bringer/data/overview_data.dart';
 import 'package:bacon_bringer/data/transaction_data.dart';
 import 'package:bacon_bringer/data/user_data.dart';
@@ -24,6 +25,7 @@ class HomeScreenModel extends Model<HomeScreenRepository> {
   late ListProperty<AccountData> _accounts;
   late ListProperty<TransactionData> _transactions;
   late ListProperty<CategoryData> _categories;
+  late ListProperty<MinorCategoryData> _minorCategories;
 
   String get title => _title;
 
@@ -35,6 +37,7 @@ class HomeScreenModel extends Model<HomeScreenRepository> {
   List<AccountData> get accounts => _accounts.value;
   List<TransactionData> get transactions => _transactions.value;
   List<CategoryData> get categories => _categories.value;
+  List<MinorCategoryData> get minorCategories => _minorCategories.value;
 
   HomeScreenState get currentState => _currentState.value;
 
@@ -68,6 +71,7 @@ class HomeScreenModel extends Model<HomeScreenRepository> {
     _accounts = listPropertyOf(<AccountData>[]);
     _transactions = listPropertyOf(<TransactionData>[]);
     _categories = listPropertyOf(<CategoryData>[]);
+    _minorCategories = listPropertyOf(<MinorCategoryData>[]);
   }
 
   Future connectDatabase() async {
@@ -97,6 +101,8 @@ class HomeScreenModel extends Model<HomeScreenRepository> {
         await repository.fetchCategoryBudgetList(currentAccount);
     _transactions.value = await repository.fetchTransactions(currentAccount,
         from: DateTime(2024, 3, 1), to: DateTime(2024, 4, 1));
+    _minorCategories.value =
+        await repository.fetchMinorCategoryList(currentAccount);
 
     onLoaded();
   }

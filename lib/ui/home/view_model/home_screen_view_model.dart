@@ -3,6 +3,7 @@ import 'package:bacon_bringer/bases/view_model.dart';
 import 'package:bacon_bringer/common/providers.dart';
 import 'package:bacon_bringer/data/account_data.dart';
 import 'package:bacon_bringer/data/category_data.dart';
+import 'package:bacon_bringer/data/minor_category_data.dart';
 import 'package:bacon_bringer/enum/home_screen_state.dart';
 import 'package:bacon_bringer/model/home/home_screen_model.dart';
 import 'package:bacon_bringer/ui/account/view/screen/account_screen.dart';
@@ -106,6 +107,7 @@ class HomeScreenViewModel extends ViewModel<HomeScreenModel> {
   HomeScreenState get currentState => model.currentState;
   set currentState(HomeScreenState value) => model.currentState = value;
 
+  List<MinorCategoryData> get minorCategories => model.minorCategories;
   List<CategoryData> get categories => model.categories;
   AccountData get currentAccount => model.currentAccount;
 }

@@ -64,7 +64,11 @@ class HomeScreenAppRepository extends HomeScreenRepository {
             id: 0,
             account: account,
             major: MajorState.expense,
-            minor: MinorCategoryData(0, MajorState.expense, "固定費"),
+            minor: MinorCategoryData(
+                id: 0,
+                account: account,
+                majorCategory: MajorState.expense,
+                name: "固定費"),
             name: "住宅費"),
         leftBudgetPerMonth: 55000,
         budgetPerDay: 0.0));
@@ -74,7 +78,11 @@ class HomeScreenAppRepository extends HomeScreenRepository {
             id: 1,
             account: account,
             major: MajorState.expense,
-            minor: MinorCategoryData(0, MajorState.expense, "固定費"),
+            minor: MinorCategoryData(
+                id: 0,
+                account: account,
+                majorCategory: MajorState.expense,
+                name: "固定費"),
             name: "水道光熱費"),
         leftBudgetPerMonth: 7298,
         budgetPerDay: 100.1));
@@ -84,7 +92,11 @@ class HomeScreenAppRepository extends HomeScreenRepository {
             id: 2,
             account: account,
             major: MajorState.expense,
-            minor: MinorCategoryData(0, MajorState.expense, "固定費"),
+            minor: MinorCategoryData(
+                id: 0,
+                account: account,
+                majorCategory: MajorState.expense,
+                name: "固定費"),
             name: "食費"),
         leftBudgetPerMonth: 8258,
         budgetPerDay: 805.3));
@@ -94,7 +106,11 @@ class HomeScreenAppRepository extends HomeScreenRepository {
             id: 3,
             account: account,
             major: MajorState.expense,
-            minor: MinorCategoryData(0, MajorState.expense, "固定費"),
+            minor: MinorCategoryData(
+                id: 0,
+                account: account,
+                majorCategory: MajorState.expense,
+                name: "固定費"),
             name: "食費"),
         leftBudgetPerMonth: 8258,
         budgetPerDay: 805.3));
@@ -104,7 +120,11 @@ class HomeScreenAppRepository extends HomeScreenRepository {
             id: 4,
             account: account,
             major: MajorState.expense,
-            minor: MinorCategoryData(0, MajorState.expense, "固定費"),
+            minor: MinorCategoryData(
+                id: 0,
+                account: account,
+                majorCategory: MajorState.expense,
+                name: "固定費"),
             name: "食費"),
         leftBudgetPerMonth: 8258,
         budgetPerDay: 805.3));
@@ -182,9 +202,10 @@ class HomeScreenAppRepository extends HomeScreenRepository {
               account: retAccount,
               major: MajorState.values[dbCategoryData.major],
               minor: MinorCategoryData(
-                  dbMinorCategoryData.id,
-                  MajorState.values[dbMinorCategoryData.major],
-                  dbMinorCategoryData.name),
+                  id: dbMinorCategoryData.id,
+                  account: account,
+                  majorCategory: MajorState.values[dbMinorCategoryData.major],
+                  name: dbMinorCategoryData.name),
               name: dbCategoryData.name),
           transactionDate: dbTransactionData.transactionDate);
     }).toList();
@@ -228,10 +249,46 @@ class HomeScreenAppRepository extends HomeScreenRepository {
               purpose: dbAccount.purpose),
           major: MajorState.values[dbCategoryData.major],
           minor: MinorCategoryData(
-              dbMinorCategoryData.id,
-              MajorState.values[dbMinorCategoryData.major],
-              dbMinorCategoryData.name),
+              id: dbMinorCategoryData.id,
+              account: account,
+              majorCategory: MajorState.values[dbMinorCategoryData.major],
+              name: dbMinorCategoryData.name),
           name: dbCategoryData.name);
+    }).toList();
+  }
+
+  @override
+  Future<List<MinorCategoryData>> fetchMinorCategoryList(
+      AccountData account) async {
+    final db = AppDatabase();
+    final rows = await (db.select(db.dBMinorCategoryDataClass)
+          ..where((tbl) => tbl.account.equals(account.id)))
+        .join([
+      innerJoin(
+          db.dBAccountDataClass,
+          db.dBAccountDataClass.id
+              .equalsExp(db.dBMinorCategoryDataClass.account)),
+      innerJoin(db.dBUserDataClass,
+          db.dBUserDataClass.userName.equalsExp(db.dBAccountDataClass.user))
+    ]).get();
+    return rows.map((row) {
+      final dbUser = row.readTable(db.dBUserDataClass);
+      final dbAccount = row.readTable(db.dBAccountDataClass);
+      final dbMinorCategoryData = row.readTable(db.dBMinorCategoryDataClass);
+
+      final retAccount = AccountData(
+          id: dbAccount.id,
+          user: UserData(
+              id: dbUser.id,
+              userName: dbUser.userName,
+              password: dbUser.password),
+          name: dbAccount.name,
+          purpose: dbAccount.purpose);
+      return MinorCategoryData(
+          id: dbMinorCategoryData.id,
+          account: retAccount,
+          majorCategory: MajorState.values[dbMinorCategoryData.major],
+          name: dbMinorCategoryData.name);
     }).toList();
   }
 }
