@@ -1,5 +1,6 @@
 import 'package:bacon_bringer/data/account_data.dart';
 import 'package:bacon_bringer/data/category_data.dart';
+import 'package:bacon_bringer/data/minor_category_data.dart';
 import 'package:bacon_bringer/data/user_data.dart';
 import 'package:bacon_bringer/database/app_database.dart';
 import 'package:bacon_bringer/enum/major_state.dart';
@@ -23,12 +24,17 @@ class CategoryScreenAppRepository extends CategoryScreenRepository {
         .join([
       innerJoin(db.dBAccountDataClass,
           db.dBAccountDataClass.id.equalsExp(db.dBCategoryDataClass.account)),
+      innerJoin(
+          db.dBMinorCategoryDataClass,
+          db.dBMinorCategoryDataClass.id
+              .equalsExp(db.dBCategoryDataClass.minor)),
       innerJoin(db.dBUserDataClass,
           db.dBUserDataClass.userName.equalsExp(db.dBAccountDataClass.user))
     ]).getSingle();
     final dbUser = row.readTable(db.dBUserDataClass);
     final dbAccount = row.readTable(db.dBAccountDataClass);
     final dbCategoryData = row.readTable(db.dBCategoryDataClass);
+    final dbMinorCategoryData = row.readTable(db.dBMinorCategoryDataClass);
     return CategoryData(
         id: dbCategoryData.id,
         account: AccountData(
@@ -40,7 +46,10 @@ class CategoryScreenAppRepository extends CategoryScreenRepository {
             name: dbAccount.name,
             purpose: dbAccount.purpose),
         major: MajorState.values[dbCategoryData.major],
-        minor: MinorState.values[dbCategoryData.minor],
+        minor: MinorCategoryData(
+            dbMinorCategoryData.id,
+            MajorState.values[dbMinorCategoryData.major],
+            dbMinorCategoryData.name),
         name: dbCategoryData.name);
   }
 }

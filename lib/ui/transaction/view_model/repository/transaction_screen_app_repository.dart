@@ -1,10 +1,10 @@
 import 'package:bacon_bringer/data/account_data.dart';
 import 'package:bacon_bringer/data/category_data.dart';
+import 'package:bacon_bringer/data/minor_category_data.dart';
 import 'package:bacon_bringer/data/transaction_data.dart';
 import 'package:bacon_bringer/data/user_data.dart';
 import 'package:bacon_bringer/database/app_database.dart';
 import 'package:bacon_bringer/enum/major_state.dart';
-import 'package:bacon_bringer/enum/minor_state.dart';
 import 'package:bacon_bringer/repository/transaction_screen_repository.dart';
 import 'package:drift/drift.dart';
 
@@ -32,6 +32,10 @@ class TransactionScreenAppRepository extends TransactionScreenRepository {
           db.dBAccountDataClass,
           db.dBAccountDataClass.id
               .equalsExp(db.dBTransactionDataClass.account)),
+      innerJoin(
+          db.dBMinorCategoryDataClass,
+          db.dBMinorCategoryDataClass.id
+              .equalsExp(db.dBCategoryDataClass.minor)),
       innerJoin(db.dBUserDataClass,
           db.dBUserDataClass.userName.equalsExp(db.dBAccountDataClass.user))
     ]).getSingle();
@@ -40,6 +44,7 @@ class TransactionScreenAppRepository extends TransactionScreenRepository {
     final dbAccount = row.readTable(db.dBAccountDataClass);
     final dbCategoryData = row.readTable(db.dBCategoryDataClass);
     final dbTransactionData = row.readTable(db.dBTransactionDataClass);
+    final dbMinorCategoryData = row.readTable(db.dBMinorCategoryDataClass);
 
     final retAccount = AccountData(
         id: dbAccount.id,
@@ -57,7 +62,10 @@ class TransactionScreenAppRepository extends TransactionScreenRepository {
             id: dbCategoryData.id,
             account: retAccount,
             major: MajorState.values[dbCategoryData.major],
-            minor: MinorState.values[dbCategoryData.minor],
+            minor: MinorCategoryData(
+                dbMinorCategoryData.id,
+                MajorState.values[dbMinorCategoryData.major],
+                dbMinorCategoryData.name),
             name: dbCategoryData.name),
         transactionDate: dbTransactionData.transactionDate);
   }

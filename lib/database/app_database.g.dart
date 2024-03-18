@@ -1076,6 +1076,260 @@ class DBTransactionDataClassCompanion
   }
 }
 
+class $DBMinorCategoryDataClassTable extends DBMinorCategoryDataClass
+    with TableInfo<$DBMinorCategoryDataClassTable, DBMinorCategoryData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $DBMinorCategoryDataClassTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _accountMeta =
+      const VerificationMeta('account');
+  @override
+  late final GeneratedColumn<int> account = GeneratedColumn<int>(
+      'account', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
+  static const VerificationMeta _majorMeta = const VerificationMeta('major');
+  @override
+  late final GeneratedColumn<int> major = GeneratedColumn<int>(
+      'major', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+      'name', aliasedName, false,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 6, maxTextLength: 32),
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'));
+  @override
+  List<GeneratedColumn> get $columns => [id, account, major, name];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'd_b_minor_category_data_class';
+  @override
+  VerificationContext validateIntegrity(
+      Insertable<DBMinorCategoryData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('account')) {
+      context.handle(_accountMeta,
+          account.isAcceptableOrUnknown(data['account']!, _accountMeta));
+    } else if (isInserting) {
+      context.missing(_accountMeta);
+    }
+    if (data.containsKey('major')) {
+      context.handle(
+          _majorMeta, major.isAcceptableOrUnknown(data['major']!, _majorMeta));
+    } else if (isInserting) {
+      context.missing(_majorMeta);
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  DBMinorCategoryData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return DBMinorCategoryData(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      account: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}account'])!,
+      major: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}major'])!,
+      name: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
+    );
+  }
+
+  @override
+  $DBMinorCategoryDataClassTable createAlias(String alias) {
+    return $DBMinorCategoryDataClassTable(attachedDatabase, alias);
+  }
+}
+
+class DBMinorCategoryData extends DataClass
+    implements Insertable<DBMinorCategoryData> {
+  final int id;
+  final int account;
+  final int major;
+  final String name;
+  const DBMinorCategoryData(
+      {required this.id,
+      required this.account,
+      required this.major,
+      required this.name});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['account'] = Variable<int>(account);
+    map['major'] = Variable<int>(major);
+    map['name'] = Variable<String>(name);
+    return map;
+  }
+
+  DBMinorCategoryDataClassCompanion toCompanion(bool nullToAbsent) {
+    return DBMinorCategoryDataClassCompanion(
+      id: Value(id),
+      account: Value(account),
+      major: Value(major),
+      name: Value(name),
+    );
+  }
+
+  factory DBMinorCategoryData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return DBMinorCategoryData(
+      id: serializer.fromJson<int>(json['id']),
+      account: serializer.fromJson<int>(json['account']),
+      major: serializer.fromJson<int>(json['major']),
+      name: serializer.fromJson<String>(json['name']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'account': serializer.toJson<int>(account),
+      'major': serializer.toJson<int>(major),
+      'name': serializer.toJson<String>(name),
+    };
+  }
+
+  DBMinorCategoryData copyWith(
+          {int? id, int? account, int? major, String? name}) =>
+      DBMinorCategoryData(
+        id: id ?? this.id,
+        account: account ?? this.account,
+        major: major ?? this.major,
+        name: name ?? this.name,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('DBMinorCategoryData(')
+          ..write('id: $id, ')
+          ..write('account: $account, ')
+          ..write('major: $major, ')
+          ..write('name: $name')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, account, major, name);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is DBMinorCategoryData &&
+          other.id == this.id &&
+          other.account == this.account &&
+          other.major == this.major &&
+          other.name == this.name);
+}
+
+class DBMinorCategoryDataClassCompanion
+    extends UpdateCompanion<DBMinorCategoryData> {
+  final Value<int> id;
+  final Value<int> account;
+  final Value<int> major;
+  final Value<String> name;
+  const DBMinorCategoryDataClassCompanion({
+    this.id = const Value.absent(),
+    this.account = const Value.absent(),
+    this.major = const Value.absent(),
+    this.name = const Value.absent(),
+  });
+  DBMinorCategoryDataClassCompanion.insert({
+    this.id = const Value.absent(),
+    required int account,
+    required int major,
+    required String name,
+  })  : account = Value(account),
+        major = Value(major),
+        name = Value(name);
+  static Insertable<DBMinorCategoryData> custom({
+    Expression<int>? id,
+    Expression<int>? account,
+    Expression<int>? major,
+    Expression<String>? name,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (account != null) 'account': account,
+      if (major != null) 'major': major,
+      if (name != null) 'name': name,
+    });
+  }
+
+  DBMinorCategoryDataClassCompanion copyWith(
+      {Value<int>? id,
+      Value<int>? account,
+      Value<int>? major,
+      Value<String>? name}) {
+    return DBMinorCategoryDataClassCompanion(
+      id: id ?? this.id,
+      account: account ?? this.account,
+      major: major ?? this.major,
+      name: name ?? this.name,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (account.present) {
+      map['account'] = Variable<int>(account.value);
+    }
+    if (major.present) {
+      map['major'] = Variable<int>(major.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('DBMinorCategoryDataClassCompanion(')
+          ..write('id: $id, ')
+          ..write('account: $account, ')
+          ..write('major: $major, ')
+          ..write('name: $name')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   late final $DBUserDataClassTable dBUserDataClass =
@@ -1086,6 +1340,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       $DBCategoryDataClassTable(this);
   late final $DBTransactionDataClassTable dBTransactionDataClass =
       $DBTransactionDataClassTable(this);
+  late final $DBMinorCategoryDataClassTable dBMinorCategoryDataClass =
+      $DBMinorCategoryDataClassTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -1094,6 +1350,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         dBUserDataClass,
         dBAccountDataClass,
         dBCategoryDataClass,
-        dBTransactionDataClass
+        dBTransactionDataClass,
+        dBMinorCategoryDataClass
       ];
 }

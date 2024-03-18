@@ -1,13 +1,13 @@
 import 'package:bacon_bringer/data/account_data.dart';
 import 'package:bacon_bringer/data/category_budget.dart';
 import 'package:bacon_bringer/data/category_data.dart';
+import 'package:bacon_bringer/data/minor_category_data.dart';
 import 'package:bacon_bringer/data/overview_data.dart';
 import 'package:bacon_bringer/data/transaction_data.dart';
 import 'package:bacon_bringer/data/transaction_overview_data.dart';
 import 'package:bacon_bringer/data/user_data.dart';
 import 'package:bacon_bringer/database/app_database.dart';
 import 'package:bacon_bringer/enum/major_state.dart';
-import 'package:bacon_bringer/enum/minor_state.dart';
 import 'package:bacon_bringer/exceptions/not_created_account_error.dart';
 import 'package:bacon_bringer/exceptions/unauthenticated_user_error.dart';
 import 'package:bacon_bringer/repository/home_screen_repository.dart';
@@ -64,7 +64,7 @@ class HomeScreenAppRepository extends HomeScreenRepository {
             id: 0,
             account: account,
             major: MajorState.expense,
-            minor: MinorState.fixedCosts,
+            minor: MinorCategoryData(0, MajorState.expense, "固定費"),
             name: "住宅費"),
         leftBudgetPerMonth: 55000,
         budgetPerDay: 0.0));
@@ -74,7 +74,7 @@ class HomeScreenAppRepository extends HomeScreenRepository {
             id: 1,
             account: account,
             major: MajorState.expense,
-            minor: MinorState.fixedCosts,
+            minor: MinorCategoryData(0, MajorState.expense, "固定費"),
             name: "水道光熱費"),
         leftBudgetPerMonth: 7298,
         budgetPerDay: 100.1));
@@ -84,7 +84,7 @@ class HomeScreenAppRepository extends HomeScreenRepository {
             id: 2,
             account: account,
             major: MajorState.expense,
-            minor: MinorState.variableCosts,
+            minor: MinorCategoryData(0, MajorState.expense, "固定費"),
             name: "食費"),
         leftBudgetPerMonth: 8258,
         budgetPerDay: 805.3));
@@ -94,7 +94,7 @@ class HomeScreenAppRepository extends HomeScreenRepository {
             id: 3,
             account: account,
             major: MajorState.expense,
-            minor: MinorState.variableCosts,
+            minor: MinorCategoryData(0, MajorState.expense, "固定費"),
             name: "食費"),
         leftBudgetPerMonth: 8258,
         budgetPerDay: 805.3));
@@ -104,7 +104,7 @@ class HomeScreenAppRepository extends HomeScreenRepository {
             id: 4,
             account: account,
             major: MajorState.expense,
-            minor: MinorState.variableCosts,
+            minor: MinorCategoryData(0, MajorState.expense, "固定費"),
             name: "食費"),
         leftBudgetPerMonth: 8258,
         budgetPerDay: 805.3));
@@ -151,6 +151,10 @@ class HomeScreenAppRepository extends HomeScreenRepository {
           db.dBAccountDataClass,
           db.dBAccountDataClass.id
               .equalsExp(db.dBTransactionDataClass.account)),
+      innerJoin(
+          db.dBMinorCategoryDataClass,
+          db.dBMinorCategoryDataClass.id
+              .equalsExp(db.dBCategoryDataClass.minor)),
       innerJoin(db.dBUserDataClass,
           db.dBUserDataClass.userName.equalsExp(db.dBAccountDataClass.user))
     ]).get();
@@ -160,7 +164,7 @@ class HomeScreenAppRepository extends HomeScreenRepository {
       final dbAccount = row.readTable(db.dBAccountDataClass);
       final dbCategoryData = row.readTable(db.dBCategoryDataClass);
       final dbTransactionData = row.readTable(db.dBTransactionDataClass);
-
+      final dbMinorCategoryData = row.readTable(db.dBMinorCategoryDataClass);
       final retAccount = AccountData(
           id: dbAccount.id,
           user: UserData(
@@ -177,7 +181,10 @@ class HomeScreenAppRepository extends HomeScreenRepository {
               id: dbCategoryData.id,
               account: retAccount,
               major: MajorState.values[dbCategoryData.major],
-              minor: MinorState.values[dbCategoryData.minor],
+              minor: MinorCategoryData(
+                  dbMinorCategoryData.id,
+                  MajorState.values[dbMinorCategoryData.major],
+                  dbMinorCategoryData.name),
               name: dbCategoryData.name),
           transactionDate: dbTransactionData.transactionDate);
     }).toList();
@@ -197,6 +204,10 @@ class HomeScreenAppRepository extends HomeScreenRepository {
         .join([
       innerJoin(db.dBAccountDataClass,
           db.dBAccountDataClass.id.equalsExp(db.dBCategoryDataClass.account)),
+      innerJoin(
+          db.dBMinorCategoryDataClass,
+          db.dBMinorCategoryDataClass.id
+              .equalsExp(db.dBCategoryDataClass.minor)),
       innerJoin(db.dBUserDataClass,
           db.dBUserDataClass.userName.equalsExp(db.dBAccountDataClass.user))
     ]).get();
@@ -204,6 +215,7 @@ class HomeScreenAppRepository extends HomeScreenRepository {
       final dbUser = row.readTable(db.dBUserDataClass);
       final dbAccount = row.readTable(db.dBAccountDataClass);
       final dbCategoryData = row.readTable(db.dBCategoryDataClass);
+      final dbMinorCategoryData = row.readTable(db.dBMinorCategoryDataClass);
       return CategoryData(
           id: dbCategoryData.id,
           account: AccountData(
@@ -215,7 +227,10 @@ class HomeScreenAppRepository extends HomeScreenRepository {
               name: dbAccount.name,
               purpose: dbAccount.purpose),
           major: MajorState.values[dbCategoryData.major],
-          minor: MinorState.values[dbCategoryData.minor],
+          minor: MinorCategoryData(
+              dbMinorCategoryData.id,
+              MajorState.values[dbMinorCategoryData.major],
+              dbMinorCategoryData.name),
           name: dbCategoryData.name);
     }).toList();
   }
