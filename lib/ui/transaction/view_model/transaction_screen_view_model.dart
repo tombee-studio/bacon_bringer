@@ -38,6 +38,7 @@ class TransactionScreenViewModel extends ViewModel<TransactionScreenModel> {
           try {
             model.money = double.parse(value);
           } catch (ex) {
+            // TODO: 例外時の挙動
             print(ex);
           }
         });
@@ -45,6 +46,7 @@ class TransactionScreenViewModel extends ViewModel<TransactionScreenModel> {
 
   Widget date(BuildContext context) {
     return DateTimeFormField(
+        mode: DateTimeFieldPickerMode.date,
         decoration: const InputDecoration(label: Text("取引日時")),
         onChanged: (value) {
           if (value != null) {
