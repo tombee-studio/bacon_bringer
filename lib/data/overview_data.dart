@@ -1,9 +1,9 @@
 class OverviewData {
-  final int sumOfMoney;
-  final int balanceAgainstBudget;
-  final int budget;
-  final int totalExpencesOnMonth;
-  final int totalIncomesOnMonth;
+  final double sumOfMoney;
+  final double balanceAgainstBudget;
+  final double budget;
+  final double totalExpencesOnMonth;
+  final double totalIncomesOnMonth;
 
   OverviewData(
       {required this.sumOfMoney,

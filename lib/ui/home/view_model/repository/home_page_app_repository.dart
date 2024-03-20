@@ -45,6 +45,7 @@ class HomeScreenAppRepository extends HomeScreenRepository {
   Future<OverviewData> fetchMonthlyOverview(AccountData account) async {
     final db = AppDatabase();
     final transactions = await TransactionData.fetchList(db, account);
+    final categories = await CategoryData.fetchList(db, account);
     final expenseTransactionList = transactions
         .where(
             (transaction) => transaction.category.major == MajorState.expense)
@@ -52,34 +53,48 @@ class HomeScreenAppRepository extends HomeScreenRepository {
     final incomeTransactionList = transactions
         .where((transaction) => transaction.category.major == MajorState.income)
         .map((transaction) => transaction.money);
+    final budget = categories.isEmpty
+        ? 0.0
+        : categories.map((category) => category.budget).reduce((a, b) => a + b);
     final monthlyTotalExpense = expenseTransactionList.isEmpty
         ? 0.0
         : expenseTransactionList.reduce((a, b) => a + b);
     final monthlyTotalIncome = incomeTransactionList.isEmpty
         ? 0.0
         : incomeTransactionList.reduce((a, b) => a + b);
+    final balanceAgainstBudget = budget - monthlyTotalExpense;
+    final sumOfMoney = monthlyTotalIncome - monthlyTotalExpense;
     return OverviewData(
-        sumOfMoney: 10000,
-        balanceAgainstBudget: 2000,
-        budget: 18000,
-        totalExpencesOnMonth: monthlyTotalExpense.toInt(),
-        totalIncomesOnMonth: monthlyTotalIncome.toInt());
+        sumOfMoney: sumOfMoney,
+        balanceAgainstBudget: balanceAgainstBudget,
+        budget: budget,
+        totalExpencesOnMonth: monthlyTotalExpense,
+        totalIncomesOnMonth: monthlyTotalIncome);
   }
 
   @override
   Future<List<CategoryBudget>> fetchCategoryBudgetList(
       AccountData account) async {
     final db = AppDatabase();
+    final transactions = await TransactionData.fetchList(db, account);
     final categories = await CategoryData.fetchList(db, account);
 
     return categories.map((category) {
-      final leftBudgetPerMonth = 0;
-      final budgetPerDay = 0.0;
+      final transactionsByCategory = transactions
+          .where((transaction) => transaction.category.id == category.id)
+          .map((transaction) => transaction.money)
+          .toList();
+      final expenses = transactionsByCategory.isEmpty
+          ? 0.0
+          : transactionsByCategory.reduce((a, b) => a + b);
+
+      final leftBudgetPerMonth = category.budget - expenses;
+      final budgetPerDay = category.budget / 31;
 
       return CategoryBudget(
           account: category.account,
           category: category,
-          leftBudgetPerMonth: leftBudgetPerMonth,
+          leftBudgetPerMonth: leftBudgetPerMonth.toInt(),
           budgetPerDay: budgetPerDay);
     }).toList();
   }

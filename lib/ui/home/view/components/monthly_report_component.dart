@@ -41,7 +41,7 @@ class MonthlyReportComponent extends StatelessWidget {
                 ])));
   }
 
-  Widget createRowItem(IconData icon, String label, int value) {
+  Widget createRowItem(IconData icon, String label, double value) {
     return Expanded(
         child:
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
