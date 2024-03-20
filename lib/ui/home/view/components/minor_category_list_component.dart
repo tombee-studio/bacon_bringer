@@ -1,5 +1,6 @@
 import 'package:bacon_bringer/data/account_data.dart';
 import 'package:bacon_bringer/data/minor_category_data.dart';
+import 'package:bacon_bringer/enum/major_state.dart';
 import 'package:bacon_bringer/ui/minor_category/view/screen/minor_category_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -35,9 +36,19 @@ class MinorCategoryListComponent extends StatelessWidget {
       Column(
           children: minorCategories.map(((category) {
         return ListTile(
-            title: Text(category.name),
-            subtitle: Text("${category.majorCategory}"));
+            leading: Icon(icon(category)), title: Text(category.name));
       })).toList())
     ]);
+  }
+
+  IconData icon(MinorCategoryData minor) {
+    switch (minor.majorCategory) {
+      case MajorState.expense:
+        return Icons.payment;
+      case MajorState.income:
+        return Icons.money;
+      case MajorState.others:
+        return Icons.question_mark;
+    }
   }
 }

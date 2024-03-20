@@ -1,11 +1,14 @@
 import 'package:bacon_bringer/bases/view_model_state.dart';
 import 'package:bacon_bringer/data/account_data.dart';
+import 'package:bacon_bringer/data/minor_category_data.dart';
 import 'package:bacon_bringer/ui/category/view_model/category_screen_view_model.dart';
 import 'package:flutter/material.dart';
 
 class CategoryScreen extends StatefulWidget {
   final AccountData account;
-  const CategoryScreen({super.key, required this.account});
+  final List<MinorCategoryData> minorCategories;
+  const CategoryScreen(
+      {super.key, required this.account, required this.minorCategories});
 
   @override
   State<StatefulWidget> createState() => _CategoryScreenState();
@@ -30,5 +33,5 @@ class _CategoryScreenState
 
   @override
   CategoryScreenViewModel createViewModel() =>
-      CategoryScreenViewModel(this, widget.account);
+      CategoryScreenViewModel(this, widget.account, widget.minorCategories);
 }

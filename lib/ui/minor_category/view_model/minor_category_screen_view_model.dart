@@ -21,7 +21,7 @@ class MinorCategoryScreenViewModel extends ViewModel<MinorCategoryScreenModel> {
         child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
           const Icon(Icons.person),
           name(context),
-          minorCategory(context)
+          majorCategory(context)
         ]));
   }
 
@@ -31,7 +31,7 @@ class MinorCategoryScreenViewModel extends ViewModel<MinorCategoryScreenModel> {
         onChanged: (value) => model.name = value);
   }
 
-  Widget minorCategory(BuildContext context) {
+  Widget majorCategory(BuildContext context) {
     return DropdownButtonFormField<MajorState>(
         items: MajorState.values
             .map((item) => DropdownMenuItem<MajorState>(

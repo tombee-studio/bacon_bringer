@@ -4,21 +4,20 @@ import 'package:bacon_bringer/data/minor_category_data.dart';
 import 'package:bacon_bringer/data/user_data.dart';
 import 'package:bacon_bringer/database/app_database.dart';
 import 'package:bacon_bringer/enum/major_state.dart';
-import 'package:bacon_bringer/enum/minor_state.dart';
 import 'package:bacon_bringer/repository/category_screen_repository.dart';
 import 'package:drift/drift.dart';
 
 class CategoryScreenAppRepository extends CategoryScreenRepository {
   @override
   Future<CategoryData> create(AccountData account, String name,
-      MajorState major, MinorState minor) async {
+      MajorState major, MinorCategoryData minor) async {
     final db = AppDatabase();
     final categoryId = await db.into(db.dBCategoryDataClass).insert(
         DBCategoryDataClassCompanion.insert(
             account: account.id,
             name: name,
             major: major.index,
-            minor: minor.index));
+            minor: minor.id));
     final row = await (db.select(db.dBCategoryDataClass)
           ..where((tbl) => tbl.id.equals(categoryId)))
         .join([
