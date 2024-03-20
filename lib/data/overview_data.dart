@@ -23,11 +23,12 @@ class OverviewData {
     final transactions = await TransactionData.fetchList(db, account);
     final categories = await CategoryData.fetchList(db, account);
     final expenseTransactionList = transactions
-        .where(
-            (transaction) => transaction.category.major == MajorState.expense)
+        .where((transaction) =>
+            transaction.category.minor.majorCategory == MajorState.expense)
         .map((transaction) => transaction.money);
     final incomeTransactionList = transactions
-        .where((transaction) => transaction.category.major == MajorState.income)
+        .where((transaction) =>
+            transaction.category.minor.majorCategory == MajorState.income)
         .map((transaction) => transaction.money);
     final budget = categories.isEmpty
         ? 0.0
