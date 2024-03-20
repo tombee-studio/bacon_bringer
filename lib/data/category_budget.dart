@@ -2,6 +2,7 @@ import 'package:bacon_bringer/data/account_data.dart';
 import 'package:bacon_bringer/data/category_data.dart';
 import 'package:bacon_bringer/data/transaction_data.dart';
 import 'package:bacon_bringer/database/app_database.dart';
+import 'package:bacon_bringer/enum/major_state.dart';
 
 class CategoryBudget {
   final AccountData account;
@@ -20,7 +21,9 @@ class CategoryBudget {
     final transactions = await TransactionData.fetchList(db, account);
     final categories = await CategoryData.fetchList(db, account);
 
-    return categories.map((category) {
+    return categories
+        .where((category) => category.minor.majorCategory == MajorState.expense)
+        .map((category) {
       final transactionsByCategory = transactions
           .where((transaction) => transaction.category.id == category.id)
           .map((transaction) => transaction.money)

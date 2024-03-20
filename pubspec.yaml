@@ -43,6 +43,7 @@ dependencies:
   shared_preferences: ^2.2.2
   date_field: ^4.0.1
   intl: ^0.18.1
+  flutter_localization: ^0.2.0
 
 dev_dependencies:
   analyzer: ^6.4.1

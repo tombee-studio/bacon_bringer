@@ -3,6 +3,7 @@ import 'package:bacon_bringer/data/transaction_data.dart';
 import 'package:bacon_bringer/enum/major_state.dart';
 import 'package:bacon_bringer/ui/home/view_model/home_screen_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class MonthlyBudgetBalanceListPage
     extends ViewModelWidget<HomeScreenViewModel> {
@@ -25,7 +26,8 @@ class MonthlyBudgetBalanceListPage
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(transaction.category.name),
-                          Text("取引日：${transaction.transactionDate}")
+                          Text(
+                              "取引日：${DateFormat.yMd("ja_jp").format(transaction.transactionDate)}")
                         ]),
                     trailing: Text("¥${transaction.money.toInt()}"));
               },

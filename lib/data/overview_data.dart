@@ -32,7 +32,11 @@ class OverviewData {
         .map((transaction) => transaction.money);
     final budget = categories.isEmpty
         ? 0.0
-        : categories.map((category) => category.budget).reduce((a, b) => a + b);
+        : categories
+            .where((category) =>
+                category.minor.majorCategory == MajorState.expense)
+            .map((category) => category.budget)
+            .reduce((a, b) => a + b);
     final monthlyTotalExpense = expenseTransactionList.isEmpty
         ? 0.0
         : expenseTransactionList.reduce((a, b) => a + b);
