@@ -11,7 +11,6 @@ import 'package:bacon_bringer/enum/major_state.dart';
 import 'package:bacon_bringer/exceptions/not_created_account_error.dart';
 import 'package:bacon_bringer/exceptions/unauthenticated_user_error.dart';
 import 'package:bacon_bringer/repository/home_screen_repository.dart';
-import 'package:drift/drift.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreenAppRepository extends HomeScreenRepository {
@@ -44,117 +43,51 @@ class HomeScreenAppRepository extends HomeScreenRepository {
 
   @override
   Future<OverviewData> fetchMonthlyOverview(AccountData account) async {
-    await Future.delayed(const Duration(milliseconds: 500));
+    final db = AppDatabase();
+    final transactions = await TransactionData.fetchList(db, account);
+    final expenseTransactionList = transactions
+        .where(
+            (transaction) => transaction.category.major == MajorState.expense)
+        .map((transaction) => transaction.money);
+    final incomeTransactionList = transactions
+        .where((transaction) => transaction.category.major == MajorState.income)
+        .map((transaction) => transaction.money);
+    final monthlyTotalExpense = expenseTransactionList.isEmpty
+        ? 0.0
+        : expenseTransactionList.reduce((a, b) => a + b);
+    final monthlyTotalIncome = incomeTransactionList.isEmpty
+        ? 0.0
+        : incomeTransactionList.reduce((a, b) => a + b);
     return OverviewData(
         sumOfMoney: 10000,
         balanceAgainstBudget: 2000,
         budget: 18000,
-        totalExpencesOnMonth: 2000,
-        totalIncomesOnMonth: 10000);
+        totalExpencesOnMonth: monthlyTotalExpense.toInt(),
+        totalIncomesOnMonth: monthlyTotalIncome.toInt());
   }
 
   @override
   Future<List<CategoryBudget>> fetchCategoryBudgetList(
       AccountData account) async {
-    await Future.delayed(const Duration(milliseconds: 500));
-    final data = <CategoryBudget>[];
-    data.add(CategoryBudget(
-        account: account,
-        category: CategoryData(
-            id: 0,
-            account: account,
-            major: MajorState.expense,
-            minor: MinorCategoryData(
-                id: 0,
-                account: account,
-                majorCategory: MajorState.expense,
-                name: "固定費"),
-            name: "住宅費",
-            budget: 1000.0),
-        leftBudgetPerMonth: 55000,
-        budgetPerDay: 0.0));
-    data.add(CategoryBudget(
-        account: account,
-        category: CategoryData(
-            id: 1,
-            account: account,
-            major: MajorState.expense,
-            minor: MinorCategoryData(
-                id: 0,
-                account: account,
-                majorCategory: MajorState.expense,
-                name: "固定費"),
-            name: "水道光熱費",
-            budget: 1000.0),
-        leftBudgetPerMonth: 7298,
-        budgetPerDay: 100.1));
-    data.add(CategoryBudget(
-        account: account,
-        category: CategoryData(
-            id: 2,
-            account: account,
-            major: MajorState.expense,
-            minor: MinorCategoryData(
-                id: 0,
-                account: account,
-                majorCategory: MajorState.expense,
-                name: "固定費"),
-            name: "食費",
-            budget: 1000.0),
-        leftBudgetPerMonth: 8258,
-        budgetPerDay: 805.3));
-    data.add(CategoryBudget(
-        account: account,
-        category: CategoryData(
-            id: 3,
-            account: account,
-            major: MajorState.expense,
-            minor: MinorCategoryData(
-                id: 0,
-                account: account,
-                majorCategory: MajorState.expense,
-                name: "固定費"),
-            name: "食費",
-            budget: 1000.0),
-        leftBudgetPerMonth: 8258,
-        budgetPerDay: 805.3));
-    data.add(CategoryBudget(
-        account: account,
-        category: CategoryData(
-            id: 4,
-            account: account,
-            major: MajorState.expense,
-            minor: MinorCategoryData(
-                id: 0,
-                account: account,
-                majorCategory: MajorState.expense,
-                name: "固定費"),
-            name: "食費",
-            budget: 1000.0),
-        leftBudgetPerMonth: 8258,
-        budgetPerDay: 805.3));
-    return data;
+    final db = AppDatabase();
+    final categories = await CategoryData.fetchList(db, account);
+
+    return categories.map((category) {
+      final leftBudgetPerMonth = 0;
+      final budgetPerDay = 0.0;
+
+      return CategoryBudget(
+          account: category.account,
+          category: category,
+          leftBudgetPerMonth: leftBudgetPerMonth,
+          budgetPerDay: budgetPerDay);
+    }).toList();
   }
 
   @override
   Future<List<AccountData>> fetchAccounts(UserData user) async {
     final db = AppDatabase();
-    final dbAccounts = await db.select(db.dBAccountDataClass).join([
-      innerJoin(db.dBUserDataClass,
-          db.dBUserDataClass.userName.equalsExp(db.dBAccountDataClass.user))
-    ]).get();
-    final accounts = dbAccounts.map((row) {
-      final dbUser = row.readTable(db.dBUserDataClass);
-      final dbAccount = row.readTable(db.dBAccountDataClass);
-      return AccountData(
-          id: dbAccount.id,
-          user: UserData(
-              id: dbUser.id,
-              userName: dbUser.userName,
-              password: dbUser.password),
-          name: dbAccount.name,
-          purpose: dbAccount.purpose);
-    }).toList();
+    final accounts = await AccountData.fetchList(db, user);
     if (accounts.isEmpty) {
       throw NotCreatedAccountError();
     }
@@ -165,137 +98,41 @@ class HomeScreenAppRepository extends HomeScreenRepository {
   Future<List<TransactionData>> fetchTransactions(AccountData account,
       {required DateTime from, required DateTime to}) async {
     final db = AppDatabase();
-    final rows = await (db.select(db.dBTransactionDataClass)
-          ..where((tbl) => tbl.account.equals(account.id)))
-        .join([
-      innerJoin(
-          db.dBCategoryDataClass,
-          db.dBCategoryDataClass.id
-              .equalsExp(db.dBTransactionDataClass.category)),
-      innerJoin(
-          db.dBAccountDataClass,
-          db.dBAccountDataClass.id
-              .equalsExp(db.dBTransactionDataClass.account)),
-      innerJoin(
-          db.dBMinorCategoryDataClass,
-          db.dBMinorCategoryDataClass.id
-              .equalsExp(db.dBCategoryDataClass.minor)),
-      innerJoin(db.dBUserDataClass,
-          db.dBUserDataClass.userName.equalsExp(db.dBAccountDataClass.user))
-    ]).get();
-
-    return rows.map((row) {
-      final dbUser = row.readTable(db.dBUserDataClass);
-      final dbAccount = row.readTable(db.dBAccountDataClass);
-      final dbCategoryData = row.readTable(db.dBCategoryDataClass);
-      final dbTransactionData = row.readTable(db.dBTransactionDataClass);
-      final dbMinorCategoryData = row.readTable(db.dBMinorCategoryDataClass);
-      final retAccount = AccountData(
-          id: dbAccount.id,
-          user: UserData(
-              id: dbUser.id,
-              userName: dbUser.userName,
-              password: dbUser.password),
-          name: dbAccount.name,
-          purpose: dbAccount.purpose);
-      return TransactionData(
-          account: retAccount,
-          purpose: dbTransactionData.purpose,
-          money: dbTransactionData.money,
-          category: CategoryData(
-              id: dbCategoryData.id,
-              account: retAccount,
-              major: MajorState.values[dbCategoryData.major],
-              minor: MinorCategoryData(
-                  id: dbMinorCategoryData.id,
-                  account: account,
-                  majorCategory: MajorState.values[dbMinorCategoryData.major],
-                  name: dbMinorCategoryData.name),
-              name: dbCategoryData.name,
-              budget: dbCategoryData.budget),
-          transactionDate: dbTransactionData.transactionDate);
-    }).toList();
+    return await TransactionData.fetchList(db, account);
   }
 
   @override
   Future<TransactionOverviewData> fetchTransactionOverview(AccountData account,
       {required DateTime from, required DateTime to}) async {
-    return TransactionOverviewData(1000.0, 2000.0, from, to);
+    final db = AppDatabase();
+    final transactions = await TransactionData.fetchList(db, account);
+    final expenseTransactionList = transactions
+        .where(
+            (transaction) => transaction.category.major == MajorState.expense)
+        .map((transaction) => transaction.money);
+    final incomeTransactionList = transactions
+        .where((transaction) => transaction.category.major == MajorState.income)
+        .map((transaction) => transaction.money);
+    final monthlyTotalExpense = expenseTransactionList.isEmpty
+        ? 0.0
+        : expenseTransactionList.reduce((a, b) => a + b);
+    final monthlyTotalIncome = incomeTransactionList.isEmpty
+        ? 0.0
+        : incomeTransactionList.reduce((a, b) => a + b);
+    return TransactionOverviewData(
+        monthlyTotalExpense, monthlyTotalIncome, from, to);
   }
 
   @override
   Future<List<CategoryData>> fetchCategoryList(AccountData account) async {
     final db = AppDatabase();
-    final rows = await (db.select(db.dBCategoryDataClass)
-          ..where((tbl) => tbl.account.equals(account.id)))
-        .join([
-      innerJoin(db.dBAccountDataClass,
-          db.dBAccountDataClass.id.equalsExp(db.dBCategoryDataClass.account)),
-      innerJoin(
-          db.dBMinorCategoryDataClass,
-          db.dBMinorCategoryDataClass.id
-              .equalsExp(db.dBCategoryDataClass.minor)),
-      innerJoin(db.dBUserDataClass,
-          db.dBUserDataClass.userName.equalsExp(db.dBAccountDataClass.user))
-    ]).get();
-    return rows.map((row) {
-      final dbUser = row.readTable(db.dBUserDataClass);
-      final dbAccount = row.readTable(db.dBAccountDataClass);
-      final dbCategoryData = row.readTable(db.dBCategoryDataClass);
-      final dbMinorCategoryData = row.readTable(db.dBMinorCategoryDataClass);
-      return CategoryData(
-          id: dbCategoryData.id,
-          account: AccountData(
-              id: dbAccount.id,
-              user: UserData(
-                  id: dbUser.id,
-                  userName: dbUser.userName,
-                  password: dbUser.password),
-              name: dbAccount.name,
-              purpose: dbAccount.purpose),
-          major: MajorState.values[dbCategoryData.major],
-          minor: MinorCategoryData(
-              id: dbMinorCategoryData.id,
-              account: account,
-              majorCategory: MajorState.values[dbMinorCategoryData.major],
-              name: dbMinorCategoryData.name),
-          name: dbCategoryData.name,
-          budget: dbCategoryData.budget);
-    }).toList();
+    return await CategoryData.fetchList(db, account);
   }
 
   @override
   Future<List<MinorCategoryData>> fetchMinorCategoryList(
       AccountData account) async {
     final db = AppDatabase();
-    final rows = await (db.select(db.dBMinorCategoryDataClass)
-          ..where((tbl) => tbl.account.equals(account.id)))
-        .join([
-      innerJoin(
-          db.dBAccountDataClass,
-          db.dBAccountDataClass.id
-              .equalsExp(db.dBMinorCategoryDataClass.account)),
-      innerJoin(db.dBUserDataClass,
-          db.dBUserDataClass.userName.equalsExp(db.dBAccountDataClass.user))
-    ]).get();
-    return rows.map((row) {
-      final dbUser = row.readTable(db.dBUserDataClass);
-      final dbAccount = row.readTable(db.dBAccountDataClass);
-      final dbMinorCategoryData = row.readTable(db.dBMinorCategoryDataClass);
-
-      final retAccount = AccountData(
-          id: dbAccount.id,
-          user: UserData(
-              id: dbUser.id,
-              userName: dbUser.userName,
-              password: dbUser.password),
-          name: dbAccount.name,
-          purpose: dbAccount.purpose);
-      return MinorCategoryData(
-          id: dbMinorCategoryData.id,
-          account: retAccount,
-          majorCategory: MajorState.values[dbMinorCategoryData.major],
-          name: dbMinorCategoryData.name);
-    }).toList();
+    return await MinorCategoryData.fetchList(db, account);
   }
 }
