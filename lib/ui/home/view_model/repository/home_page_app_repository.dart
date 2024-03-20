@@ -69,7 +69,8 @@ class HomeScreenAppRepository extends HomeScreenRepository {
                 account: account,
                 majorCategory: MajorState.expense,
                 name: "固定費"),
-            name: "住宅費"),
+            name: "住宅費",
+            budget: 1000.0),
         leftBudgetPerMonth: 55000,
         budgetPerDay: 0.0));
     data.add(CategoryBudget(
@@ -83,7 +84,8 @@ class HomeScreenAppRepository extends HomeScreenRepository {
                 account: account,
                 majorCategory: MajorState.expense,
                 name: "固定費"),
-            name: "水道光熱費"),
+            name: "水道光熱費",
+            budget: 1000.0),
         leftBudgetPerMonth: 7298,
         budgetPerDay: 100.1));
     data.add(CategoryBudget(
@@ -97,7 +99,8 @@ class HomeScreenAppRepository extends HomeScreenRepository {
                 account: account,
                 majorCategory: MajorState.expense,
                 name: "固定費"),
-            name: "食費"),
+            name: "食費",
+            budget: 1000.0),
         leftBudgetPerMonth: 8258,
         budgetPerDay: 805.3));
     data.add(CategoryBudget(
@@ -111,7 +114,8 @@ class HomeScreenAppRepository extends HomeScreenRepository {
                 account: account,
                 majorCategory: MajorState.expense,
                 name: "固定費"),
-            name: "食費"),
+            name: "食費",
+            budget: 1000.0),
         leftBudgetPerMonth: 8258,
         budgetPerDay: 805.3));
     data.add(CategoryBudget(
@@ -125,7 +129,8 @@ class HomeScreenAppRepository extends HomeScreenRepository {
                 account: account,
                 majorCategory: MajorState.expense,
                 name: "固定費"),
-            name: "食費"),
+            name: "食費",
+            budget: 1000.0),
         leftBudgetPerMonth: 8258,
         budgetPerDay: 805.3));
     return data;
@@ -206,7 +211,8 @@ class HomeScreenAppRepository extends HomeScreenRepository {
                   account: account,
                   majorCategory: MajorState.values[dbMinorCategoryData.major],
                   name: dbMinorCategoryData.name),
-              name: dbCategoryData.name),
+              name: dbCategoryData.name,
+              budget: dbCategoryData.budget),
           transactionDate: dbTransactionData.transactionDate);
     }).toList();
   }
@@ -253,7 +259,8 @@ class HomeScreenAppRepository extends HomeScreenRepository {
               account: account,
               majorCategory: MajorState.values[dbMinorCategoryData.major],
               name: dbMinorCategoryData.name),
-          name: dbCategoryData.name);
+          name: dbCategoryData.name,
+          budget: dbCategoryData.budget);
     }).toList();
   }
 

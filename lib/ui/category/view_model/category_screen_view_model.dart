@@ -22,7 +22,8 @@ class CategoryScreenViewModel extends ViewModel<CategoryScreenModel> {
         child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
           const Icon(Icons.person),
           name(context),
-          minorCategory(context)
+          minorCategory(context),
+          budget(context)
         ]));
   }
 
@@ -30,6 +31,19 @@ class CategoryScreenViewModel extends ViewModel<CategoryScreenModel> {
     return TextField(
         decoration: const InputDecoration(label: Text("カテゴリー名")),
         onChanged: (value) => model.name = value);
+  }
+
+  Widget budget(BuildContext context) {
+    return TextField(
+        decoration: const InputDecoration(label: Text("月間予算")),
+        onChanged: (value) {
+          try {
+            double budget = double.parse(value);
+            model.budget = budget;
+          } catch (ex) {
+            print(ex);
+          }
+        });
   }
 
   Widget minorCategory(BuildContext context) {

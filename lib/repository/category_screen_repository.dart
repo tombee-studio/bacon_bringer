@@ -6,5 +6,5 @@ import 'package:bacon_bringer/enum/major_state.dart';
 
 abstract class CategoryScreenRepository extends Repository {
   Future<CategoryData> create(AccountData account, String name,
-      MajorState major, MinorCategoryData minor);
+      MajorState major, MinorCategoryData minor, double budget);
 }

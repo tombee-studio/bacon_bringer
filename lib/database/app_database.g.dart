@@ -502,8 +502,14 @@ class $DBCategoryDataClassTable extends DBCategoryDataClass
   late final GeneratedColumn<int> minor = GeneratedColumn<int>(
       'minor', aliasedName, false,
       type: DriftSqlType.int, requiredDuringInsert: true);
+  static const VerificationMeta _budgetMeta = const VerificationMeta('budget');
   @override
-  List<GeneratedColumn> get $columns => [id, account, name, major, minor];
+  late final GeneratedColumn<double> budget = GeneratedColumn<double>(
+      'budget', aliasedName, false,
+      type: DriftSqlType.double, requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns =>
+      [id, account, name, major, minor, budget];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -541,6 +547,12 @@ class $DBCategoryDataClassTable extends DBCategoryDataClass
     } else if (isInserting) {
       context.missing(_minorMeta);
     }
+    if (data.containsKey('budget')) {
+      context.handle(_budgetMeta,
+          budget.isAcceptableOrUnknown(data['budget']!, _budgetMeta));
+    } else if (isInserting) {
+      context.missing(_budgetMeta);
+    }
     return context;
   }
 
@@ -560,6 +572,8 @@ class $DBCategoryDataClassTable extends DBCategoryDataClass
           .read(DriftSqlType.int, data['${effectivePrefix}major'])!,
       minor: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}minor'])!,
+      budget: attachedDatabase.typeMapping
+          .read(DriftSqlType.double, data['${effectivePrefix}budget'])!,
     );
   }
 
@@ -575,12 +589,14 @@ class DBCategoryData extends DataClass implements Insertable<DBCategoryData> {
   final String name;
   final int major;
   final int minor;
+  final double budget;
   const DBCategoryData(
       {required this.id,
       required this.account,
       required this.name,
       required this.major,
-      required this.minor});
+      required this.minor,
+      required this.budget});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -589,6 +605,7 @@ class DBCategoryData extends DataClass implements Insertable<DBCategoryData> {
     map['name'] = Variable<String>(name);
     map['major'] = Variable<int>(major);
     map['minor'] = Variable<int>(minor);
+    map['budget'] = Variable<double>(budget);
     return map;
   }
 
@@ -599,6 +616,7 @@ class DBCategoryData extends DataClass implements Insertable<DBCategoryData> {
       name: Value(name),
       major: Value(major),
       minor: Value(minor),
+      budget: Value(budget),
     );
   }
 
@@ -611,6 +629,7 @@ class DBCategoryData extends DataClass implements Insertable<DBCategoryData> {
       name: serializer.fromJson<String>(json['name']),
       major: serializer.fromJson<int>(json['major']),
       minor: serializer.fromJson<int>(json['minor']),
+      budget: serializer.fromJson<double>(json['budget']),
     );
   }
   @override
@@ -622,17 +641,24 @@ class DBCategoryData extends DataClass implements Insertable<DBCategoryData> {
       'name': serializer.toJson<String>(name),
       'major': serializer.toJson<int>(major),
       'minor': serializer.toJson<int>(minor),
+      'budget': serializer.toJson<double>(budget),
     };
   }
 
   DBCategoryData copyWith(
-          {int? id, int? account, String? name, int? major, int? minor}) =>
+          {int? id,
+          int? account,
+          String? name,
+          int? major,
+          int? minor,
+          double? budget}) =>
       DBCategoryData(
         id: id ?? this.id,
         account: account ?? this.account,
         name: name ?? this.name,
         major: major ?? this.major,
         minor: minor ?? this.minor,
+        budget: budget ?? this.budget,
       );
   @override
   String toString() {
@@ -641,13 +667,14 @@ class DBCategoryData extends DataClass implements Insertable<DBCategoryData> {
           ..write('account: $account, ')
           ..write('name: $name, ')
           ..write('major: $major, ')
-          ..write('minor: $minor')
+          ..write('minor: $minor, ')
+          ..write('budget: $budget')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, account, name, major, minor);
+  int get hashCode => Object.hash(id, account, name, major, minor, budget);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -656,7 +683,8 @@ class DBCategoryData extends DataClass implements Insertable<DBCategoryData> {
           other.account == this.account &&
           other.name == this.name &&
           other.major == this.major &&
-          other.minor == this.minor);
+          other.minor == this.minor &&
+          other.budget == this.budget);
 }
 
 class DBCategoryDataClassCompanion extends UpdateCompanion<DBCategoryData> {
@@ -665,12 +693,14 @@ class DBCategoryDataClassCompanion extends UpdateCompanion<DBCategoryData> {
   final Value<String> name;
   final Value<int> major;
   final Value<int> minor;
+  final Value<double> budget;
   const DBCategoryDataClassCompanion({
     this.id = const Value.absent(),
     this.account = const Value.absent(),
     this.name = const Value.absent(),
     this.major = const Value.absent(),
     this.minor = const Value.absent(),
+    this.budget = const Value.absent(),
   });
   DBCategoryDataClassCompanion.insert({
     this.id = const Value.absent(),
@@ -678,16 +708,19 @@ class DBCategoryDataClassCompanion extends UpdateCompanion<DBCategoryData> {
     required String name,
     required int major,
     required int minor,
+    required double budget,
   })  : account = Value(account),
         name = Value(name),
         major = Value(major),
-        minor = Value(minor);
+        minor = Value(minor),
+        budget = Value(budget);
   static Insertable<DBCategoryData> custom({
     Expression<int>? id,
     Expression<int>? account,
     Expression<String>? name,
     Expression<int>? major,
     Expression<int>? minor,
+    Expression<double>? budget,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -695,6 +728,7 @@ class DBCategoryDataClassCompanion extends UpdateCompanion<DBCategoryData> {
       if (name != null) 'name': name,
       if (major != null) 'major': major,
       if (minor != null) 'minor': minor,
+      if (budget != null) 'budget': budget,
     });
   }
 
@@ -703,13 +737,15 @@ class DBCategoryDataClassCompanion extends UpdateCompanion<DBCategoryData> {
       Value<int>? account,
       Value<String>? name,
       Value<int>? major,
-      Value<int>? minor}) {
+      Value<int>? minor,
+      Value<double>? budget}) {
     return DBCategoryDataClassCompanion(
       id: id ?? this.id,
       account: account ?? this.account,
       name: name ?? this.name,
       major: major ?? this.major,
       minor: minor ?? this.minor,
+      budget: budget ?? this.budget,
     );
   }
 
@@ -731,6 +767,9 @@ class DBCategoryDataClassCompanion extends UpdateCompanion<DBCategoryData> {
     if (minor.present) {
       map['minor'] = Variable<int>(minor.value);
     }
+    if (budget.present) {
+      map['budget'] = Variable<double>(budget.value);
+    }
     return map;
   }
 
@@ -741,7 +780,8 @@ class DBCategoryDataClassCompanion extends UpdateCompanion<DBCategoryData> {
           ..write('account: $account, ')
           ..write('name: $name, ')
           ..write('major: $major, ')
-          ..write('minor: $minor')
+          ..write('minor: $minor, ')
+          ..write('budget: $budget')
           ..write(')'))
         .toString();
   }

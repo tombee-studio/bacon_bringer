@@ -10,14 +10,15 @@ import 'package:drift/drift.dart';
 class CategoryScreenAppRepository extends CategoryScreenRepository {
   @override
   Future<CategoryData> create(AccountData account, String name,
-      MajorState major, MinorCategoryData minor) async {
+      MajorState major, MinorCategoryData minor, double budget) async {
     final db = AppDatabase();
     final categoryId = await db.into(db.dBCategoryDataClass).insert(
         DBCategoryDataClassCompanion.insert(
             account: account.id,
             name: name,
             major: major.index,
-            minor: minor.id));
+            minor: minor.id,
+            budget: budget));
     final row = await (db.select(db.dBCategoryDataClass)
           ..where((tbl) => tbl.id.equals(categoryId)))
         .join([
@@ -51,6 +52,7 @@ class CategoryScreenAppRepository extends CategoryScreenRepository {
             account: rowAccount,
             majorCategory: MajorState.values[dbMinorCategoryData.major],
             name: dbMinorCategoryData.name),
-        name: dbCategoryData.name);
+        name: dbCategoryData.name,
+        budget: dbCategoryData.budget);
   }
 }

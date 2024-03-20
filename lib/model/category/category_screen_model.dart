@@ -11,14 +11,17 @@ class CategoryScreenModel extends Model<CategoryScreenRepository> {
   late Property<String> _name;
   late Property<MajorState> _major;
   late Property<MinorCategoryData> _minor;
+  late Property<double> _budget;
 
   set name(String name) => _name.value = name;
   set major(MajorState major) => _major.value = major;
   set minor(MinorCategoryData minor) => _minor.value = minor;
+  set budget(double budget) => _budget.value = budget;
 
   String get name => _name.value;
   MajorState get major => _major.value;
   MinorCategoryData get minor => _minor.value;
+  double get budget => _budget.value;
 
   CategoryScreenModel(super.notifier, super.provider, AccountData account) {
     _name = propertyOf("");
@@ -26,10 +29,11 @@ class CategoryScreenModel extends Model<CategoryScreenRepository> {
     _minor = propertyOf(MinorCategoryData(
         id: 0, account: account, majorCategory: MajorState.expense, name: ''));
     _account = propertyOf(account);
+    _budget = propertyOf(0.0);
   }
 
   Future<CategoryData> create() {
     return repository.create(
-        _account.value, _name.value, _major.value, _minor.value);
+        _account.value, _name.value, _major.value, _minor.value, _budget.value);
   }
 }

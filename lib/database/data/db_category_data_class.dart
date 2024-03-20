@@ -7,4 +7,5 @@ class DBCategoryDataClass extends Table {
   TextColumn get name => text()();
   IntColumn get major => integer()();
   IntColumn get minor => integer()();
+  RealColumn get budget => real()();
 }

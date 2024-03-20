@@ -67,7 +67,8 @@ class TransactionScreenAppRepository extends TransactionScreenRepository {
                 account: retAccount,
                 majorCategory: MajorState.values[dbMinorCategoryData.major],
                 name: dbMinorCategoryData.name),
-            name: dbCategoryData.name),
+            name: dbCategoryData.name,
+            budget: dbCategoryData.budget),
         transactionDate: dbTransactionData.transactionDate);
   }
 }

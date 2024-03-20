@@ -8,11 +8,13 @@ class CategoryData {
   final MajorState major;
   final MinorCategoryData minor;
   final String name;
+  final double budget;
 
   CategoryData(
       {required this.id,
       required this.account,
       required this.major,
       required this.minor,
-      required this.name});
+      required this.name,
+      required this.budget});
 }
